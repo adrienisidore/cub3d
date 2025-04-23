@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/22 17:51:58 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:53:01 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_mlx_data
 	void	*connect;
 	void	*win_ptr;
 	void	*img_ptr;
-	char	*img_pixptr;
+	char	*img_pixptr;//unused
 }	t_mlx_data;
 
 #endif
