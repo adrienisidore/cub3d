@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/23 12:50:21 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:15:38 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,21 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
 		exit (1);
-	pdata->win_ptr = mlx_new_window(pdata->connect, 600, 600, "Titre");
+	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Titre");
 	if (!pdata->win_ptr)
 		ft_stop(pdata, 0, 1, NULL);
-	pdata->img_ptr = mlx_new_image(pdata->connect, 600, 600);
+	pdata->img_ptr = mlx_new_image(pdata->connect, WIDTH, HEIGHT);
 	if (!pdata->img_ptr)
 		ft_stop(pdata, 1, 1, NULL);
 	//Acceder aux pixels d'une img
 	// pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 	// 	&pdata->len, &pdata->endian);
 }
-
+//Ameliorer Makefile en rangeant .o dans un fichier
 int	main(int ac, char **av)
 {
+	(void) ac;
+	(void)av;
 	t_mlx_data	data;
 
 	ft_init(&data);

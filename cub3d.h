@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/23 12:53:01 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/23 14:02:04 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+
+# define WIDTH		600
+# define HEIGHT		600
 
 typedef struct s_mlx_data
 {
