@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/23 14:02:04 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:20:56 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 # define WIDTH		600
 # define HEIGHT		600
+# define COL  0xFF6600
 
 typedef struct s_mlx_data
 {
@@ -32,6 +33,14 @@ typedef struct s_mlx_data
 	void	*win_ptr;
 	void	*img_ptr;
 	char	*img_pixptr;//unused
+
+	int		bpp;//unused
+	int		endian;//unused
+	int		len;//unused
+
+	int		px;//coordonnees du player
+	int		py;
+	
 }	t_mlx_data;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/23 14:15:38 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:26:52 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,7 @@ void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str)
 	ft_exit(str);
 }
 
-int	ft_keyhook(int keysym, t_mlx_data *pdata)
-{
-	if (keysym == XK_Escape)
-	{
-		mlx_destroy_image(pdata->connect, pdata->img_ptr);
-		ft_stop(pdata, 1, 1, NULL);
-	}
-	// ft_show(pdata);
-	return (0);
-}
+
 
 void	ft_init(t_mlx_data *pdata)
 {
@@ -70,11 +61,42 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->img_ptr = mlx_new_image(pdata->connect, WIDTH, HEIGHT);
 	if (!pdata->img_ptr)
 		ft_stop(pdata, 1, 1, NULL);
-	//Acceder aux pixels d'une img
-	// pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
-	// 	&pdata->len, &pdata->endian);
+	//Acceder aux pixels d'une img. Utile I guess
+	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
+		&pdata->len, &pdata->endian);
+	pdata->px = 300;
+	pdata->py = 300;
 }
-//Ameliorer Makefile en rangeant .o dans un fichier
+
+//Place un pixel à la couleur voulue dans une image
+//color est au format 0xRRGGBB
+void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
+{
+	int	disp;
+
+	disp = (pdata->len * y) + ((pdata->bpp / 8) * x);
+	*((unsigned int *)(disp + pdata->img_pixptr)) = color;
+}
+
+void	ft_show(t_mlx_data *pdata)
+{
+
+	ft_pixput(pdata, 300, 300, COL);
+	mlx_put_image_to_window(pdata->connect, pdata->win_ptr,
+		pdata->img_ptr, 0, 0);
+}
+
+int	ft_keyhook(int keysym, t_mlx_data *pdata)
+{
+	if (keysym == XK_Escape)
+	{
+		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+		ft_stop(pdata, 1, 1, NULL);
+	}
+	ft_show(pdata);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	(void) ac;
@@ -82,6 +104,7 @@ int	main(int ac, char **av)
 	t_mlx_data	data;
 
 	ft_init(&data);
+	ft_show(&data);
 	mlx_hook(data.win_ptr, 17, 0, ft_close, &data);
 	mlx_key_hook(data.win_ptr, ft_keyhook, &data);
 	mlx_loop(data.connect);
