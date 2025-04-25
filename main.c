@@ -80,14 +80,38 @@ void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 
 void	ft_show(t_mlx_data *pdata)
 {
+	int	x;
+	int	y;
 
-	ft_pixput(pdata, 300, 300, COL);
+	x = 0;
+	while (x < WIDTH)
+	{
+		y = -1;
+		while (++y < HEIGHT)
+		{
+			if (x >= pdata->px - 3 && x <= pdata->px + 3 &&
+				y >= pdata->py - 3 && y <= pdata->py + 3)
+				ft_pixput(pdata, x, y, COL);
+			else
+				ft_pixput(pdata, x, y, BLACK);
+		}
+		x++;
+	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr,
 		pdata->img_ptr, 0, 0);
 }
 
 int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
+	//printf("Touche pressée : %d\n", keysym);
+	if (keysym == XK_Up)
+		pdata->py -= 10;
+	else if (keysym == XK_Down)
+		pdata->py += 10;
+	else if (keysym == XK_Left)
+		pdata->px -= 10;
+	else if (keysym == XK_Right)
+		pdata->px += 10;
 	if (keysym == XK_Escape)
 	{
 		mlx_destroy_image(pdata->connect, pdata->img_ptr);

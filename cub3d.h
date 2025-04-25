@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "/home/aisidore/Downloads/minilibx-linux/mlx.h"
+# include "/home/aisidore/Documents/minilibx-linux/mlx.h"
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
@@ -25,6 +25,7 @@
 
 # define WIDTH		600
 # define HEIGHT		600
+# define BLACK 0x000000
 # define COL  0xFF6600
 
 typedef struct s_mlx_data
@@ -34,11 +35,11 @@ typedef struct s_mlx_data
 	void	*img_ptr;
 	char	*img_pixptr;//unused
 
-	int		bpp;//unused
-	int		endian;//unused
-	int		len;//unused
+	int		bpp;
+	int		endian;
+	int		len;
 
-	int		px;//coordonnees du player
+	int		px;
 	int		py;
 	
 }	t_mlx_data;
