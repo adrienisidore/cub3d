@@ -18,6 +18,7 @@
 # include <X11/keysymdef.h>
 
 # include <math.h>
+#include <time.h>//Pour generer carte random
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,6 +26,9 @@
 
 # define WIDTH		600
 # define HEIGHT		600
+#define CASE_SIZE 3
+#define WID_WALL (WIDTH / CASE_SIZE)  // 60
+#define HEI_WALL (HEIGHT / CASE_SIZE) // 60
 # define BLACK 0x000000
 # define COL  0xFF6600
 
@@ -33,7 +37,7 @@ typedef struct s_mlx_data
 	void	*connect;
 	void	*win_ptr;
 	void	*img_ptr;
-	char	*img_pixptr;//unused
+	char	*img_pixptr;//unused ?
 
 	int		bpp;
 	int		endian;

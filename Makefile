@@ -10,14 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-C_SRCS = main.c
+C_SRCS = main.c map.c
 		
 SRCS =  $(C_SRCS)
 
 BONUS_SRCS = $(C_SRCS)
 			
-OBJS = objets/main.o
-BONUS_OBJS = objets/main.o
+OBJS = objets/main.o objets/map.o
+BONUS_OBJS = objets/main.o objets/map.o
 PTH = /home/aisidore/Documents/minilibx-linux/
 
 NAME = cub3d

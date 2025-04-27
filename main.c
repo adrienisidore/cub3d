@@ -12,6 +12,9 @@
 
 #include "cub3d.h"
 
+//map de taille [HEIGHT / CASE_SIZE : WIDTH / CASE_SIZE]
+int	map[HEI_WALL][WID_WALL];
+
 int	ft_close(t_mlx_data *pdata)
 {
 	mlx_destroy_image(pdata->connect, pdata->img_ptr);
@@ -49,13 +52,37 @@ void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str)
 }
 
 
+//Division par 10 car chaque 0/1 represente 10 pixel.
+			//donc map[0][0] represente tous les pixels allant de 0 à 9
+			//Si map[0][0] = 1 alors je les colorie tous
+// Fonction pour dessiner les bords de la carte
+void ft_drawmap(int map[HEI_WALL][WID_WALL])
+{
+    int x, y;
+
+    // Dessin des bords
+    for (y = 0; y < HEI_WALL; y++) {
+        for (x = 0; x < WID_WALL; x++) {
+            // Vérifie si on est sur un des bords
+            if (x == 0 || x == WID_WALL - 1 || y == 0 || y == HEI_WALL - 1) {
+                map[y][x] = 1;  // Mur (1) pour les bords
+            }
+			else if (rand() % 54 == 0)
+				map[y][x] = 1;
+			else
+                map[y][x] = 0;  // Espace (0) à l'intérieur
+        }
+    }
+}
+
 
 void	ft_init(t_mlx_data *pdata)
 {
+	ft_drawmap(map);
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
 		exit (1);
-	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Titre");
+	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Cub3d");
 	if (!pdata->win_ptr)
 		ft_stop(pdata, 0, 1, NULL);
 	pdata->img_ptr = mlx_new_image(pdata->connect, WIDTH, HEIGHT);
@@ -66,6 +93,19 @@ void	ft_init(t_mlx_data *pdata)
 		&pdata->len, &pdata->endian);
 	pdata->px = 300;
 	pdata->py = 300;
+
+	// Vérifier si la position initiale du joueur est sur un mur
+    // Si c'est le cas, déplacer le joueur pour qu'il soit sur une case vide
+    while (map[pdata->py / CASE_SIZE][pdata->px / CASE_SIZE] == 1) {
+        pdata->px += 10;  // Déplace le joueur vers la droite de 10 pixels
+        if (pdata->px >= WIDTH) {  // Si le joueur sort de la fenêtre, réinitialiser
+            pdata->px = 0;
+            pdata->py += 10;  // Déplace le joueur vers le bas de 10 pixels
+        }
+        if (pdata->py >= HEIGHT) {  // Si le joueur sort de la fenêtre, réinitialiser
+            pdata->py = 0;
+        }
+    }
 }
 
 //Place un pixel à la couleur voulue dans une image
@@ -82,24 +122,40 @@ void	ft_show(t_mlx_data *pdata)
 {
 	int	x;
 	int	y;
+	int	color;
 
-	x = 0;
-	while (x < WIDTH)
+	y = 0;
+	while (y < HEIGHT)
 	{
-		y = -1;
-		while (++y < HEIGHT)
+		x = 0;
+		while (x < WIDTH)
 		{
+			// Par défaut : fond noir
+			color = 0x000000;
+
+			// Si c'est le perso (zone autour de px, py)
 			if (x >= pdata->px - 3 && x <= pdata->px + 3 &&
 				y >= pdata->py - 3 && y <= pdata->py + 3)
-				ft_pixput(pdata, x, y, COL);
-			else
-				ft_pixput(pdata, x, y, BLACK);
+			{
+				color = 0xFF0000; // Rouge pour le perso
+			}
+			// Si la coordonnee du pixel se situe dans une case
+			// on la colore en vert
+			else if (map[y / CASE_SIZE][x / CASE_SIZE] == 1)	   
+			{
+				color = 0x00FF00; // Vert pour les murs
+			}
+
+			ft_pixput(pdata, x, y, color);
+
+			x++;
 		}
-		x++;
+		y++;
 	}
-	mlx_put_image_to_window(pdata->connect, pdata->win_ptr,
-		pdata->img_ptr, 0, 0);
+	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 }
+			
+
 
 int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
