@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/24 18:26:52 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:38:23 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ void	ft_init(t_mlx_data *pdata)
 		&pdata->len, &pdata->endian);
 	pdata->px = 300;
 	pdata->py = 300;
+	pdata->an = 2 * PI;
+	pdata->dx = cos(pdata->an) * 5;
+	pdata->dy = sin(pdata->an) * 5;
 
 	// Vérifier si la position initiale du joueur est sur un mur
     // Si c'est le cas, déplacer le joueur pour qu'il soit sur une case vide
@@ -134,8 +137,8 @@ void	ft_show(t_mlx_data *pdata)
 			color = 0x000000;
 
 			// Si c'est le perso (zone autour de px, py)
-			if (x >= pdata->px - 3 && x <= pdata->px + 3 &&
-				y >= pdata->py - 3 && y <= pdata->py + 3)
+			if (x >= pdata->px - 2 && x <= pdata->px + 2 &&
+				y >= pdata->py - 2 && y <= pdata->py + 2)
 			{
 				color = 0xFF0000; // Rouge pour le perso
 			}
@@ -145,13 +148,34 @@ void	ft_show(t_mlx_data *pdata)
 			{
 				color = 0x00FF00; // Vert pour les murs
 			}
-
+			// Sinon : tracer la grille
+			else if (x % CASE_SIZE == 0 || y % CASE_SIZE == 0)
+			{
+				color = 0x202020; // Gris foncé pour les lignes de la grille
+			}
 			ft_pixput(pdata, x, y, color);
 
 			x++;
 		}
 		y++;
 	}
+
+	int	line_length = 50;  // Longueur de la ligne
+	// Dessiner chaque pixel de la ligne
+	int i = 0;
+	while (i < line_length)
+	{
+		int line_x = pdata->px + pdata->dx * i;//coordonnee x du pixel suivant de la ligne
+		int line_y = pdata->py + pdata->dy * i;//coordonnee y du pixel suivant de la ligne
+		//On s'assure de ne pas depasser les frontieres WIDTH et HEIGHT de la fenetre
+		if (line_x >= 0 && line_x < WIDTH && line_y >= 0 && line_y < HEIGHT)
+			ft_pixput(pdata, line_x, line_y, 0x0000FF);  // Bleu pour la ligne
+
+		i++;
+	}
+
+
+	
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 }
 			
@@ -168,6 +192,32 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 		pdata->px -= 10;
 	else if (keysym == XK_Right)
 		pdata->px += 10;
+	else if (keysym == XK_w)
+	{
+		pdata->py += pdata->dy;
+		pdata->px += pdata->dx;	
+	}
+	else if (keysym == XK_s)
+	{
+		pdata->py -= pdata->dy;
+		pdata->px -= pdata->dx;	
+	}
+	else if (keysym == XK_a)
+	{
+		pdata->an -= 0.5;
+		if (pdata->an < 0)
+			pdata->an += 2 * PI;
+		pdata->dx = cos(pdata->an) * 5;
+		pdata->dy = sin(pdata->an) * 5;
+	}
+	else if (keysym == XK_d)
+	{
+		pdata->an += 0.5;
+		if (pdata->an > 2 * PI)
+			pdata->an -= 2 * PI;
+		pdata->dx = cos(pdata->an) * 5;
+		pdata->dy = sin(pdata->an) * 5;
+	}
 	if (keysym == XK_Escape)
 	{
 		mlx_destroy_image(pdata->connect, pdata->img_ptr);

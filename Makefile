@@ -6,19 +6,19 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 17:30:38 by aisidore          #+#    #+#              #
-#    Updated: 2025/04/23 14:19:01 by aisidore         ###   ########.fr        #
+#    Updated: 2025/04/28 16:46:11 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 C_SRCS = main.c map.c
-		
+
 SRCS =  $(C_SRCS)
 
 BONUS_SRCS = $(C_SRCS)
-			
+
 OBJS = objets/main.o objets/map.o
 BONUS_OBJS = objets/main.o objets/map.o
-PTH = /home/aisidore/Documents/minilibx-linux/
+PTH = /home/aisidore/Downloads/minilibx-linux/
 
 NAME = cub3d
 BONUS_NAME = cub3d_bonus

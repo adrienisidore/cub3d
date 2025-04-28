@@ -1,3 +1,4 @@
+
 int map[HEI_WALL][WID_WALL] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -53,9 +54,13 @@ void	generate_random_map(void)
 }
 
 
+CPP00
 
+Creer une classe PhoneBook
 
+qui contiendra une autre classe Contact (avec les attributs d'un contact)
 
+et PhoneBook possedera un tableau Contact[8].
 
 
 
