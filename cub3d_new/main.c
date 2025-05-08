@@ -93,6 +93,19 @@ void	ver_line(t_mlx_data *pdata, int x, int draw_start, int draw_end, int color)
 	}
 }
 
+int darken_color(int color)
+{
+	int r = (color >> 16) & 0xFF;
+	int g = (color >> 8) & 0xFF;
+	int b = color & 0xFF;
+
+	r = r / 2;
+	g = g / 2;
+	b = b / 2;
+
+	return (r << 16) | (g << 8) | b;
+}
+
 // L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
 //Bien separer les fichiers de la partie _bonus
 
@@ -151,7 +164,7 @@ void	ft_show(t_mlx_data *pdata)
 
 
 	x = -1;
-	color = 0xFF0000;
+	//color = 0xFF0000;
 	while (++x < WIDTH)
 	{
 		//On parcourt toute la surface de l'image (chaque ligne verticale)
@@ -236,9 +249,24 @@ void	ft_show(t_mlx_data *pdata)
     	if(drawEnd >= HEIGHT)
 	  		drawEnd = HEIGHT - 1;
 		//les faces d'un mur n'ont pas la meme couleur
+		if (side == 1)
+			color = darken_color(color);
+
 		//if (side == 1)
 		//	color = color / 2;
-		//color = (color & 0xFEFEFE) >> 1; 
+		//if (side)
+		//	color = (color & 0xFEFEFE) >> 1; 
+
+		switch(worldMap[mapX][mapY])
+      	{
+        	case 1: color = 0xFF0000; break; // Rouge
+			case 2: color = 0x00FF00; break; // Vert
+			case 3: color = 0x0000FF; break; // Bleu
+			case 4: color = 0xFFFF00; break; // Jaune
+			default: color = 0xAAAAAA; break; // Gris clair
+      	}
+      	if (side == 1) {color = color / 2;}
+
 		ver_line(pdata, x, drawStart, drawEnd, color); // ligne rouge verticale
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
