@@ -12,33 +12,33 @@
 
 #include "cub3d.h"
 
-int worldMap[MAPWIDTH][MAPHEIGHT]=
+int worldMap[MAPHEIGHT][MAPWIDTH]=
 {
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+  };
 
 void	ft_init(t_mlx_data *pdata)
 {
@@ -54,20 +54,18 @@ void	ft_init(t_mlx_data *pdata)
 	//Acceder aux pixels d'une img. Utile I guess
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
-	pdata->px = 300;
-	pdata->py = 300;
+	pdata->px = 12;//22 useless
+	pdata->py = 10;//12 useless
+
+	pdata->posX = 12;
+	pdata->posY = 10;
+	pdata->dirX = -1;
+	pdata->dirY = 0;
+	pdata->planeX = 0;
+	pdata->planeY = 0.66;
+
 }
 
-int	ft_keyhook(int keysym, t_mlx_data *pdata)
-{
-	if (keysym == XK_Escape)
-	{
-		mlx_destroy_image(pdata->connect, pdata->img_ptr);
-		ft_stop(pdata, 1, 1, NULL);
-	}
-	// ft_show(pdata);
-	return (0);
-}
 
 //Place un pixel à la couleur voulue dans une image
 void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
@@ -96,24 +94,24 @@ void	ft_show(t_mlx_data *pdata)
 	int		x;
 
 	//position joueur
-	double posX;
-	double posY;
+	//double pdata->posX;
+	//double pdata->posY;
 	//direction du regard sur le plan [-1, 1][-1, 1]
-	double dirX;
-	double dirY;
-	//surface sur laquelle les rayons vont se projeter (ligne perpendiculaire au regard dirX, dirY)
-	double planeX;
-	double planeY;
+	//double pdata->dirX;
+	//double pdata->dirY;
+	//surface sur laquelle les rayons vont se projeter (ligne perpendiculaire au regard pdata->dirX, pdata->dirY)
+	//double pdata->planeX;
+	//double pdata->planeY;
 	// double time = 0; //time of current frame
 	// double oldTime = 0; //time of previous frame
 
 	//Initialisation
-	posX = 22;
-	posY = 12;
-	dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
-	dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
-	planeX = 0;//permet une ligne perpendiculaire
-	planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
+	//pdata->posX = 12;//22
+	//pdata->posY = 10;//12
+	//pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
+	//pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
+	//pdata->planeX = 0;//permet une ligne perpendiculaire
+	//pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
 	
 	double	cameraX;//normaliser chaque pixel en coord. [-1;1]
 	double	rayDirX;//coord. X du regard du joueur
@@ -142,18 +140,40 @@ void	ft_show(t_mlx_data *pdata)
 	int		color;
 	
 
+
+
+	// Dessine plafond (gris clair) et sol (gris foncé)
+	int yy = 0;
+	while (yy < HEIGHT / 2)
+	{
+		int x_fill = 0;
+		while (x_fill < WIDTH)
+			ft_pixput(pdata, x_fill++, yy, 0xAAAAAA); // plafond
+		yy++;
+	}
+	while (yy < HEIGHT)
+	{
+		int x_fill = 0;
+		while (x_fill < WIDTH)
+			ft_pixput(pdata, x_fill++, yy, 0x333333); // sol
+		yy++;
+	}
+
+
+
+
 	x = -1;
 	color = 0xFF0000;
 	while (++x < WIDTH)
 	{
 		//On parcourt toute la surface de l'image (chaque ligne verticale)
 		cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
-		//La coord. x du rayon est une fraction de planeX (voir schema). Idem pour y.
-		rayDirX = dirX + planeX * cameraX;//Si je regarde au centre planeX = 0 donc rayDirX = dirX 
-		rayDirY = dirY + planeY * cameraX;//Si je regarde au centre planeX=Y = 0 donc rayDirY = dirY
+		//La coord. x du rayon est une fraction de pdata->planeX (voir schema). Idem pour y.
+		rayDirX = pdata->dirX + pdata->planeX * cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
+		rayDirY = pdata->dirY + pdata->planeY * cameraX;//Si je regarde au centre pdata->planeX=Y = 0 donc rayDirY = pdata->dirY
 		//Si les coord. du joueur sont [22.4, 18.9] alors il est dans la case [22, 18]
-		mapX = (int)posX;
-		mapY = (int)posY;
+		mapX = (int)pdata->posX;
+		mapY = (int)pdata->posY;
 
 		if (rayDirX == 0)
 			deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
@@ -170,22 +190,22 @@ void	ft_show(t_mlx_data *pdata)
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			sideDistX = (pdata->posX - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - pdata->posX) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			sideDistY = (pdata->posY - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - pdata->posY) * deltaDistY;
 		}
 
 		//Lancement de DDA
@@ -203,8 +223,11 @@ void	ft_show(t_mlx_data *pdata)
 				mapY += stepY;
 				side = 1;
 			}
+			// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
+			if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
+				break;
 			//Check si j'ai touche un mur
-			if (worldMap[mapX][mapY] > 0)
+			if (worldMap[mapY][mapX] > 0)
 				hit = 1;
 		}
 
@@ -226,11 +249,75 @@ void	ft_show(t_mlx_data *pdata)
 	  		drawEnd = HEIGHT - 1;
 		//les faces d'un mur n'ont pas la meme couleur
 		if (side == 1)
-			color = color / 2;
+			color = (color & 0xFEFEFE) >> 1; 
 		ver_line(pdata, x, drawStart, drawEnd, color); // ligne rouge verticale
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	
+}
+
+//int	ft_keyhook(int keysym, t_mlx_data *pdata)
+//{
+//	if (keysym == XK_Escape)
+//	{
+//		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+//		ft_stop(pdata, 1, 1, NULL);
+//	}
+//	// ft_show(pdata);
+//	return (0);
+//}
+
+int	ft_keyhook(int keysym, t_mlx_data *pdata)
+{
+	double moveSpeed = 0.2;
+	double rotSpeed = 0.1;
+
+	//printf("Touche pressée : %d\n", keysym);
+	if (keysym == XK_Escape)
+	{
+		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+		ft_stop(pdata, 1, 1, NULL);
+	}
+
+	// Z - Avancer
+	if (keysym == XK_z)
+	{
+		if (worldMap[(int)(pdata->posX + pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+			pdata->posX += pdata->dirX * moveSpeed;
+		if (worldMap[(int)pdata->posX][(int)(pdata->posY + pdata->dirY * moveSpeed)] == 0)
+			pdata->posY += pdata->dirY * moveSpeed;
+	}
+	// S - Reculer
+	if (keysym == XK_s)
+	{
+		if (worldMap[(int)(pdata->posX - pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+			pdata->posX -= pdata->dirX * moveSpeed;
+		if (worldMap[(int)pdata->posX][(int)(pdata->posY - pdata->dirY * moveSpeed)] == 0)
+			pdata->posY -= pdata->dirY * moveSpeed;
+	}
+	// D - Tourner à droite
+	if (keysym == XK_d)
+	{
+		double oldDirX = pdata->dirX;
+		pdata->dirX = pdata->dirX * cos(-rotSpeed) - pdata->dirY * sin(-rotSpeed);
+		pdata->dirY = oldDirX * sin(-rotSpeed) + pdata->dirY * cos(-rotSpeed);
+		double oldPlaneX = pdata->planeX;
+		pdata->planeX = pdata->planeX * cos(-rotSpeed) - pdata->planeY * sin(-rotSpeed);
+		pdata->planeY = oldPlaneX * sin(-rotSpeed) + pdata->planeY * cos(-rotSpeed);
+	}
+	// Q - Tourner à gauche
+	if (keysym == XK_q)
+	{
+		double oldDirX = pdata->dirX;
+		pdata->dirX = pdata->dirX * cos(rotSpeed) - pdata->dirY * sin(rotSpeed);
+		pdata->dirY = oldDirX * sin(rotSpeed) + pdata->dirY * cos(rotSpeed);
+		double oldPlaneX = pdata->planeX;
+		pdata->planeX = pdata->planeX * cos(rotSpeed) - pdata->planeY * sin(rotSpeed);
+		pdata->planeY = oldPlaneX * sin(rotSpeed) + pdata->planeY * cos(rotSpeed);
+	}
+
+	ft_show(pdata); // Rafraîchir l'image après déplacement
+	return (0);
 }
 
 int	main(int ac, char **av)

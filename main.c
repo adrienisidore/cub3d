@@ -91,6 +91,7 @@ void	ft_init(t_mlx_data *pdata)
 	//Acceder aux pixels d'une img. Utile I guess
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
+	//arbitraire
 	pdata->px = 300;
 	pdata->py = 300;
 	pdata->an = 2 * PI;

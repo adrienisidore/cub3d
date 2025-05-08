@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "/home/aisidore/Downloads/minilibx-linux/mlx.h"
+# include "/home/aisidore/Documents/minilibx-linux/mlx.h"
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
@@ -27,7 +27,8 @@
 
 # define WIDTH		600
 # define HEIGHT		600
-#define MAPWIDTH	24
+
+#define MAPWIDTH	24//600 / 25 = 24
 #define MAPHEIGHT	24
 
 typedef struct s_mlx_data
@@ -41,8 +42,13 @@ typedef struct s_mlx_data
 	int		endian;
 	int		len;
 
-	int		px;
-	int		py;
+	int		px;//useless
+	int		py;//useless
+
+	double posX, posY;
+	double dirX, dirY;
+	double planeX, planeY;
+
 	
 }	t_mlx_data;
 
