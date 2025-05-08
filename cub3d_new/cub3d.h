@@ -45,9 +45,18 @@ typedef struct s_mlx_data
 	int		px;//useless
 	int		py;//useless
 
+	//position joueur
 	double posX, posY;
+	//direction du regard sur le plan [-1, 1][-1, 1]
 	double dirX, dirY;
+	//surface sur laquelle les rayons vont se projeter (ligne perpendiculaire au regard pdata->dirX, pdata->dirY)
 	double planeX, planeY;
+	// double time = 0; //time of current frame
+	// double oldTime = 0; //time of previous frame
+
+	
+	
+	
 
 	
 }	t_mlx_data;

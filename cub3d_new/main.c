@@ -12,6 +12,10 @@
 
 #include "cub3d.h"
 
+// Si le projet autorise votre libft, vous devez copier ses sources et son Makefile
+// associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
+// compiler la librairie à l’aide de son Makefile, puis compiler le projet.
+
 int worldMap[MAPHEIGHT][MAPWIDTH]=
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -59,10 +63,10 @@ void	ft_init(t_mlx_data *pdata)
 
 	pdata->posX = 12;
 	pdata->posY = 10;
-	pdata->dirX = -1;
-	pdata->dirY = 0;
-	pdata->planeX = 0;
-	pdata->planeY = 0.66;
+	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
+	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
+	pdata->planeX = 0;//permet une ligne perpendiculaire
+	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
 
 }
 
@@ -89,29 +93,16 @@ void	ver_line(t_mlx_data *pdata, int x, int draw_start, int draw_end, int color)
 	}
 }
 
+// L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
+//Bien separer les fichiers de la partie _bonus
+
+//Dans la partie oblig : Vous devez afficher des textures différentes (vous avez le choix) selon si les murs
+//sont face nord, sud, est, ouest.
+
+//Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
 void	ft_show(t_mlx_data *pdata)
 {
 	int		x;
-
-	//position joueur
-	//double pdata->posX;
-	//double pdata->posY;
-	//direction du regard sur le plan [-1, 1][-1, 1]
-	//double pdata->dirX;
-	//double pdata->dirY;
-	//surface sur laquelle les rayons vont se projeter (ligne perpendiculaire au regard pdata->dirX, pdata->dirY)
-	//double pdata->planeX;
-	//double pdata->planeY;
-	// double time = 0; //time of current frame
-	// double oldTime = 0; //time of previous frame
-
-	//Initialisation
-	//pdata->posX = 12;//22
-	//pdata->posY = 10;//12
-	//pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
-	//pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
-	//pdata->planeX = 0;//permet une ligne perpendiculaire
-	//pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
 	
 	double	cameraX;//normaliser chaque pixel en coord. [-1;1]
 	double	rayDirX;//coord. X du regard du joueur
@@ -139,9 +130,6 @@ void	ft_show(t_mlx_data *pdata)
 	int		drawEnd;//le pixel en bas de la ligne du mur
 	int		color;
 	
-
-
-
 	// Dessine plafond (gris clair) et sol (gris foncé)
 	int yy = 0;
 	while (yy < HEIGHT / 2)
@@ -224,8 +212,8 @@ void	ft_show(t_mlx_data *pdata)
 				side = 1;
 			}
 			// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
-			if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
-				break;
+			//if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
+			//	break;
 			//Check si j'ai touche un mur
 			if (worldMap[mapY][mapX] > 0)
 				hit = 1;
@@ -248,8 +236,9 @@ void	ft_show(t_mlx_data *pdata)
     	if(drawEnd >= HEIGHT)
 	  		drawEnd = HEIGHT - 1;
 		//les faces d'un mur n'ont pas la meme couleur
-		if (side == 1)
-			color = (color & 0xFEFEFE) >> 1; 
+		//if (side == 1)
+		//	color = color / 2;
+		//color = (color & 0xFEFEFE) >> 1; 
 		ver_line(pdata, x, drawStart, drawEnd, color); // ligne rouge verticale
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
@@ -267,6 +256,11 @@ void	ft_show(t_mlx_data *pdata)
 //	return (0);
 //}
 
+//A MODIFIER
+//Les touches flèches du gauche et droite du clavier doivent permettre de faire
+//une rotation de la caméra (regarder a gauche et a droite)
+//◦ Les touches W, A, S et D doivent permettre de déplacer la caméra (déplacement
+//du personnage)
 int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
 	double moveSpeed = 0.2;
