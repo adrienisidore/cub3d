@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/12 18:32:40 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:41:05 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,10 +315,6 @@ void	ft_show(t_mlx_data *pdata)
 			perpWallDist = (sideDistX - deltaDistX);
 		else
 			perpWallDist = (sideDistY - deltaDistY);
-
-		//les faces d'un mur n'ont pas la meme couleur
-		if (side == 1)
-			color = darken_color(color);
 
 		//if (side == 1)
 		//	color = color / 2;
