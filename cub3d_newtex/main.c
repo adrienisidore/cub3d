@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/12 18:01:07 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:32:40 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->texture.data = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_1.xpm", &pdata->texture.width, &pdata->texture.height);
 	// if (!pdata->texture.data)
 	// 	printf("coucou\n");
+	pdata->texture.addr = mlx_get_data_addr(pdata->texture.data, &pdata->texture.bpp, &pdata->texture.size_line,
+			&pdata->texture.endian);
 	pdata->px = 12;////useful for minimap
 	pdata->py = 10;////useful for minimap
 
@@ -99,9 +101,9 @@ int		ft_pixget(t_ig texture, int x, int y)
 		unsigned char	color_g;
 		unsigned char	color_r;
 		int				rgb;
-		printf("coucou\n");
+		// printf("coucou\n");
 		color_b = texture.addr[y * texture.size_line + x * (texture.bpp / 8)];
-		printf("coucou2\n");
+		// printf("coucou2\n");
 		color_g = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 1];
 		color_r = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 2];
 		rgb = color_r;
@@ -110,7 +112,7 @@ int		ft_pixget(t_ig texture, int x, int y)
 		return (rgb);
 }
 //Dessine le mur colonne par colonne
-void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, int mapX, int mapY)
+void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, double posX, double posY, double rayDirX, double rayDirY)
 {
 	int	y;
 	int	drawStart;
@@ -127,25 +129,41 @@ void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, int mapX,
 			
 	//il faut determiner tex_x et tex_y
 	double	step = pdata->texture.height / lineHeight; // step pour deplacer tex_y;
-	double	tex_x;
+	double texPos = (drawStart - MAPHEIGHT / 2 + lineHeight / 2) * step;
+	// double	tex_x;
 	double tex_y;
 
 	tex_y = 0;
-	if (!side)
-		tex_x = mapX;
+	// if (!side)
+	// 	tex_x = posY + perpWallDist * rayDirY;
+	// else
+	// 	tex_x = posX + perpWallDist * rayDirX;
+	// tex_x -= floor(tex_x);
+	// tex_x = tex_x * pdata->texture.width;
+	double wallX;
+	if (side == 0)
+		wallX = posY + perpWallDist * rayDirY;
 	else
-		tex_x = mapY;
-	tex_x -= floor(tex_x);
-	tex_x = tex_x * pdata->texture.width;
+		wallX = posX + perpWallDist * rayDirX;
+	wallX -= floor(wallX);
+
+	// Coordonnée X sur la texture
+	int tex_x = (int)(wallX * (double)pdata->texture.width);
+	if (side == 0 && rayDirX > 0)
+		tex_x = pdata->texture.width - tex_x - 1;
+	if (side == 1 && rayDirY < 0)
+		tex_x = pdata->texture.width - tex_x - 1;
 	
 	y = drawStart;
 	while (y <= drawEnd)
 	{
+		tex_y = (int)texPos & (pdata->texture.height - 1);
+		texPos += step;
 		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 			ft_pixput(pdata, x, y, ft_pixget(pdata->texture, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la texture
 			// ft_pixput(pdata, x, y, ft_pixget(pdata->texture, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la texture
 		y++;
-		tex_y += step;
+		// tex_y += step;
 	}
 }
 
@@ -317,7 +335,7 @@ void	ft_show(t_mlx_data *pdata)
       	}
       	if (side == 1) {color = color / 2;}
 		
-		ver_line(pdata, x, perpWallDist, side, mapX, mapY); // ligne rouge verticale
+		ver_line(pdata, x, perpWallDist, side, pdata->posX, pdata->posY, rayDirX, rayDirY); // ligne rouge verticale
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	
