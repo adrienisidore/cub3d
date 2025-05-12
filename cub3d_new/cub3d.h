@@ -6,14 +6,14 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/07 16:20:33 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:37:44 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "/home/aisidore/Documents/minilibx-linux/mlx.h"
+# include "/home/aisidore/Downloads/minilibx-linux/mlx.h"
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
@@ -42,8 +42,8 @@ typedef struct s_mlx_data
 	int		endian;
 	int		len;
 
-	int		px;//useless
-	int		py;//useless
+	int		px;//useful for minimap
+	int		py;//useful for minimap
 
 	//position joueur
 	double posX, posY;

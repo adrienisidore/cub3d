@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/04/28 18:38:23 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:48:10 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,15 +185,15 @@ void	ft_show(t_mlx_data *pdata)
 int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
 	//printf("Touche pressée : %d\n", keysym);
-	if (keysym == XK_Up)
-		pdata->py -= 10;
-	else if (keysym == XK_Down)
-		pdata->py += 10;
-	else if (keysym == XK_Left)
-		pdata->px -= 10;
-	else if (keysym == XK_Right)
-		pdata->px += 10;
-	else if (keysym == XK_w)
+	// if (keysym == XK_Up)
+	// 	pdata->py -= 10;
+	// else if (keysym == XK_Down)
+	// 	pdata->py += 10;
+	// else if (keysym == XK_Left)
+	// 	pdata->px -= 10;
+	// else if (keysym == XK_Right)
+	// 	pdata->px += 10;
+	if (keysym == XK_w)
 	{
 		pdata->py += pdata->dy;
 		pdata->px += pdata->dx;	

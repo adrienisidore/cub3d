@@ -6,11 +6,13 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/07 17:52:21 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:12:55 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+//Utiliser images minilibx https://harm-smits.github.io/42docs/libs/minilibx/images.html
 
 // Si le projet autorise votre libft, vous devez copier ses sources et son Makefile
 // associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
@@ -58,8 +60,8 @@ void	ft_init(t_mlx_data *pdata)
 	//Acceder aux pixels d'une img. Utile I guess
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
-	pdata->px = 12;//22 useless
-	pdata->py = 10;//12 useless
+	pdata->px = 12;////useful for minimap
+	pdata->py = 10;////useful for minimap
 
 	pdata->posX = 12;
 	pdata->posY = 10;
@@ -302,7 +304,7 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 	}
 
 	// Z - Avancer
-	if (keysym == XK_z)
+	if (keysym == XK_w)
 	{
 		if (worldMap[(int)(pdata->posX + pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
 			pdata->posX += pdata->dirX * moveSpeed;
@@ -328,7 +330,7 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 		pdata->planeY = oldPlaneX * sin(-rotSpeed) + pdata->planeY * cos(-rotSpeed);
 	}
 	// Q - Tourner à gauche
-	if (keysym == XK_q)
+	if (keysym == XK_a)
 	{
 		double oldDirX = pdata->dirX;
 		pdata->dirX = pdata->dirX * cos(rotSpeed) - pdata->dirY * sin(rotSpeed);

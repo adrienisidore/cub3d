@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 17:30:38 by aisidore          #+#    #+#              #
-#    Updated: 2025/05/07 16:10:40 by aisidore         ###   ########.fr        #
+#    Updated: 2025/05/12 12:38:55 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ BONUS_SRCS = $(C_SRCS)
 
 OBJS = objets/main.o objets/exit.o
 BONUS_OBJS = objets/main.o objets/exit.o
-PTH = /home/aisidore/Documents/minilibx-linux/
+PTH = /home/aisidore/Downloads/minilibx-linux/
 
 NAME = cub3d
 BONUS_NAME = cub3d_bonus
