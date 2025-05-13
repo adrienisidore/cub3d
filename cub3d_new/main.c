@@ -21,29 +21,29 @@
 int worldMap[MAPHEIGHT][MAPWIDTH]=
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1},
-	{1,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1},
-	{1,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1},
-	{1,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,2,2,2,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,3},
+	{3,0,0,0,3,0,3,0,0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,3},
+	{3,0,0,0,3,0,3,0,0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,3},
+	{3,0,0,0,1,1,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+	{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
   };
 
 void	ft_init(t_mlx_data *pdata)
@@ -250,41 +250,21 @@ void	ft_show(t_mlx_data *pdata)
 			drawStart = 0;
     	if(drawEnd >= HEIGHT)
 	  		drawEnd = HEIGHT - 1;
-		//les faces d'un mur n'ont pas la meme couleur
-		if (side == 1)
-			color = darken_color(color);
-
-		//if (side == 1)
-		//	color = color / 2;
-		//if (side)
-		//	color = (color & 0xFEFEFE) >> 1; 
-
-		switch(worldMap[mapX][mapY])
-      	{
-        	case 1: color = 0xFF0000; break; // Rouge
-			case 2: color = 0x00FF00; break; // Vert
-			case 3: color = 0x0000FF; break; // Bleu
-			case 4: color = 0xFFFF00; break; // Jaune
-			default: color = 0xAAAAAA; break; // Gris clair
-      	}
-      	if (side == 1) {color = color / 2;}
+//		if (worldMap[mapY][mapX] == 1) {color = 0xFF0000;}//Rouge
+//		if (worldMap[mapY][mapX] == 2) {color = 0x00FF00;}//Vert
+//		if (worldMap[mapY][mapX] == 3) {color = 0x0000FF;}//Bleu
+		if (worldMap[mapY][mapX] == 1) {color = 0xFF0000;}//Rouge
+		else if (worldMap[mapY][mapX] == 2) {color = 0x00FF00;}//Vert
+		else if (worldMap[mapY][mapX] == 3) {color = 0x0000FF;}//Bleu
+		else
+			color = 0xAAAAAA;//gris clair
+      	//if (side == 1) {color = color / 2;}
 
 		ver_line(pdata, x, drawStart, drawEnd, color); // ligne rouge verticale
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	
 }
-
-//int	ft_keyhook(int keysym, t_mlx_data *pdata)
-//{
-//	if (keysym == XK_Escape)
-//	{
-//		mlx_destroy_image(pdata->connect, pdata->img_ptr);
-//		ft_stop(pdata, 1, 1, NULL);
-//	}
-//	// ft_show(pdata);
-//	return (0);
-//}
 
 //A MODIFIER
 //Les touches flèches du gauche et droite du clavier doivent permettre de faire
@@ -296,7 +276,6 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 	double moveSpeed = 0.2;
 	double rotSpeed = 0.1;
 
-	//printf("Touche pressée : %d\n", keysym);
 	if (keysym == XK_Escape)
 	{
 		mlx_destroy_image(pdata->connect, pdata->img_ptr);
@@ -306,17 +285,17 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 	// Z - Avancer
 	if (keysym == XK_w)
 	{
-		if (worldMap[(int)(pdata->posX + pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+		if (worldMap[(int)(pdata->posY)][(int)(pdata->posX + pdata->dirX * moveSpeed)] == 0)
 			pdata->posX += pdata->dirX * moveSpeed;
-		if (worldMap[(int)pdata->posX][(int)(pdata->posY + pdata->dirY * moveSpeed)] == 0)
+		if (worldMap[(int)(pdata->posY + pdata->dirY * moveSpeed)][(int)pdata->posX] == 0)
 			pdata->posY += pdata->dirY * moveSpeed;
 	}
 	// S - Reculer
 	if (keysym == XK_s)
 	{
-		if (worldMap[(int)(pdata->posX - pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+		if (worldMap[(int)(pdata->posY)][(int)(pdata->posX - pdata->dirX * moveSpeed)] == 0)
 			pdata->posX -= pdata->dirX * moveSpeed;
-		if (worldMap[(int)pdata->posX][(int)(pdata->posY - pdata->dirY * moveSpeed)] == 0)
+		if (worldMap[(int)(pdata->posY - pdata->dirY * moveSpeed)][(int)pdata->posX] == 0)
 			pdata->posY -= pdata->dirY * moveSpeed;
 	}
 	// D - Tourner à droite

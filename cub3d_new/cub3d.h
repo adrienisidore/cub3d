@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "/home/aisidore/Downloads/minilibx-linux/mlx.h"
+# include "/home/aisidore/Documents/minilibx-linux/mlx.h"
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
