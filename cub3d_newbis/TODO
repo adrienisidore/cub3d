@@ -1,0 +1,55 @@
+
+
+
+int	ft_keyhook(int keysym, t_mlx_data *pdata)
+{
+	double moveSpeed = 0.2;
+	double rotSpeed = 0.1;
+
+	//printf("Touche pressée : %d\n", keysym);
+	if (keysym == XK_Escape)
+	{
+		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+		ft_stop(pdata, 1, 1, NULL);
+	}
+
+	// Z - Avancer
+	if (keysym == XK_w)
+	{
+		if (worldMap[(int)(pdata->posX + pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+			pdata->posX += pdata->dirX * moveSpeed;
+		if (worldMap[(int)pdata->posX][(int)(pdata->posY + pdata->dirY * moveSpeed)] == 0)
+			pdata->posY += pdata->dirY * moveSpeed;
+	}
+	// S - Reculer
+	if (keysym == XK_s)
+	{
+		if (worldMap[(int)(pdata->posX - pdata->dirX * moveSpeed)][(int)pdata->posY] == 0)
+			pdata->posX -= pdata->dirX * moveSpeed;
+		if (worldMap[(int)pdata->posX][(int)(pdata->posY - pdata->dirY * moveSpeed)] == 0)
+			pdata->posY -= pdata->dirY * moveSpeed;
+	}
+	// D - Tourner à droite
+	if (keysym == XK_d)
+	{
+		double oldDirX = pdata->dirX;
+		pdata->dirX = pdata->dirX * cos(-rotSpeed) - pdata->dirY * sin(-rotSpeed);
+		pdata->dirY = oldDirX * sin(-rotSpeed) + pdata->dirY * cos(-rotSpeed);
+		double oldPlaneX = pdata->planeX;
+		pdata->planeX = pdata->planeX * cos(-rotSpeed) - pdata->planeY * sin(-rotSpeed);
+		pdata->planeY = oldPlaneX * sin(-rotSpeed) + pdata->planeY * cos(-rotSpeed);
+	}
+	// Q - Tourner à gauche
+	if (keysym == XK_a)
+	{
+		double oldDirX = pdata->dirX;
+		pdata->dirX = pdata->dirX * cos(rotSpeed) - pdata->dirY * sin(rotSpeed);
+		pdata->dirY = oldDirX * sin(rotSpeed) + pdata->dirY * cos(rotSpeed);
+		double oldPlaneX = pdata->planeX;
+		pdata->planeX = pdata->planeX * cos(rotSpeed) - pdata->planeY * sin(rotSpeed);
+		pdata->planeY = oldPlaneX * sin(rotSpeed) + pdata->planeY * cos(rotSpeed);
+	}
+
+	ft_show(pdata); // Rafraîchir l'image après déplacement
+	return (0);
+}

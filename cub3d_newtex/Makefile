@@ -18,7 +18,7 @@ BONUS_SRCS = $(C_SRCS)
 
 OBJS = objets/main.o objets/exit.o
 BONUS_OBJS = objets/main.o objets/exit.o
-PTH = /home/aisidore/Downloads/minilibx-linux/
+PTH = /home/aisidore/Documents/minilibx-linux/
 
 NAME = cub3d
 BONUS_NAME = cub3d_bonus
