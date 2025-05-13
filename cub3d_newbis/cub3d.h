@@ -68,6 +68,7 @@ typedef struct s_mlx_data
 
 	t_ig	texture;
 	
+	
 }	t_mlx_data;
 
 //exit.c

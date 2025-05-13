@@ -298,16 +298,6 @@ void	ft_show(t_mlx_data *pdata)
 			drawStart = 0;
     	if(drawEnd >= HEIGHT)
 	  		drawEnd = HEIGHT - 1;
-//		if (worldMap[mapY][mapX] == 1) {color = 0xFF0000;}//Rouge
-//		if (worldMap[mapY][mapX] == 2) {color = 0x00FF00;}//Vert
-//		if (worldMap[mapY][mapX] == 3) {color = 0x0000FF;}//Bleu
-//		if (worldMap[mapY][mapX] == 1) {color = 0xFF0000;}//Rouge
-//		else if (worldMap[mapY][mapX] == 2) {color = 0x00FF00;}//Vert
-//		else if (worldMap[mapY][mapX] == 3) {color = 0x0000FF;}//Bleu
-//		else
-//			color = 0xAAAAAA;//gris clair
-      	//if (side == 1) {color = color / 2;}
-
 		ver_line(pdata, x, perpWallDist, side, pdata->posX, pdata->posY, rayDirX, rayDirY);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
@@ -371,6 +361,34 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 	return (0);
 }
 
+int	mouse_move_hook(int x, int y, t_mlx_data *pdata)
+{
+	static int	last_x = -1;
+	double		rotSpeed;
+	(void)y;
+
+	if (last_x == -1)
+		last_x = x;
+
+	int delta_x = x - last_x;
+	last_x = x;
+
+	rotSpeed = 0.003 * delta_x; // Ajuste ce facteur à ta sensibilité souhaitée
+
+	double oldDirX = pdata->dirX;
+	pdata->dirX = pdata->dirX * cos(-rotSpeed) - pdata->dirY * sin(-rotSpeed);
+	pdata->dirY = oldDirX * sin(-rotSpeed) + pdata->dirY * cos(-rotSpeed);
+
+	double oldPlaneX = pdata->planeX;
+	pdata->planeX = pdata->planeX * cos(-rotSpeed) - pdata->planeY * sin(-rotSpeed);
+	pdata->planeY = oldPlaneX * sin(-rotSpeed) + pdata->planeY * cos(-rotSpeed);
+
+	ft_show(pdata); // Rafraîchir l'affichage
+
+	return (0);
+}
+
+
 int	main(int ac, char **av)
 {
 	(void)ac;
@@ -382,6 +400,7 @@ int	main(int ac, char **av)
 	ft_init(&data);
 	ft_show(&data);
 	mlx_hook(data.win_ptr, 17, 0, ft_close, &data);
+	mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify
 	mlx_key_hook(data.win_ptr, ft_keyhook, &data);
 	mlx_loop(data.connect);
 	return (0);	
