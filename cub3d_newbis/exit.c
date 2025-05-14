@@ -6,12 +6,12 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:09:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/07 16:09:32 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:04:01 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
+//qui est static et qui ne l'est pas ?
 int	ft_close(t_mlx_data *pdata)
 {
 	mlx_destroy_image(pdata->connect, pdata->img_ptr);
