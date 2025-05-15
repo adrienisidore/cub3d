@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/14 17:29:32 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:35:17 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ typedef struct s_ig
 	
 }	t_ig;
 
+typedef struct s_trigo
+{
+	
+}	t_trigo;
+
 typedef struct s_mlx_data
 {
 	void	*connect;
@@ -65,6 +70,8 @@ typedef struct s_mlx_data
 	double planeY;
 	// double time = 0; //time of current frame
 	// double oldTime = 0; //time of previous frame
+
+	
 
 	double moveSpeed;
 	double rotSpeed;

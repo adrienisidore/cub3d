@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_show.c                                          :+:      :+:    :+:   */
+/*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/14 16:20:35 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:37:16 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,20 @@ static int		ft_pixget(t_ig texture, int x, int y)
 static void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
               double posX, double posY, double rayDirX, double rayDirY)
 {
-	int lineHeight = (int)(HEIGHT / perpWallDist);
-	if (lineHeight <= 0) lineHeight = 1;
-	int drawStart = -lineHeight / 2 + HEIGHT / 2;
-	int drawEnd = lineHeight / 2 + HEIGHT / 2;
-	if (drawStart < 0) drawStart = 0;
-	if (drawEnd >= HEIGHT) drawEnd = HEIGHT - 1;
+	int lineHeight;
+	lineHeight = (int)(HEIGHT / perpWallDist);
+	if (lineHeight <= 0)
+		lineHeight = 1;
+	
+	int drawStart;
+	drawStart = -lineHeight / 2 + HEIGHT / 2;
+	if (drawStart < 0)
+		drawStart = 0;
+	
+	int drawEnd;
+	drawEnd = lineHeight / 2 + HEIGHT / 2;
+	if (drawEnd >= HEIGHT)
+		drawEnd = HEIGHT - 1;
 
 	double wallX;
 	if (side == 0)
@@ -98,6 +106,27 @@ static void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
 //Dans la partie oblig : Vous devez afficher des textures différentes (vous avez le choix) selon si les murs
 //sont face nord, sud, est, ouest.
 
+
+static void	ft_draw_floorceil(t_mlx_data *pdata)
+{
+	// Dessine plafond (gris clair) et sol (gris foncé)
+	int yy = 0;
+	while (yy < HEIGHT / 2)
+	{
+		int x_fill = 0;
+		while (x_fill < WIDTH)
+			ft_pixput(pdata, x_fill++, yy, 0xAAAAAA); // plafond
+		yy++;
+	}
+	while (yy < HEIGHT)
+	{
+		int x_fill = 0;
+		while (x_fill < WIDTH)
+			ft_pixput(pdata, x_fill++, yy, 0x333333); // sol
+		yy++;
+	}
+}
+
 //Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
 void	ft_show(t_mlx_data *pdata)
 {
@@ -127,25 +156,8 @@ void	ft_show(t_mlx_data *pdata)
 	int		lineHeight;//hauteur du mur
 	int		drawStart;//le pixel en haut de la ligne du mur
 	int		drawEnd;//le pixel en bas de la ligne du mur
-	//int		color;
-	
-	// Dessine plafond (gris clair) et sol (gris foncé)
-	int yy = 0;
-	while (yy < HEIGHT / 2)
-	{
-		int x_fill = 0;
-		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0xAAAAAA); // plafond
-		yy++;
-	}
-	while (yy < HEIGHT)
-	{
-		int x_fill = 0;
-		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0x333333); // sol
-		yy++;
-	}
 
+	ft_draw_floorceil(pdata);
 
 
 
