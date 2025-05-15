@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   maintex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/12 18:41:05 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:46:51 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
 	//save the texture
-	pdata->texture.data = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_1.xpm", &pdata->texture.width, &pdata->texture.height);
-	// if (!pdata->texture.data)
+	pdata->txt.data = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_1.xpm", &pdata->txt.width, &pdata->txt.height);
+	// if (!pdata->txt.data)
 	// 	printf("coucou\n");
-	pdata->texture.addr = mlx_get_data_addr(pdata->texture.data, &pdata->texture.bpp, &pdata->texture.size_line,
-			&pdata->texture.endian);
+	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data, &pdata->txt.bpp, &pdata->txt.size_line,
+			&pdata->txt.endian);
 	pdata->px = 12;////useful for minimap
 	pdata->py = 10;////useful for minimap
 
@@ -89,11 +89,11 @@ void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 }
 
 //retourner la couleur du pixel de la texture corresponde
-int		ft_pixget(t_ig texture, int x, int y)
+int		ft_pixget(t_ig txt, int x, int y)
 {
 		// int	pixcolor;
 
-		// pixcolor = texture.addr[(texture.size_line * tex_y) + ((texture.bpp / 8) * tex_x)];
+		// pixcolor = txt.addr[(txt.size_line * tex_y) + ((txt.bpp / 8) * tex_x)];
 		
 		// return(pixcolor);
 
@@ -102,10 +102,10 @@ int		ft_pixget(t_ig texture, int x, int y)
 		unsigned char	color_r;
 		int				rgb;
 		// printf("coucou\n");
-		color_b = texture.addr[y * texture.size_line + x * (texture.bpp / 8)];
+		color_b = txt.addr[y * txt.size_line + x * (txt.bpp / 8)];
 		// printf("coucou2\n");
-		color_g = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 1];
-		color_r = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 2];
+		color_g = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 1];
+		color_r = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 2];
 		rgb = color_r;
 		rgb = (rgb << 8) + color_g;
 		rgb = (rgb << 8) + color_b;
@@ -128,7 +128,7 @@ void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, double po
 		drawEnd = HEIGHT - 1;
 			
 	//il faut determiner tex_x et tex_y
-	double	step = pdata->texture.height / lineHeight; // step pour deplacer tex_y;
+	double	step = pdata->txt.height / lineHeight; // step pour deplacer tex_y;
 	double texPos = (drawStart - MAPHEIGHT / 2 + lineHeight / 2) * step;
 	// double	tex_x;
 	double tex_y;
@@ -139,7 +139,7 @@ void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, double po
 	// else
 	// 	tex_x = posX + perpWallDist * rayDirX;
 	// tex_x -= floor(tex_x);
-	// tex_x = tex_x * pdata->texture.width;
+	// tex_x = tex_x * pdata->txt.width;
 	double wallX;
 	if (side == 0)
 		wallX = posY + perpWallDist * rayDirY;
@@ -147,21 +147,21 @@ void	ver_line(t_mlx_data *pdata, int x, double perpWallDist, int side, double po
 		wallX = posX + perpWallDist * rayDirX;
 	wallX -= floor(wallX);
 
-	// Coordonnée X sur la texture
-	int tex_x = (int)(wallX * (double)pdata->texture.width);
+	// Coordonnée X sur la txt
+	int tex_x = (int)(wallX * (double)pdata->txt.width);
 	if (side == 0 && rayDirX > 0)
-		tex_x = pdata->texture.width - tex_x - 1;
+		tex_x = pdata->txt.width - tex_x - 1;
 	if (side == 1 && rayDirY < 0)
-		tex_x = pdata->texture.width - tex_x - 1;
+		tex_x = pdata->txt.width - tex_x - 1;
 	
 	y = drawStart;
 	while (y <= drawEnd)
 	{
-		tex_y = (int)texPos & (pdata->texture.height - 1);
+		tex_y = (int)texPos & (pdata->txt.height - 1);
 		texPos += step;
 		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-			ft_pixput(pdata, x, y, ft_pixget(pdata->texture, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la texture
-			// ft_pixput(pdata, x, y, ft_pixget(pdata->texture, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la texture
+			ft_pixput(pdata, x, y, ft_pixget(pdata->txt, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la txt
+			// ft_pixput(pdata, x, y, ft_pixget(pdata->txt, (int)tex_x, (int)tex_y)); //au lieu de color, il faut mettre la bonne couleur par rapport a la txt
 		y++;
 		// tex_y += step;
 	}

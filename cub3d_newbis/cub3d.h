@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/15 15:35:17 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:42:27 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #define MAPWIDTH	24//600 / 25 = 24
 #define MAPHEIGHT	24
 
-typedef struct s_ig
+typedef struct s_texture
 {
 	void		*data;
 	char		*addr;
@@ -41,7 +41,7 @@ typedef struct s_ig
 	int			width;
 	int			height;
 	
-}	t_ig;
+}	t_texture;
 
 typedef struct s_trigo
 {
@@ -76,7 +76,7 @@ typedef struct s_mlx_data
 	double moveSpeed;
 	double rotSpeed;
 	
-	t_ig	texture;
+	t_texture	txt;
 	
 	
 }	t_mlx_data;

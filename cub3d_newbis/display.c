@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/15 15:37:16 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:48:35 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ static void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 	*((unsigned int *)(disp + pdata->img_pixptr)) = color;
 }
 
-static int		ft_pixget(t_ig texture, int x, int y)
+//transformer pixget en qqchose qui ressemble + a pixput
+static int		ft_pixget(t_texture txt, int x, int y)
 {
 		unsigned char	color_b;
 		unsigned char	color_g;
 		unsigned char	color_r;
 		int				rgb;
 
-		color_b = texture.addr[y * texture.size_line + x * (texture.bpp / 8)];
-		color_g = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 1];
-		color_r = texture.addr[y * texture.size_line + x * (texture.bpp / 8) + 2];
+		color_b = txt.addr[y * txt.size_line + x * (txt.bpp / 8)];
+		color_g = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 1];
+		color_r = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 2];
 		rgb = color_r;
 		rgb = (rgb << 8) + color_g;
 		rgb = (rgb << 8) + color_b;
@@ -38,50 +39,59 @@ static int		ft_pixget(t_ig texture, int x, int y)
 }
 
 static void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
-              double posX, double posY, double rayDirX, double rayDirY)
+              		double rayDirX, double rayDirY)
 {
 	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	double wallX;
+	int tex_x;
+	int	tex_y;
+	
 	lineHeight = (int)(HEIGHT / perpWallDist);
 	if (lineHeight <= 0)
 		lineHeight = 1;
-	
-	int drawStart;
 	drawStart = -lineHeight / 2 + HEIGHT / 2;
 	if (drawStart < 0)
 		drawStart = 0;
-	
-	int drawEnd;
 	drawEnd = lineHeight / 2 + HEIGHT / 2;
 	if (drawEnd >= HEIGHT)
 		drawEnd = HEIGHT - 1;
-
-	double wallX;
 	if (side == 0)
-		wallX = posY + perpWallDist * rayDirY;
+		wallX = pdata->posY + perpWallDist * rayDirY;
 	else
-		wallX = posX + perpWallDist * rayDirX;
+		wallX = pdata->posX + perpWallDist * rayDirX;
 	wallX -= floor(wallX);
-
-	int tex_x = (int)(wallX * (double)pdata->texture.width);
+	
+	//ft_init_tex_x
+	tex_x = (int)(wallX * (double)pdata->txt.width);
 	if (side == 0 && rayDirX > 0)
-		tex_x = pdata->texture.width - tex_x - 1;
+		tex_x = pdata->txt.width - tex_x - 1;
 	if (side == 1 && rayDirY < 0)
-		tex_x = pdata->texture.width - tex_x - 1;
+		tex_x = pdata->txt.width - tex_x - 1;
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= pdata->txt.width)
+		tex_x = pdata->txt.width - 1;
+	////////////////////////
 
-	if (tex_x < 0) tex_x = 0;
-	if (tex_x >= pdata->texture.width) tex_x = pdata->texture.width - 1;
-
-	double step = (double)pdata->texture.height / lineHeight;
-	double texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-
-	for (int y = drawStart; y <= drawEnd; y++)
+	double step;
+	double texPos;
+	int	y;
+	int	color;
+	
+	step = (double)pdata->txt.height / lineHeight;
+	texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
+	y = drawStart - 1;
+	while (++y <= drawEnd)
 	{
-		int tex_y = (int)texPos;
+		tex_y = (int)texPos;
 		texPos += step;
-		if (tex_y < 0) tex_y = 0;
-		if (tex_y >= pdata->texture.height) tex_y = pdata->texture.height - 1;
-
-		int color = ft_pixget(pdata->texture, tex_x, tex_y);
+		if (tex_y < 0)
+			tex_y = 0;
+		if (tex_y >= pdata->txt.height)
+			tex_y = pdata->txt.height - 1;
+		color = ft_pixget(pdata->txt, tex_x, tex_y);
 		ft_pixput(pdata, x, y, color);
 	}
 }
@@ -103,7 +113,7 @@ static void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
 // L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
 //Bien separer les fichiers de la partie _bonus
 
-//Dans la partie oblig : Vous devez afficher des textures différentes (vous avez le choix) selon si les murs
+//Dans la partie oblig : Vous devez afficher des txts différentes (vous avez le choix) selon si les murs
 //sont face nord, sud, est, ouest.
 
 
@@ -208,7 +218,7 @@ void	ft_show(t_mlx_data *pdata)
 		}
 
 		//Lancement de DDA
-		while (hit == 0)
+		while (!hit)
 		{
 			if (sideDistX < sideDistY)
 			{
@@ -246,7 +256,7 @@ void	ft_show(t_mlx_data *pdata)
 			drawStart = 0;
     	if(drawEnd >= HEIGHT)
 	  		drawEnd = HEIGHT - 1;
-		ft_draw(pdata, x, perpWallDist, side, pdata->posX, pdata->posY, rayDirX, rayDirY);
+		ft_draw(pdata, x, perpWallDist, side, rayDirX, rayDirY);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	
