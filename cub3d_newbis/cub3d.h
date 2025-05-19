@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/15 16:42:27 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:36:49 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@
 #define MAPWIDTH	24//600 / 25 = 24
 #define MAPHEIGHT	24
 
+
+typedef struct s_texture_utils
+{
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	double wallX;
+	int tex_x;
+	int	tex_y;
+	
+}	t_texture_utils;
+
 typedef struct s_texture
 {
 	void		*data;
@@ -40,13 +52,9 @@ typedef struct s_texture
 	int			endian;
 	int			width;
 	int			height;
+	t_texture_utils		utils;
 	
 }	t_texture;
-
-typedef struct s_trigo
-{
-	
-}	t_trigo;
 
 typedef struct s_mlx_data
 {
@@ -76,6 +84,7 @@ typedef struct s_mlx_data
 	double moveSpeed;
 	double rotSpeed;
 	
+	// t_texture_utils		utils;
 	t_texture	txt;
 	
 	
@@ -91,7 +100,12 @@ void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str);
 //ft_keyhook.c
 int		ft_keyhook(int keysym, t_mlx_data *pdata);
 
+//display_utils.c
+void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
+              		double rayDirX, double rayDirY);
+
 //ft_show.c
+void	ft_draw_floorceil(t_mlx_data *pdata);
 void	ft_show(t_mlx_data *pdata);
 
 

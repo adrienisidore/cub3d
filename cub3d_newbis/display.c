@@ -1,141 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   ft_show.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/15 16:48:35 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:34:54 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//Place un pixel à la couleur voulue dans une image
-static void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
-{
-	int	disp;
 
-	disp = (pdata->len * y) + ((pdata->bpp / 8) * x);
-	*((unsigned int *)(disp + pdata->img_pixptr)) = color;
-}
-
-//transformer pixget en qqchose qui ressemble + a pixput
-static int		ft_pixget(t_texture txt, int x, int y)
-{
-		unsigned char	color_b;
-		unsigned char	color_g;
-		unsigned char	color_r;
-		int				rgb;
-
-		color_b = txt.addr[y * txt.size_line + x * (txt.bpp / 8)];
-		color_g = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 1];
-		color_r = txt.addr[y * txt.size_line + x * (txt.bpp / 8) + 2];
-		rgb = color_r;
-		rgb = (rgb << 8) + color_g;
-		rgb = (rgb << 8) + color_b;
-		return (rgb);
-}
-
-static void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
-              		double rayDirX, double rayDirY)
-{
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-	double wallX;
-	int tex_x;
-	int	tex_y;
-	
-	lineHeight = (int)(HEIGHT / perpWallDist);
-	if (lineHeight <= 0)
-		lineHeight = 1;
-	drawStart = -lineHeight / 2 + HEIGHT / 2;
-	if (drawStart < 0)
-		drawStart = 0;
-	drawEnd = lineHeight / 2 + HEIGHT / 2;
-	if (drawEnd >= HEIGHT)
-		drawEnd = HEIGHT - 1;
-	if (side == 0)
-		wallX = pdata->posY + perpWallDist * rayDirY;
-	else
-		wallX = pdata->posX + perpWallDist * rayDirX;
-	wallX -= floor(wallX);
-	
-	//ft_init_tex_x
-	tex_x = (int)(wallX * (double)pdata->txt.width);
-	if (side == 0 && rayDirX > 0)
-		tex_x = pdata->txt.width - tex_x - 1;
-	if (side == 1 && rayDirY < 0)
-		tex_x = pdata->txt.width - tex_x - 1;
-	if (tex_x < 0)
-		tex_x = 0;
-	if (tex_x >= pdata->txt.width)
-		tex_x = pdata->txt.width - 1;
-	////////////////////////
-
-	double step;
-	double texPos;
-	int	y;
-	int	color;
-	
-	step = (double)pdata->txt.height / lineHeight;
-	texPos = (drawStart - HEIGHT / 2 + lineHeight / 2) * step;
-	y = drawStart - 1;
-	while (++y <= drawEnd)
-	{
-		tex_y = (int)texPos;
-		texPos += step;
-		if (tex_y < 0)
-			tex_y = 0;
-		if (tex_y >= pdata->txt.height)
-			tex_y = pdata->txt.height - 1;
-		color = ft_pixget(pdata->txt, tex_x, tex_y);
-		ft_pixput(pdata, x, y, color);
-	}
-}
-
-
-// static int darken_color(int color)
-// {
-// 	int r = (color >> 16) & 0xFF;
-// 	int g = (color >> 8) & 0xFF;
-// 	int b = color & 0xFF;
-
-// 	r = r / 2;
-// 	g = g / 2;
-// 	b = b / 2;
-
-// 	return (r << 16) | (g << 8) | b;
-// }
-
-// L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
-//Bien separer les fichiers de la partie _bonus
-
-//Dans la partie oblig : Vous devez afficher des txts différentes (vous avez le choix) selon si les murs
-//sont face nord, sud, est, ouest.
-
-
-static void	ft_draw_floorceil(t_mlx_data *pdata)
-{
-	// Dessine plafond (gris clair) et sol (gris foncé)
-	int yy = 0;
-	while (yy < HEIGHT / 2)
-	{
-		int x_fill = 0;
-		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0xAAAAAA); // plafond
-		yy++;
-	}
-	while (yy < HEIGHT)
-	{
-		int x_fill = 0;
-		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0x333333); // sol
-		yy++;
-	}
-}
 
 //Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
 void	ft_show(t_mlx_data *pdata)
@@ -168,8 +45,6 @@ void	ft_show(t_mlx_data *pdata)
 	int		drawEnd;//le pixel en bas de la ligne du mur
 
 	ft_draw_floorceil(pdata);
-
-
 
 	x = -1;
 	//color = 0xFF0000;

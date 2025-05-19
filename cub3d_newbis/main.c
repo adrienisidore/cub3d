@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/15 16:43:37 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:02:38 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,21 @@
 // associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
 // compiler la librairie à l’aide de son Makefile, puis compiler le projet.
 
+//Useful si je veux utiliser les dummies de_wnd etc en cas de prb ou en fin de code.
+//En effet en mettant des 0's partout on peut faire des if (!pdata->img_ptr)...
+// void	ft_bzero(void *s, size_t n)
+// {
+// 	size_t	i;
+// 	unsigned char *ptr;
+
+// 	ptr = (unsigned char *)s;
+// 	i = 0;
+// 	while (i < n)
+// 		ptr[i++] = 0;
+// }
 void	ft_init(t_mlx_data *pdata)
 {
+	// ft_bzero(pdata, sizeof(t_mlx_data));
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
 		exit (1);
@@ -32,10 +45,20 @@ void	ft_init(t_mlx_data *pdata)
 	//Acceder aux pixels d'une img. Utile I guess
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
+		
 	pdata->txt.data = mlx_xpm_file_to_image(pdata->connect,
 		"./textures/wall_1.xpm",&pdata->txt.width, &pdata->txt.height);
+	if (!pdata->txt.data)
+	{
+		mlx_destroy_image(pdata->connect, pdata->txt.data);
+		ft_stop(pdata, 1, 1, NULL);
+	}
 	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data,
 		&pdata->txt.bpp, &pdata->txt.size_line, &pdata->txt.endian);
+
+
+
+		
 	pdata->posX = 12;
 	pdata->posY = 10;
 	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]

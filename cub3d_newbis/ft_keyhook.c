@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/14 17:44:47 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:06:36 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
 	if (keysym == XK_Escape)
 	{
+		mlx_destroy_image(pdata->connect, pdata->txt.data);
 		mlx_destroy_image(pdata->connect, pdata->img_ptr);
 		ft_stop(pdata, 1, 1, NULL);
 	}
