@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_draw.c                                          :+:      :+:    :+:   */
+/*   display_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/19 16:35:01 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:04:21 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,60 +79,53 @@ static void	ft_initdraw(t_mlx_data *pdata, double perpWallDist, int side, double
 	pdata->txt.utils.drawEnd = pdata->txt.utils.lineHeight / 2 + HEIGHT / 2;
 	if (pdata->txt.utils.drawEnd >= HEIGHT)
 		pdata->txt.utils.drawEnd = HEIGHT - 1;
-	if (side == 0)
+	if (!side)
 		pdata->txt.utils.wallX = pdata->posY + perpWallDist * rayDirY;
 	else
 		pdata->txt.utils.wallX = pdata->posX + perpWallDist * rayDirX;
 	pdata->txt.utils.wallX -= floor(pdata->txt.utils.wallX);
 	pdata->txt.utils.tex_x = (int)(pdata->txt.utils.wallX * (double)pdata->txt.width);
-	if (side == 0 && rayDirX > 0)
+	if (!side && rayDirX > 0)
 		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
-	if (side == 1 && rayDirY < 0)
+	if (side && rayDirY < 0)
 		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
 	if (pdata->txt.utils.tex_x < 0)
 		pdata->txt.utils.tex_x = 0;
 	if (pdata->txt.utils.tex_x >= pdata->txt.width)
 		pdata->txt.utils.tex_x = pdata->txt.width - 1;
+	pdata->txt.utils.step = (double)pdata->txt.height / pdata->txt.utils.lineHeight;
+	pdata->txt.utils.texPos = (pdata->txt.utils.drawStart - HEIGHT / 2 + pdata->txt.utils.lineHeight / 2) * pdata->txt.utils.step;
 }
 
 void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
               		double rayDirX, double rayDirY)
 {
-	double step;
-	double texPos;
 	int	y;
+	double	shade;
 	int	color;
 	
 	ft_initdraw(pdata, perpWallDist, side, rayDirX, rayDirY);
-	step = (double)pdata->txt.height / pdata->txt.utils.lineHeight;
-	texPos = (pdata->txt.utils.drawStart - HEIGHT / 2 + pdata->txt.utils.lineHeight / 2) * step;
 	y = pdata->txt.utils.drawStart - 1;
 	while (++y <= pdata->txt.utils.drawEnd)
 	{
-		pdata->txt.utils.tex_y = (int)texPos;
-		texPos += step;
+		pdata->txt.utils.tex_y = (int)pdata->txt.utils.texPos;
+		pdata->txt.utils.texPos += pdata->txt.utils.step;
 		if (pdata->txt.utils.tex_y < 0)
 			pdata->txt.utils.tex_y = 0;
 		if (pdata->txt.utils.tex_y >= pdata->txt.height)
 			pdata->txt.utils.tex_y = pdata->txt.height - 1;
 		color = ft_pixget(pdata->txt, pdata->txt.utils.tex_x, pdata->txt.utils.tex_y);
+		if (side)
+			shade = 0.5;
+		else
+			shade = 1;
+		unsigned char r = ((color >> 16) & 0xFF) * shade;
+		unsigned char g = ((color >> 8) & 0xFF) * shade;
+		unsigned char b = (color & 0xFF) * shade;
+		color = (r << 16) | (g << 8) | b;
 		ft_pixput(pdata, x, y, color);
 	}
 }
-
-
-// static int darken_color(int color)
-// {
-// 	int r = (color >> 16) & 0xFF;
-// 	int g = (color >> 8) & 0xFF;
-// 	int b = color & 0xFF;
-
-// 	r = r / 2;
-// 	g = g / 2;
-// 	b = b / 2;
-
-// 	return (r << 16) | (g << 8) | b;
-// }
 
 // L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
 //Bien separer les fichiers de la partie _bonus

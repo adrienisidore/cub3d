@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/19 16:36:49 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:00:20 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ typedef struct s_texture_utils
 	double wallX;
 	int tex_x;
 	int	tex_y;
+	
+	
+	double step;
+	double texPos;
 	
 }	t_texture_utils;
 
@@ -79,8 +83,13 @@ typedef struct s_mlx_data
 	// double time = 0; //time of current frame
 	// double oldTime = 0; //time of previous frame
 
-	
 
+
+
+
+
+
+	
 	double moveSpeed;
 	double rotSpeed;
 	
