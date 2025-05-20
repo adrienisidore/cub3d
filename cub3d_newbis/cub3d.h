@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/19 17:00:20 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:06:22 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,30 @@ typedef struct s_texture
 	t_texture_utils		utils;
 	
 }	t_texture;
+
+typedef struct s_dda
+{
+	double	cameraX;//normaliser chaque pixel en coord. [-1;1]
+	double	rayDirX;//coord. X du regard du joueur
+	double	rayDirY;//coord. Y du regard du joueur
+	
+	int		mapX;//coord. X de la case du joueur
+	int		mapY;//coord. Y de la case du joueur
+	//Pour demarrer DDA on devra savoir quel cote de la case du joeur le rayon touche en premier
+	double	sideDistX;//distance jusqu'a la prochaine bordure vertical
+	double	sideDistY;//distance jusqu'a la prochaine bordure horizontale
+	double	deltaDistX;//distance (statique) a parcourir pour toucher la prochaine bordure verticale
+	double	deltaDistY;//distance (statique) a parcourir pour toucher la prochaine bordure horizontale
+
+	//DDA
+	int		stepX;//Si +1 on passe a la bordure verticale suivante a droit (resp a gauche pour -1)
+	int		stepY;//Si +1 on passe a la bordure horizontale suivante en bas  (resp en haut pour -1)
+	int		hit;// ==1 j'ai touche un mur
+	int		side;//==0 j'ai touche une bordure horizontale (resp ==1 verticale)
+	double	perpWallDist;//distance (projetee/perpendiculaire a l'ecran) entre le joueur et le mur,
+	//pour eviter que les murs semblent incurves : perpWallDist = Euclidean / |rayDir|
+
+}	t_dda;
 
 typedef struct s_mlx_data
 {

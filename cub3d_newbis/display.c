@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/19 16:53:05 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:04:44 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	ft_show(t_mlx_data *pdata)
 	//pour eviter que les murs semblent incurves : perpWallDist = Euclidean / |rayDir|
 
 	//Image
-	int		lineHeight;//hauteur du mur
-	int		drawStart;//le pixel en haut de la ligne du mur
-	int		drawEnd;//le pixel en bas de la ligne du mur
+	// int		lineHeight;//hauteur du mur
+	// int		drawStart;//le pixel en haut de la ligne du mur
+	// int		drawEnd;//le pixel en bas de la ligne du mur
 
 	ft_draw_floorceil(pdata);
 
@@ -122,13 +122,13 @@ void	ft_show(t_mlx_data *pdata)
 			perpWallDist = (sideDistX - deltaDistX);
 		else
 			perpWallDist = (sideDistY - deltaDistY);
-		lineHeight = (int)(HEIGHT / perpWallDist);
-		drawStart = -lineHeight / 2 + HEIGHT / 2;
-		drawEnd = lineHeight / 2 + HEIGHT / 2;
-		if(drawStart < 0)
-			drawStart = 0;
-    	if(drawEnd >= HEIGHT)
-	  		drawEnd = HEIGHT - 1;
+		// lineHeight = (int)(HEIGHT / perpWallDist);
+		// drawStart = -lineHeight / 2 + HEIGHT / 2;
+		// drawEnd = lineHeight / 2 + HEIGHT / 2;
+		// if(drawStart < 0)
+		// 	drawStart = 0;
+    	// if(drawEnd >= HEIGHT)
+	  	// 	drawEnd = HEIGHT - 1;
 		ft_draw(pdata, x, perpWallDist, side, rayDirX, rayDirY);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
