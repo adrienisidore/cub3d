@@ -137,7 +137,7 @@ int	mouse_move_hook(int x, int y, t_mlx_data *pdata)
 	pdata->planeX = pdata->planeX * cos(-rotSpeed) - pdata->planeY * sin(-rotSpeed);
 	pdata->planeY = oldPlaneX * sin(-rotSpeed) + pdata->planeY * cos(-rotSpeed);
 
-	ft_show(pdata); // Rafraîchir l'affichage
+	ft_display(pdata); // Rafraîchir l'affichage
 
 	return (0);
 }
@@ -152,7 +152,7 @@ int	main(int ac, char **av)
 
 	
 	ft_init(&data);
-	ft_show(&data);
+	ft_display(&data);
 	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data);
 	//mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
 	mlx_key_hook(data.win_ptr, ft_keyhook, &data);

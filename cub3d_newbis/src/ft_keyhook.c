@@ -120,6 +120,6 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 		ft_latmove(keysym, pdata);
 	if (keysym == XK_Right || keysym == XK_Left)
 		ft_turnview(keysym, pdata);
-	ft_show(pdata);
+	ft_display(pdata);
 	return (0);
 }

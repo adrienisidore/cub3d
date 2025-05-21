@@ -141,7 +141,7 @@ void	ft_floorceil(t_mlx_data *pdata);
 void ft_texture(t_mlx_data *pdata, int x);
 
 //display.c
-void	ft_show(t_mlx_data *pdata);
+void	ft_display(t_mlx_data *pdata);
 
 
 #endif

@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-C_SRCS = main.c ft_keyhook.c ft_stop.c display.c texture_utils.c texture.c map.c
+C_SRCS = src/main.c src/ft_keyhook.c src/ft_stop.c src/display.c src/texture_utils.c src/texture.c src/map.c
 
 SRCS =  $(C_SRCS)
 
@@ -23,13 +23,13 @@ PTH = /home/aisidore/Downloads/minilibx-linux/
 NAME = cub3d
 BONUS_NAME = cub3d_bonus
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -I.
 MFLAGS = -lm -lmlx -lX11 -lXext -O3
 
 all: $(NAME)
 $(NAME): $(OBJS)
 	cc $(FLAGS) $(OBJS) -L$(PTH) $(MFLAGS) -o $(NAME)
-objets/%.o: %.c
+objets/%.o: src/%.c
 	mkdir -p objets
 	cc $(FLAGS) -c $< -o $@
 bonus : $(BONUS_NAME)

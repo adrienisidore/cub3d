@@ -12,59 +12,67 @@
 
 #include "cub3d.h"
 
+void	ft_init_ray_delta(t_mlx_data *pdata)
+{
+	//La coord. x du rayon est une fraction de pdata->planeX (voir schema). Idem pour y.
+	pdata->dda.rayDirX = pdata->dirX + pdata->planeX * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
+	pdata->dda.rayDirY = pdata->dirY + pdata->planeY * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX=Y = 0 donc rayDirY = pdata->dirY
+
+	//je crois que dda.rayDirX et pdata->dirX sont redondants
+	if (!pdata->dda.rayDirX)
+		pdata->dda.deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
+	else
+		pdata->dda.deltaDistX = fabs(1 / pdata->dda.rayDirX);
+	if (!pdata->dda.rayDirY)
+		pdata->dda.deltaDistY = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure horizontale
+	else
+		pdata->dda.deltaDistY = fabs(1 / pdata->dda.rayDirY);
+}
+
+void	ft_init_step_side(t_mlx_data *pdata)
+{
+	//Initialisation pour connaitre le premier pas a effectuer
+
+	//Si les coord. du joueur sont [22.4, 18.9] alors il est dans la case [22, 18]
+	pdata->dda.mapX = (int)pdata->posX;
+	pdata->dda.mapY = (int)pdata->posY;
+	if (pdata->dda.rayDirX < 0)
+	{
+		pdata->dda.stepX = -1;
+		pdata->dda.sideDistX = (pdata->posX - pdata->dda.mapX) * pdata->dda.deltaDistX;
+	}
+	else
+	{
+		pdata->dda.stepX = 1;
+		pdata->dda.sideDistX = (pdata->dda.mapX + 1.0 - pdata->posX) * pdata->dda.deltaDistX;
+	}
+	if (pdata->dda.rayDirY < 0)
+	{
+		pdata->dda.stepY = -1;
+		pdata->dda.sideDistY = (pdata->posY - pdata->dda.mapY) * pdata->dda.deltaDistY;
+	}
+	else
+	{
+		pdata->dda.stepY = 1;
+		pdata->dda.sideDistY = (pdata->dda.mapY + 1.0 - pdata->posY) * pdata->dda.deltaDistY;
+	}
+	
+}
+
 //Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
-void	ft_show(t_mlx_data *pdata)
+void	ft_display(t_mlx_data *pdata)
 {
 	int		x;
 
 	ft_floorceil(pdata);
-
 	x = -1;
 	while (++x < WIDTH)
 	{
 		//On parcourt toute la surface de l'image (chaque ligne verticale)
 		pdata->dda.cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
-		//La coord. x du rayon est une fraction de pdata->planeX (voir schema). Idem pour y.
-		pdata->dda.rayDirX = pdata->dirX + pdata->planeX * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
-		pdata->dda.rayDirY = pdata->dirY + pdata->planeY * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX=Y = 0 donc rayDirY = pdata->dirY
-		//Si les coord. du joueur sont [22.4, 18.9] alors il est dans la case [22, 18]
-		pdata->dda.mapX = (int)pdata->posX;
-		pdata->dda.mapY = (int)pdata->posY;
-
-		//je crois que dda.rayDirX et pdata->dirX sont redondants
-		if (!pdata->dda.rayDirX)
-			pdata->dda.deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
-		else
-			pdata->dda.deltaDistX = fabs(1 / pdata->dda.rayDirX);
-		if (!pdata->dda.rayDirY)
-			pdata->dda.deltaDistY = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure horizontale
-		else
-			pdata->dda.deltaDistY = fabs(1 / pdata->dda.rayDirY);
-
+		ft_init_ray_delta(pdata);
+		ft_init_step_side(pdata);
 		pdata->dda.hit = 0;
-
-		//Initialisation pour connaitre le premier pas a effectuer
-		if (pdata->dda.rayDirX < 0)
-		{
-			pdata->dda.stepX = -1;
-			pdata->dda.sideDistX = (pdata->posX - pdata->dda.mapX) * pdata->dda.deltaDistX;
-		}
-		else
-		{
-			pdata->dda.stepX = 1;
-			pdata->dda.sideDistX = (pdata->dda.mapX + 1.0 - pdata->posX) * pdata->dda.deltaDistX;
-		}
-		if (pdata->dda.rayDirY < 0)
-		{
-			pdata->dda.stepY = -1;
-			pdata->dda.sideDistY = (pdata->posY - pdata->dda.mapY) * pdata->dda.deltaDistY;
-		}
-		else
-		{
-			pdata->dda.stepY = 1;
-			pdata->dda.sideDistY = (pdata->dda.mapY + 1.0 - pdata->posY) * pdata->dda.deltaDistY;
-		}
-
 		//Lancement de DDA
 		while (!pdata->dda.hit)
 		{
