@@ -34,9 +34,9 @@
 
 typedef struct s_texture_utils
 {
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
+	int lineHeight;//hauteur du mur
+	int drawStart;//le pixel en haut de la ligne du mur
+	int drawEnd;//le pixel en bas de la ligne du mur
 	double wallX;
 	int tex_x;
 	int	tex_y;
@@ -136,10 +136,10 @@ int		ft_keyhook(int keysym, t_mlx_data *pdata);
 int	ft_rgb(int color, double shade);
 
 //texture.c
-void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
-              		double rayDirX, double rayDirY);
+void	ft_floorceil(t_mlx_data *pdata);
+void ft_texture(t_mlx_data *pdata, int x);
 
-//dda.c
+//display.c
 void	ft_show(t_mlx_data *pdata);
 
 

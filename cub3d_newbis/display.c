@@ -17,15 +17,9 @@ void	ft_show(t_mlx_data *pdata)
 {
 	int		x;
 
-	//Image
-	// int		lineHeight;//hauteur du mur
-	// int		drawStart;//le pixel en haut de la ligne du mur
-	// int		drawEnd;//le pixel en bas de la ligne du mur
-
-	ft_draw_floorceil(pdata);
+	ft_floorceil(pdata);
 
 	x = -1;
-	//color = 0xFF0000;
 	while (++x < WIDTH)
 	{
 		//On parcourt toute la surface de l'image (chaque ligne verticale)
@@ -37,6 +31,7 @@ void	ft_show(t_mlx_data *pdata)
 		pdata->dda.mapX = (int)pdata->posX;
 		pdata->dda.mapY = (int)pdata->posY;
 
+		//je crois que dda.rayDirX et pdata->dirX sont redondants
 		if (!pdata->dda.rayDirX)
 			pdata->dda.deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
 		else
@@ -102,14 +97,8 @@ void	ft_show(t_mlx_data *pdata)
 			pdata->dda.perpWallDist = pdata->dda.sideDistX - pdata->dda.deltaDistX;
 		else
 			pdata->dda.perpWallDist = pdata->dda.sideDistY - pdata->dda.deltaDistY;
-		// lineHeight = (int)(HEIGHT / perpWallDist);
-		// drawStart = -lineHeight / 2 + HEIGHT / 2;
-		// drawEnd = lineHeight / 2 + HEIGHT / 2;
-		// if(drawStart < 0)
-		// 	drawStart = 0;
-    	// if(drawEnd >= HEIGHT)
-	  	// 	drawEnd = HEIGHT - 1;
-		ft_draw(pdata, x, pdata->dda.perpWallDist, pdata->dda.side, pdata->dda.rayDirX, pdata->dda.rayDirY);
+
+		ft_texture(pdata, x);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	

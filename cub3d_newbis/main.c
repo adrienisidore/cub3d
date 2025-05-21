@@ -29,21 +29,38 @@ static int	ft_close(t_mlx_data *pdata)
 	exit(0);
 }
 
+static void	ft_initplayer(t_mlx_data *pdata)
+{
+	pdata->posX = 12;
+	pdata->posY = 10;
+	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
+	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
+	pdata->planeX = 0;//permet une ligne perpendiculaire
+	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
+	pdata->moveSpeed = 0.2;
+	pdata->rotSpeed = 0.1;
+}
+
+//Present dans la libft : OUI
 //Useful si je veux utiliser les dummies de_wnd etc en cas de prb ou en fin de code.
 //En effet en mettant des 0's partout on peut faire des if (!pdata->img_ptr)...
-// void	ft_bzero(void *s, size_t n)
-// {
-// 	size_t	i;
-// 	unsigned char *ptr;
+static void	ft_bzero(void *pointer, size_t times)
+{
+	unsigned char	*buffer;
+	unsigned int	i;
 
-// 	ptr = (unsigned char *)s;
-// 	i = 0;
-// 	while (i < n)
-// 		ptr[i++] = 0;
-// }
+	i = 0;
+	buffer = (unsigned char *)pointer;
+	while (times--)
+	{
+		buffer[i] = 0;
+		i++;
+	}
+}
+
 static void	ft_init(t_mlx_data *pdata)
 {
-	// ft_bzero(pdata, sizeof(t_mlx_data));
+	ft_bzero(pdata, sizeof(t_mlx_data));
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
 		exit (1);
@@ -66,18 +83,7 @@ static void	ft_init(t_mlx_data *pdata)
 	}
 	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data,
 		&pdata->txt.bpp, &pdata->txt.size_line, &pdata->txt.endian);
-
-
-
-		
-	pdata->posX = 12;
-	pdata->posY = 10;
-	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
-	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
-	pdata->planeX = 0;//permet une ligne perpendiculaire
-	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
-	pdata->moveSpeed = 0.2;
-	pdata->rotSpeed = 0.1;
+	ft_initplayer(pdata);
 }
 
 //Pour le bonus

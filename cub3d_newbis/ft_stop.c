@@ -23,16 +23,8 @@ static void	ft_putstr_fd(char *str, int fd)
 		write(fd, &str[i++], 1);
 }
 
-static void	ft_exit(char *str)
-{
-	if (str)
-	{
-		ft_putstr_fd(str, STDERR_FILENO);
-		exit(1);	
-	}
-	exit(0);
-}
-
+//avec ft_bzero je vais pouvoir supprimer ft_close(t_mlx_data *pdata) car le prototypage
+//correspondra à celui voulu par l'API mlx_hook
 void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str)
 {
 	if (des_wnd == 1)
@@ -40,5 +32,10 @@ void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str)
 	if (des_disp == 1)
 		mlx_destroy_display(pdata->connect);
 	free(pdata->connect);
-	ft_exit(str);
+	if (str)
+	{
+		ft_putstr_fd(str, STDERR_FILENO);
+		exit(1);	
+	}
+	exit(0);
 }

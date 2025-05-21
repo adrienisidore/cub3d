@@ -48,7 +48,7 @@ static int	ft_pixget(t_texture txt, int x, int y)
 // 		return (rgb);
 // }
 
-void	ft_draw_floorceil(t_mlx_data *pdata)
+void	ft_floorceil(t_mlx_data *pdata)
 {
 	// Dessine plafond (gris clair) et sol (gris foncé)
 	int yy = 0;
@@ -68,9 +68,9 @@ void	ft_draw_floorceil(t_mlx_data *pdata)
 	}
 }
 
-static void	ft_initdraw(t_mlx_data *pdata, double perpWallDist, int side, double rayDirX, double rayDirY)
+static void	ft_initex(t_mlx_data *pdata)
 {
-	pdata->txt.utils.lineHeight = (int)(HEIGHT / perpWallDist);
+	pdata->txt.utils.lineHeight = (int)(HEIGHT / pdata->dda.perpWallDist);
 	if (pdata->txt.utils.lineHeight <= 0)
 		pdata->txt.utils.lineHeight = 1;
 	pdata->txt.utils.drawStart = -pdata->txt.utils.lineHeight / 2 + HEIGHT / 2;
@@ -79,15 +79,15 @@ static void	ft_initdraw(t_mlx_data *pdata, double perpWallDist, int side, double
 	pdata->txt.utils.drawEnd = pdata->txt.utils.lineHeight / 2 + HEIGHT / 2;
 	if (pdata->txt.utils.drawEnd >= HEIGHT)
 		pdata->txt.utils.drawEnd = HEIGHT - 1;
-	if (!side)
-		pdata->txt.utils.wallX = pdata->posY + perpWallDist * rayDirY;
+	if (!pdata->dda.side)
+		pdata->txt.utils.wallX = pdata->posY + pdata->dda.perpWallDist * pdata->dda.rayDirY;
 	else
-		pdata->txt.utils.wallX = pdata->posX + perpWallDist * rayDirX;
+		pdata->txt.utils.wallX = pdata->posX + pdata->dda.perpWallDist * pdata->dda.rayDirX;
 	pdata->txt.utils.wallX -= floor(pdata->txt.utils.wallX);
 	pdata->txt.utils.tex_x = (int)(pdata->txt.utils.wallX * (double)pdata->txt.width);
-	if (!side && rayDirX > 0)
+	if (!pdata->dda.side && pdata->dda.rayDirX > 0)
 		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
-	if (side && rayDirY < 0)
+	if (pdata->dda.side && pdata->dda.rayDirY < 0)
 		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
 	if (pdata->txt.utils.tex_x < 0)
 		pdata->txt.utils.tex_x = 0;
@@ -97,14 +97,13 @@ static void	ft_initdraw(t_mlx_data *pdata, double perpWallDist, int side, double
 	pdata->txt.utils.texPos = (pdata->txt.utils.drawStart - HEIGHT / 2 + pdata->txt.utils.lineHeight / 2) * pdata->txt.utils.step;
 }
 
-void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
-              		double rayDirX, double rayDirY)
+void ft_texture(t_mlx_data *pdata, int x)
 {
 	int	y;
 	double	shade;
 	int	color;
 	
-	ft_initdraw(pdata, perpWallDist, side, rayDirX, rayDirY);
+	ft_initex(pdata);
 	y = pdata->txt.utils.drawStart - 1;
 	while (++y <= pdata->txt.utils.drawEnd)
 	{
@@ -115,7 +114,7 @@ void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
 		if (pdata->txt.utils.tex_y >= pdata->txt.height)
 			pdata->txt.utils.tex_y = pdata->txt.height - 1;
 		color = ft_pixget(pdata->txt, pdata->txt.utils.tex_x, pdata->txt.utils.tex_y);
-		if (side)
+		if (pdata->dda.side)
 			shade = 0.5;
 		else
 			shade = 1;
