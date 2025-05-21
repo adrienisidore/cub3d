@@ -16,26 +16,6 @@
 void	ft_show(t_mlx_data *pdata)
 {
 	int		x;
-	
-	double	cameraX;//normaliser chaque pixel en coord. [-1;1]
-	double	rayDirX;//coord. X du regard du joueur
-	double	rayDirY;//coord. Y du regard du joueur
-	
-	int		mapX;//coord. X de la case du joueur
-	int		mapY;//coord. Y de la case du joueur
-	//Pour demarrer DDA on devra savoir quel cote de la case du joeur le rayon touche en premier
-	double	sideDistX;//distance jusqu'a la prochaine bordure vertical
-	double	sideDistY;//distance jusqu'a la prochaine bordure horizontale
-	double	deltaDistX;//distance (statique) a parcourir pour toucher la prochaine bordure verticale
-	double	deltaDistY;//distance (statique) a parcourir pour toucher la prochaine bordure horizontale
-
-	//DDA
-	int		stepX;//Si +1 on passe a la bordure verticale suivante a droit (resp a gauche pour -1)
-	int		stepY;//Si +1 on passe a la bordure horizontale suivante en bas  (resp en haut pour -1)
-	int		hit;// ==1 j'ai touche un mur
-	int		side;//==0 j'ai touche une bordure horizontale (resp ==1 verticale)
-	double	perpWallDist;//distance (projetee/perpendiculaire a l'ecran) entre le joueur et le mur,
-	//pour eviter que les murs semblent incurves : perpWallDist = Euclidean / |rayDir|
 
 	//Image
 	// int		lineHeight;//hauteur du mur
@@ -49,68 +29,68 @@ void	ft_show(t_mlx_data *pdata)
 	while (++x < WIDTH)
 	{
 		//On parcourt toute la surface de l'image (chaque ligne verticale)
-		cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
+		pdata->dda.cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
 		//La coord. x du rayon est une fraction de pdata->planeX (voir schema). Idem pour y.
-		rayDirX = pdata->dirX + pdata->planeX * cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
-		rayDirY = pdata->dirY + pdata->planeY * cameraX;//Si je regarde au centre pdata->planeX=Y = 0 donc rayDirY = pdata->dirY
+		pdata->dda.rayDirX = pdata->dirX + pdata->planeX * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
+		pdata->dda.rayDirY = pdata->dirY + pdata->planeY * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX=Y = 0 donc rayDirY = pdata->dirY
 		//Si les coord. du joueur sont [22.4, 18.9] alors il est dans la case [22, 18]
-		mapX = (int)pdata->posX;
-		mapY = (int)pdata->posY;
+		pdata->dda.mapX = (int)pdata->posX;
+		pdata->dda.mapY = (int)pdata->posY;
 
-		if (rayDirX == 0)
-			deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
+		if (!pdata->dda.rayDirX)
+			pdata->dda.deltaDistX = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure verticale
 		else
-			deltaDistX = fabs(1 / rayDirX);
-		if (rayDirY == 0)
-			deltaDistY = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure horizontale
+			pdata->dda.deltaDistX = fabs(1 / pdata->dda.rayDirX);
+		if (!pdata->dda.rayDirY)
+			pdata->dda.deltaDistY = 1e30;//Si le joueur ne regarde ni a gauche ni a droite il ne touchera jamais de bordure horizontale
 		else
-			deltaDistY = fabs(1 / rayDirY);
+			pdata->dda.deltaDistY = fabs(1 / pdata->dda.rayDirY);
 
-		hit = 0;
+		pdata->dda.hit = 0;
 
 		//Initialisation pour connaitre le premier pas a effectuer
-		if (rayDirX < 0)
+		if (pdata->dda.rayDirX < 0)
 		{
-			stepX = -1;
-			sideDistX = (pdata->posX - mapX) * deltaDistX;
+			pdata->dda.stepX = -1;
+			pdata->dda.sideDistX = (pdata->posX - pdata->dda.mapX) * pdata->dda.deltaDistX;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - pdata->posX) * deltaDistX;
+			pdata->dda.stepX = 1;
+			pdata->dda.sideDistX = (pdata->dda.mapX + 1.0 - pdata->posX) * pdata->dda.deltaDistX;
 		}
-		if (rayDirY < 0)
+		if (pdata->dda.rayDirY < 0)
 		{
-			stepY = -1;
-			sideDistY = (pdata->posY - mapY) * deltaDistY;
+			pdata->dda.stepY = -1;
+			pdata->dda.sideDistY = (pdata->posY - pdata->dda.mapY) * pdata->dda.deltaDistY;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - pdata->posY) * deltaDistY;
+			pdata->dda.stepY = 1;
+			pdata->dda.sideDistY = (pdata->dda.mapY + 1.0 - pdata->posY) * pdata->dda.deltaDistY;
 		}
 
 		//Lancement de DDA
-		while (!hit)
+		while (!pdata->dda.hit)
 		{
-			if (sideDistX < sideDistY)
+			if (pdata->dda.sideDistX < pdata->dda.sideDistY)
 			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
-				side = 0;
+				pdata->dda.sideDistX += pdata->dda.deltaDistX;
+				pdata->dda.mapX += pdata->dda.stepX;
+				pdata->dda.side = 0;
 			}
 			else
 			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
-				side = 1;
+				pdata->dda.sideDistY += pdata->dda.deltaDistY;
+				pdata->dda.mapY += pdata->dda.stepY;
+				pdata->dda.side = 1;
 			}
 			// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
 			//if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
 			//	break;
 			//Check si j'ai touche un mur
-			if (worldMap[mapY][mapX] > 0)
-				hit = 1;
+			if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > 0)
+				pdata->dda.hit = 1;
 		}
 
 		//Maintenant qu'on connait la dstance entre le joueur et la prochaine bordure verticale
@@ -118,10 +98,10 @@ void	ft_show(t_mlx_data *pdata)
 		//je definie la distance perpWallDist comme la plus petite des 2, en prenant en compte le fait que
 		//sideDistX contient la distance jusqu'à l’intérieur du mur, or nous voulons la distance jusqu’à
 		//la surface du mur, donc on enlève un delta
-		if(side == 0)
-			perpWallDist = (sideDistX - deltaDistX);
+		if(!pdata->dda.side)
+			pdata->dda.perpWallDist = pdata->dda.sideDistX - pdata->dda.deltaDistX;
 		else
-			perpWallDist = (sideDistY - deltaDistY);
+			pdata->dda.perpWallDist = pdata->dda.sideDistY - pdata->dda.deltaDistY;
 		// lineHeight = (int)(HEIGHT / perpWallDist);
 		// drawStart = -lineHeight / 2 + HEIGHT / 2;
 		// drawEnd = lineHeight / 2 + HEIGHT / 2;
@@ -129,7 +109,7 @@ void	ft_show(t_mlx_data *pdata)
 		// 	drawStart = 0;
     	// if(drawEnd >= HEIGHT)
 	  	// 	drawEnd = HEIGHT - 1;
-		ft_draw(pdata, x, perpWallDist, side, rayDirX, rayDirY);
+		ft_draw(pdata, x, pdata->dda.perpWallDist, pdata->dda.side, pdata->dda.rayDirX, pdata->dda.rayDirY);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 	

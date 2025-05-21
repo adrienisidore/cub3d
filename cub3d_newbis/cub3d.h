@@ -95,6 +95,7 @@ typedef struct s_mlx_data
 	int		endian;
 	int		len;
 
+	//Utile à la fois pour dda et pour l'affichage en lui même (ft_keyhook etc ...)
 	//position joueur
 	double posX;
 	double posY;
@@ -110,35 +111,35 @@ typedef struct s_mlx_data
 
 
 
-
-
-
-	
+	//Pour ft_keyhook
 	double moveSpeed;
 	double rotSpeed;
 	
+	t_dda	dda;
+
 	// t_texture_utils		utils;
 	t_texture	txt;
 	
 	
 }	t_mlx_data;
 
+//A SUPPRIMER
 extern int worldMap[MAPHEIGHT][MAPWIDTH];
-//exit.c
-int		ft_close(t_mlx_data *pdata);
-void	ft_putstr_fd(char *str, int fd);
-void	ft_exit(char *str);
+
+//ft_stop.c
 void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str);
 
 //ft_keyhook.c
 int		ft_keyhook(int keysym, t_mlx_data *pdata);
 
-//display_utils.c
+//texture_utils.c
+int	ft_rgb(int color, double shade);
+
+//texture.c
 void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
               		double rayDirX, double rayDirY);
 
-//ft_show.c
-void	ft_draw_floorceil(t_mlx_data *pdata);
+//dda.c
 void	ft_show(t_mlx_data *pdata);
 
 

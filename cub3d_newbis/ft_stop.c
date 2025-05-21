@@ -11,19 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-//qui est static et qui ne l'est pas ?
 
-//Close destroy l'image de xpm
-int	ft_close(t_mlx_data *pdata)
-{
-	mlx_destroy_image(pdata->connect, pdata->txt.data);
-	mlx_destroy_image(pdata->connect, pdata->img_ptr);
-	mlx_destroy_window(pdata->connect, pdata->win_ptr);
-	mlx_destroy_display(pdata->connect);
-	free(pdata->connect);
-	exit(1);
-}
-void	ft_putstr_fd(char *str, int fd)
+static void	ft_putstr_fd(char *str, int fd)
 {
 	int	i;
 
@@ -34,7 +23,7 @@ void	ft_putstr_fd(char *str, int fd)
 		write(fd, &str[i++], 1);
 }
 
-void	ft_exit(char *str)
+static void	ft_exit(char *str)
 {
 	if (str)
 	{

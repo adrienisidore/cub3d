@@ -108,8 +108,8 @@ void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
 	y = pdata->txt.utils.drawStart - 1;
 	while (++y <= pdata->txt.utils.drawEnd)
 	{
-		pdata->txt.utils.tex_y = (int)pdata->txt.utils.texPos;
 		pdata->txt.utils.texPos += pdata->txt.utils.step;
+		pdata->txt.utils.tex_y = (int)pdata->txt.utils.texPos;
 		if (pdata->txt.utils.tex_y < 0)
 			pdata->txt.utils.tex_y = 0;
 		if (pdata->txt.utils.tex_y >= pdata->txt.height)
@@ -119,11 +119,7 @@ void ft_draw(t_mlx_data *pdata, int x, double perpWallDist, int side,
 			shade = 0.5;
 		else
 			shade = 1;
-		unsigned char r = ((color >> 16) & 0xFF) * shade;
-		unsigned char g = ((color >> 8) & 0xFF) * shade;
-		unsigned char b = (color & 0xFF) * shade;
-		color = (r << 16) | (g << 8) | b;
-		ft_pixput(pdata, x, y, color);
+		ft_pixput(pdata, x, y, ft_rgb(color, shade));
 	}
 }
 

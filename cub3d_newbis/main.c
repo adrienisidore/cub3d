@@ -18,6 +18,17 @@
 // associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
 // compiler la librairie à l’aide de son Makefile, puis compiler le projet.
 
+//Close destroy l'image de xpm
+static int	ft_close(t_mlx_data *pdata)
+{
+	mlx_destroy_image(pdata->connect, pdata->txt.data);
+	mlx_destroy_image(pdata->connect, pdata->img_ptr);
+	mlx_destroy_window(pdata->connect, pdata->win_ptr);
+	mlx_destroy_display(pdata->connect);
+	free(pdata->connect);
+	exit(0);
+}
+
 //Useful si je veux utiliser les dummies de_wnd etc en cas de prb ou en fin de code.
 //En effet en mettant des 0's partout on peut faire des if (!pdata->img_ptr)...
 // void	ft_bzero(void *s, size_t n)
@@ -30,7 +41,7 @@
 // 	while (i < n)
 // 		ptr[i++] = 0;
 // }
-void	ft_init(t_mlx_data *pdata)
+static void	ft_init(t_mlx_data *pdata)
 {
 	// ft_bzero(pdata, sizeof(t_mlx_data));
 	pdata->connect = mlx_init();
@@ -65,11 +76,11 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
 	pdata->planeX = 0;//permet une ligne perpendiculaire
 	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
-
 	pdata->moveSpeed = 0.2;
 	pdata->rotSpeed = 0.1;
 }
 
+//Pour le bonus
 int	mouse_move_hook(int x, int y, t_mlx_data *pdata)
 {
 	static int	last_x = -1;
