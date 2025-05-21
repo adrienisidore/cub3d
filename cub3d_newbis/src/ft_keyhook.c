@@ -109,11 +109,7 @@ static void		ft_turnview(int keysym, t_mlx_data *pdata)
 int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
 	if (keysym == XK_Escape)
-	{
-		//mlx_destroy_image(pdata->connect, pdata->txt.data);
-		//mlx_destroy_image(pdata->connect, pdata->img_ptr);
 		ft_stop(pdata);
-	}
 	if (keysym == XK_w || keysym == XK_s)
 		ft_fbmove(keysym, pdata);
 	if (keysym == XK_a || keysym == XK_d)

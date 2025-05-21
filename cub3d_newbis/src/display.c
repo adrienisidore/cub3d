@@ -32,7 +32,6 @@ static void	ft_init_ray_delta(t_mlx_data *pdata)
 static void	ft_init_step_side(t_mlx_data *pdata)
 {
 	//Initialisation pour connaitre le premier pas a effectuer
-
 	//Si les coord. du joueur sont [22.4, 18.9] alors il est dans la case [22, 18]
 	pdata->dda.mapX = (int)pdata->posX;
 	pdata->dda.mapY = (int)pdata->posY;
@@ -55,8 +54,7 @@ static void	ft_init_step_side(t_mlx_data *pdata)
 	{
 		pdata->dda.stepY = 1;
 		pdata->dda.sideDistY = (pdata->dda.mapY + 1.0 - pdata->posY) * pdata->dda.deltaDistY;
-	}
-	
+	}	
 }
 
 static void	ft_dda(t_mlx_data *pdata)
@@ -78,6 +76,7 @@ static void	ft_dda(t_mlx_data *pdata)
 			pdata->dda.side = 1;
 		}
 		// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
+		//et c'est verifié dans le parsing je crois
 		//if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
 		//	break;
 		//Check si j'ai touche un mur

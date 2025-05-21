@@ -91,7 +91,7 @@ static void	ft_init(t_mlx_data *pdata)
 	pdata->error = 1;
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
-		exit (1);//plutot ft_stop
+		ft_stop(pdata);//exit (1);
 	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Cub3d");
 	if (!pdata->win_ptr)
 		ft_stop(pdata);
