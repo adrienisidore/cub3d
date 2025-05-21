@@ -70,6 +70,9 @@ static void	ft_fbmove(int keysym, t_mlx_data *pdata)
 	}
 	if (keysym == XK_s)
 	{
+		//C'est ça qui evite de traverser la map car si par ex à la prochaine
+		//coord x y'a un mur alors il va juste avancer en y ce qui donne l'impression
+		//qu'il se décale le long du mur
 		if (!worldMap[ft_fill(1, pdata, XK_s)][ft_fill(4, pdata, XK_s)])
 			pdata->posX -= pdata->dirX * pdata->moveSpeed;
 		if (!worldMap[ft_fill(3, pdata, XK_s)][ft_fill(2, pdata, XK_s)])
@@ -107,9 +110,9 @@ int	ft_keyhook(int keysym, t_mlx_data *pdata)
 {
 	if (keysym == XK_Escape)
 	{
-		mlx_destroy_image(pdata->connect, pdata->txt.data);
-		mlx_destroy_image(pdata->connect, pdata->img_ptr);
-		ft_stop(pdata, 1, 1, NULL);
+		//mlx_destroy_image(pdata->connect, pdata->txt.data);
+		//mlx_destroy_image(pdata->connect, pdata->img_ptr);
+		ft_stop(pdata);
 	}
 	if (keysym == XK_w || keysym == XK_s)
 		ft_fbmove(keysym, pdata);

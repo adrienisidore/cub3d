@@ -12,30 +12,3 @@
 
 #include "cub3d.h"
 
-static void	ft_putstr_fd(char *str, int fd)
-{
-	int	i;
-
-	if (!str || str[0] == '\0' || fd < 0)
-		exit(1);
-	i = 0;
-	while (str[i])
-		write(fd, &str[i++], 1);
-}
-
-//avec ft_bzero je vais pouvoir supprimer ft_close(t_mlx_data *pdata) car le prototypage
-//correspondra à celui voulu par l'API mlx_hook
-void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str)
-{
-	if (des_wnd == 1)
-		mlx_destroy_window(pdata->connect, pdata->win_ptr);
-	if (des_disp == 1)
-		mlx_destroy_display(pdata->connect);
-	free(pdata->connect);
-	if (str)
-	{
-		ft_putstr_fd(str, STDERR_FILENO);
-		exit(1);	
-	}
-	exit(0);
-}

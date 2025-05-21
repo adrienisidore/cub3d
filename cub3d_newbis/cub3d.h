@@ -109,7 +109,8 @@ typedef struct s_mlx_data
 	// double oldTime = 0; //time of previous frame
 
 
-
+	int	error;// == 1 alors on affiche un message d'erreur et exit(1).
+	//Si l'initialisation se passe bien on met exit à 0.
 
 	//Pour ft_keyhook
 	double moveSpeed;
@@ -127,7 +128,7 @@ typedef struct s_mlx_data
 extern int worldMap[MAPHEIGHT][MAPWIDTH];
 
 //ft_stop.c
-void	ft_stop(t_mlx_data *pdata, int des_wnd, int des_disp, char *str);
+int	ft_stop(t_mlx_data *pdata);
 
 //ft_keyhook.c
 int		ft_keyhook(int keysym, t_mlx_data *pdata);

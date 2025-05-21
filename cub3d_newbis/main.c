@@ -18,29 +18,6 @@
 // associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
 // compiler la librairie à l’aide de son Makefile, puis compiler le projet.
 
-//Close destroy l'image de xpm
-static int	ft_close(t_mlx_data *pdata)
-{
-	mlx_destroy_image(pdata->connect, pdata->txt.data);
-	mlx_destroy_image(pdata->connect, pdata->img_ptr);
-	mlx_destroy_window(pdata->connect, pdata->win_ptr);
-	mlx_destroy_display(pdata->connect);
-	free(pdata->connect);
-	exit(0);
-}
-
-static void	ft_initplayer(t_mlx_data *pdata)
-{
-	pdata->posX = 12;
-	pdata->posY = 10;
-	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
-	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
-	pdata->planeX = 0;//permet une ligne perpendiculaire
-	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
-	pdata->moveSpeed = 0.2;
-	pdata->rotSpeed = 0.1;
-}
-
 //Present dans la libft : OUI
 //Useful si je veux utiliser les dummies de_wnd etc en cas de prb ou en fin de code.
 //En effet en mettant des 0's partout on peut faire des if (!pdata->img_ptr)...
@@ -58,18 +35,69 @@ static void	ft_bzero(void *pointer, size_t times)
 	}
 }
 
+
+
+
+//static void	ft_putstr_fd(char *str, int fd)
+//{
+//	int	i;
+//
+//	if (!str || str[0] == '\0' || fd < 0)
+//		exit(1);
+//	i = 0;
+//	while (str[i])
+//		write(fd, &str[i++], 1);
+//}
+
+int	ft_stop(t_mlx_data *pdata)
+{
+	if (pdata->txt.data)
+		mlx_destroy_image(pdata->connect, pdata->txt.data);
+	if (pdata->img_ptr)
+		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+	if (pdata->win_ptr)
+		mlx_destroy_window(pdata->connect, pdata->win_ptr);
+	if (pdata->connect)
+	{	mlx_destroy_display(pdata->connect);
+		free(pdata->connect);
+	}
+	if (pdata->error)
+	{//ft_stop appelé durant l'initialisation, donc y'a eu un pb
+		//ft_putstr_fd("Error\n", STDERR_FILENO);
+		write(STDERR_FILENO, "Error\n", 6);
+		exit(1);	
+	}
+	exit(0);
+}
+
+
+static void	ft_initplayer(t_mlx_data *pdata)
+{
+	pdata->posX = 12;
+	pdata->posY = 10;
+	pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
+	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
+	pdata->planeX = 0;//permet une ligne perpendiculaire
+	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
+	pdata->moveSpeed = 0.2;
+	pdata->rotSpeed = 0.1;
+	pdata->error = 0;//Initialisation terminée, pas de message d'erreur dans ft_stop
+}
+
+
 static void	ft_init(t_mlx_data *pdata)
 {
 	ft_bzero(pdata, sizeof(t_mlx_data));
+	pdata->error = 1;
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
-		exit (1);
+		exit (1);//plutot ft_stop
 	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Cub3d");
 	if (!pdata->win_ptr)
-		ft_stop(pdata, 0, 1, NULL);
+		ft_stop(pdata);
 	pdata->img_ptr = mlx_new_image(pdata->connect, WIDTH, HEIGHT);
 	if (!pdata->img_ptr)
-		ft_stop(pdata, 1, 1, NULL);
+		ft_stop(pdata);
 	//Acceder aux pixels d'une img. Utile I guess
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
@@ -78,8 +106,8 @@ static void	ft_init(t_mlx_data *pdata)
 		"./textures/wall_1.xpm",&pdata->txt.width, &pdata->txt.height);
 	if (!pdata->txt.data)
 	{
-		mlx_destroy_image(pdata->connect, pdata->txt.data);
-		ft_stop(pdata, 1, 1, NULL);
+		//mlx_destroy_image(pdata->connect, pdata->txt.data);
+		ft_stop(pdata);
 	}
 	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data,
 		&pdata->txt.bpp, &pdata->txt.size_line, &pdata->txt.endian);
@@ -125,7 +153,7 @@ int	main(int ac, char **av)
 	
 	ft_init(&data);
 	ft_show(&data);
-	mlx_hook(data.win_ptr, 17, 0, ft_close, &data);
+	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data);
 	//mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
 	mlx_key_hook(data.win_ptr, ft_keyhook, &data);
 	mlx_loop(data.connect);
