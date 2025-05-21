@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	ft_init_ray_delta(t_mlx_data *pdata)
+static void	ft_init_ray_delta(t_mlx_data *pdata)
 {
 	//La coord. x du rayon est une fraction de pdata->planeX (voir schema). Idem pour y.
 	pdata->dda.rayDirX = pdata->dirX + pdata->planeX * pdata->dda.cameraX;//Si je regarde au centre pdata->planeX = 0 donc rayDirX = pdata->dirX 
@@ -29,7 +29,7 @@ void	ft_init_ray_delta(t_mlx_data *pdata)
 		pdata->dda.deltaDistY = fabs(1 / pdata->dda.rayDirY);
 }
 
-void	ft_init_step_side(t_mlx_data *pdata)
+static void	ft_init_step_side(t_mlx_data *pdata)
 {
 	//Initialisation pour connaitre le premier pas a effectuer
 
@@ -59,6 +59,33 @@ void	ft_init_step_side(t_mlx_data *pdata)
 	
 }
 
+static void	ft_dda(t_mlx_data *pdata)
+{
+	pdata->dda.hit = 0;
+	//Lancement de DDA
+	while (!pdata->dda.hit)
+	{
+		if (pdata->dda.sideDistX < pdata->dda.sideDistY)
+		{
+			pdata->dda.sideDistX += pdata->dda.deltaDistX;
+			pdata->dda.mapX += pdata->dda.stepX;
+			pdata->dda.side = 0;
+		}
+		else
+		{
+			pdata->dda.sideDistY += pdata->dda.deltaDistY;
+			pdata->dda.mapY += pdata->dda.stepY;
+			pdata->dda.side = 1;
+		}
+		// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
+		//if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
+		//	break;
+		//Check si j'ai touche un mur
+		if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > 0)
+			pdata->dda.hit = 1;
+	}
+}
+
 //Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
 void	ft_display(t_mlx_data *pdata)
 {
@@ -72,34 +99,13 @@ void	ft_display(t_mlx_data *pdata)
 		pdata->dda.cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
 		ft_init_ray_delta(pdata);
 		ft_init_step_side(pdata);
-		pdata->dda.hit = 0;
-		//Lancement de DDA
-		while (!pdata->dda.hit)
-		{
-			if (pdata->dda.sideDistX < pdata->dda.sideDistY)
-			{
-				pdata->dda.sideDistX += pdata->dda.deltaDistX;
-				pdata->dda.mapX += pdata->dda.stepX;
-				pdata->dda.side = 0;
-			}
-			else
-			{
-				pdata->dda.sideDistY += pdata->dda.deltaDistY;
-				pdata->dda.mapY += pdata->dda.stepY;
-				pdata->dda.side = 1;
-			}
-			// Sécurité bord de carte, a priori ça s'active jamais puisque la map est entourée de mur
-			//if (mapX < 0 || mapX >= MAPWIDTH || mapY < 0 || mapY >= MAPHEIGHT)
-			//	break;
-			//Check si j'ai touche un mur
-			if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > 0)
-				pdata->dda.hit = 1;
-		}
+		
+		ft_dda(pdata);
 
 		//Maintenant qu'on connait la dstance entre le joueur et la prochaine bordure verticale
 		//d'un mur (sideDistX) et entre le joueur et la prochaine bordure horizontale d'un mur (sideDistY)
 		//je definie la distance perpWallDist comme la plus petite des 2, en prenant en compte le fait que
-		//sideDistX contient la distance jusqu'à l’intérieur du mur, or nous voulons la distance jusqu’à
+		//sideDist contient la distance jusqu'à l’intérieur du mur, or nous voulons la distance jusqu’à
 		//la surface du mur, donc on enlève un delta
 		if(!pdata->dda.side)
 			pdata->dda.perpWallDist = pdata->dda.sideDistX - pdata->dda.deltaDistX;
@@ -109,5 +115,4 @@ void	ft_display(t_mlx_data *pdata)
 		ft_texture(pdata, x);
 	}
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
-	
 }
