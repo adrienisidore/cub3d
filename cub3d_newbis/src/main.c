@@ -79,8 +79,14 @@ static void	ft_initplayer(t_mlx_data *pdata)
 	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
 	pdata->planeX = 0;//permet une ligne perpendiculaire
 	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
-	pdata->moveSpeed = 0.2;
-	pdata->rotSpeed = 0.1;
+	pdata->moveSpeed = 0.15;
+	pdata->rotSpeed = 0.075;
+	pdata->move_forward = 0;
+	pdata->move_backward = 0;
+	pdata->rotate_left = 0;
+	pdata->rotate_right = 0;
+	pdata->move_left = 0;
+	pdata->move_right = 0;
 	pdata->error = 0;//Initialisation terminée, pas de message d'erreur dans ft_stop
 }
 
@@ -153,9 +159,17 @@ int	main(int ac, char **av)
 	
 	ft_init(&data);
 	ft_display(&data);
-	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data);
-	//mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
-	mlx_key_hook(data.win_ptr, ft_keyhook, &data);
+
+
+
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, key_press, &data);
+	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, key_release, &data);
+	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data); // Event "fermer la fenêtre"
+	mlx_loop_hook(data.connect, loop_hook, &data); // appel continu
+
+	//mlx_hook(data.win_ptr, 17, 0, ft_stop, &data);
+	////mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
+	//mlx_key_hook(data.win_ptr, ft_keyhook, &data);
 	mlx_loop(data.connect);
 	return (0);	
 }

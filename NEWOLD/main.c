@@ -92,11 +92,24 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
 	//arbitraire
+
+
+	//AJOUTER rotSpeed et moveSPEED pour que la vitesse de deplacement de la 
+	//minimap soit égale à celle du joueur
 	pdata->px = 300;
 	pdata->py = 300;
 	pdata->an = 2 * PI;
 	pdata->dx = cos(pdata->an) * 5;
 	pdata->dy = sin(pdata->an) * 5;
+
+	pdata->move_forward = 0;
+	pdata->move_backward = 0;
+	pdata->rotate_left = 0;
+	pdata->rotate_right = 0;
+	pdata->move_left = 0;
+	pdata->move_right = 0;
+
+
 
 	// Vérifier si la position initiale du joueur est sur un mur
     // Si c'est le cas, déplacer le joueur pour qu'il soit sur une case vide
@@ -182,51 +195,95 @@ void	ft_show(t_mlx_data *pdata)
 			
 
 
-int	ft_keyhook(int keysym, t_mlx_data *pdata)
+
+
+
+
+
+
+int key_press(int keycode, t_mlx_data *data)
 {
-	//printf("Touche pressée : %d\n", keysym);
-	// if (keysym == XK_Up)
-	// 	pdata->py -= 10;
-	// else if (keysym == XK_Down)
-	// 	pdata->py += 10;
-	// else if (keysym == XK_Left)
-	// 	pdata->px -= 10;
-	// else if (keysym == XK_Right)
-	// 	pdata->px += 10;
-	if (keysym == XK_w)
-	{
-		pdata->py += pdata->dy;
-		pdata->px += pdata->dx;	
-	}
-	else if (keysym == XK_s)
-	{
-		pdata->py -= pdata->dy;
-		pdata->px -= pdata->dx;	
-	}
-	else if (keysym == XK_a)
-	{
-		pdata->an -= 0.5;
-		if (pdata->an < 0)
-			pdata->an += 2 * PI;
-		pdata->dx = cos(pdata->an) * 5;
-		pdata->dy = sin(pdata->an) * 5;
-	}
-	else if (keysym == XK_d)
-	{
-		pdata->an += 0.5;
-		if (pdata->an > 2 * PI)
-			pdata->an -= 2 * PI;
-		pdata->dx = cos(pdata->an) * 5;
-		pdata->dy = sin(pdata->an) * 5;
-	}
-	if (keysym == XK_Escape)
-	{
-		mlx_destroy_image(pdata->connect, pdata->img_ptr);
-		ft_stop(pdata, 1, 1, NULL);
-	}
-	ft_show(pdata);
+	if (keycode == XK_w)
+		data->move_forward = 1;
+	else if (keycode == XK_s)
+		data->move_backward = 1;
+	else if (keycode == XK_a)
+		data->move_left = 1;//
+	else if (keycode == XK_d)
+		data->move_right = 1;//
+	else if (keycode == XK_Left)
+		data->rotate_left = 1;
+	else if (keycode == XK_Right)
+		data->rotate_right = 1;
+	else if (keycode == XK_Escape)
+		ft_close(data);
 	return (0);
 }
+
+int key_release(int keycode, t_mlx_data *data)
+{
+	if (keycode == XK_w)
+		data->move_forward = 0;
+	else if (keycode == XK_s)
+		data->move_backward = 0;
+	else if (keycode == XK_a)
+		data->move_left = 0;
+	else if (keycode == XK_d)
+		data->move_right = 0;
+	else if (keycode == XK_Left)
+		data->rotate_left = 0;
+	else if (keycode == XK_Right)
+		data->rotate_right = 0;
+
+	return (0);
+}
+
+
+int loop_hook(t_mlx_data *data)
+{
+	if (data->move_forward)
+	{
+		data->px += data->dx;
+		data->py += data->dy;
+	}
+	if (data->move_backward)
+	{
+		data->px -= data->dx;
+		data->py -= data->dy;
+	}
+	if (data->move_left)
+	{
+		// Vecteur perpendiculaire à la gauche
+		data->px -= data->dy;
+		data->py += data->dx;
+	}
+	if (data->move_right)
+	{
+		// Vecteur perpendiculaire à la droite
+		data->px += data->dy;
+		data->py -= data->dx;
+	}
+	if (data->rotate_left)
+	{
+		data->an -= 0.05;
+		if (data->an < 0)
+			data->an += 2 * PI;
+		data->dx = cos(data->an) * 5;
+		data->dy = sin(data->an) * 5;
+	}
+	if (data->rotate_right)
+	{
+		data->an += 0.05;
+		if (data->an > 2 * PI)
+			data->an -= 2 * PI;
+		data->dx = cos(data->an) * 5;
+		data->dy = sin(data->an) * 5;
+	}
+	ft_show(data); // redraw
+	return (0);
+}
+
+
 
 int	main(int ac, char **av)
 {
@@ -236,8 +293,13 @@ int	main(int ac, char **av)
 
 	ft_init(&data);
 	ft_show(&data);
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, key_press, &data);//
+	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, key_release, &data);//
 	mlx_hook(data.win_ptr, 17, 0, ft_close, &data);
-	mlx_key_hook(data.win_ptr, ft_keyhook, &data);
+	//mlx_key_hook(data.win_ptr, ft_keyhook, &data);
+	mlx_loop_hook(data.connect, loop_hook, &data);//
 	mlx_loop(data.connect);
 	return (0);
 }
+
+

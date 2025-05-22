@@ -12,110 +12,106 @@
 
 #include "cub3d.h"
 
-static int	ft_fill(int which, t_mlx_data *pdata, int keysym)
+int key_press(int keycode, t_mlx_data *data)
 {
-	if (which == 1)
-		return ((int)pdata->posY);
-	if (which == 2)
-		return ((int)pdata->posX);
-	if (which == 3)
-	{
-		if (keysym == XK_w)
-			return ((int)(pdata->posY + pdata->dirY * pdata->moveSpeed));//avancer
-		else if (keysym == XK_a)
-			return ((int)(pdata->posY - pdata->planeY * pdata->moveSpeed));
-		else if (keysym == XK_d)
-			return ((int)(pdata->posY + pdata->planeY * pdata->moveSpeed));
-		return ((int)(pdata->posY - pdata->dirY * pdata->moveSpeed));//reculer
-	}
-	if (which == 4)
-	{
-		if (keysym == XK_w)
-			return ((int)(pdata->posX + pdata->dirX * pdata->moveSpeed));//avancer
-		else if (keysym == XK_d)
-			return ((int)(pdata->posX + pdata->planeX * pdata->moveSpeed));
-		else if (keysym == XK_a)
-			return ((int)(pdata->posX - pdata->planeX * pdata->moveSpeed));
-		return ((int)(pdata->posX - pdata->dirX * pdata->moveSpeed));//reculer
-	}
+	if (keycode == XK_w)
+		data->move_forward = 1;
+	else if (keycode == XK_s)
+		data->move_backward = 1;
+	else if (keycode == XK_a)
+		data->move_left = 1;
+	else if (keycode == XK_d)
+		data->move_right = 1;
+	else if (keycode == XK_Left)
+		data->rotate_left = 1;
+	else if (keycode == XK_Right)
+		data->rotate_right = 1;
+	else if (keycode == XK_Escape)
+		ft_stop(data);
 	return (0);
 }
 
-static void	ft_latmove(int keysym, t_mlx_data *pdata)
+int key_release(int keycode, t_mlx_data *data)
 {
-	if (keysym == XK_d)
-	{
-		if (!worldMap[ft_fill(1, pdata, XK_d)][ft_fill(4, pdata, XK_d)])
-			pdata->posX += pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_d)][ft_fill(2, pdata, XK_d)])
-			pdata->posY += pdata->planeY * pdata->moveSpeed;
-	}
-	if (keysym == XK_a)
-	{
-		if (!worldMap[ft_fill(1, pdata, XK_a)][ft_fill(4, pdata, XK_a)])
-			pdata->posX -= pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_a)][ft_fill(2, pdata, XK_a)])
-			pdata->posY -= pdata->planeY * pdata->moveSpeed;
-	}
-	
+	if (keycode == XK_w)
+		data->move_forward = 0;
+	else if (keycode == XK_s)
+		data->move_backward = 0;
+	else if (keycode == XK_a)
+		data->move_left = 0;
+	else if (keycode == XK_d)
+		data->move_right = 0;
+	else if (keycode == XK_Left)
+		data->rotate_left = 0;
+	else if (keycode == XK_Right)
+		data->rotate_right = 0;
+	return (0);
 }
-static void	ft_fbmove(int keysym, t_mlx_data *pdata)
+
+static void	ft_fbmove(int key, t_mlx_data *pdata)
 {
-	if (keysym == XK_w)
+	if (key == XK_w)
 	{
-		if (!worldMap[ft_fill(1, pdata, XK_w)][ft_fill(4, pdata, XK_w)])
+		if (!worldMap[(int)(pdata->posY)][(int)(pdata->posX + pdata->dirX * pdata->moveSpeed)])
 			pdata->posX += pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_w)][ft_fill(2, pdata, XK_w)])
+		if (!worldMap[(int)(pdata->posY + pdata->dirY * pdata->moveSpeed)][(int)(pdata->posX)])
 			pdata->posY += pdata->dirY * pdata->moveSpeed;
 	}
-	if (keysym == XK_s)
+	if (key == XK_s)
 	{
-		//C'est ça qui evite de traverser la map car si par ex à la prochaine
-		//coord x y'a un mur alors il va juste avancer en y ce qui donne l'impression
-		//qu'il se décale le long du mur
-		if (!worldMap[ft_fill(1, pdata, XK_s)][ft_fill(4, pdata, XK_s)])
+		if (!worldMap[(int)(pdata->posY)][(int)(pdata->posX - pdata->dirX * pdata->moveSpeed)])
 			pdata->posX -= pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_s)][ft_fill(2, pdata, XK_s)])
+		if (!worldMap[(int)(pdata->posY - pdata->dirY * pdata->moveSpeed)][(int)(pdata->posX)])
 			pdata->posY -= pdata->dirY * pdata->moveSpeed;
 	}
 }
 
-static void		ft_turnview(int keysym, t_mlx_data *pdata)
+static void	ft_latmove(int key, t_mlx_data *pdata)
 {
-	double oldDirX;
-	double oldPlaneX;
-	
-	if (keysym == XK_Right)
+	if (key == XK_d)
 	{
-		oldDirX = pdata->dirX;
-		pdata->dirX = pdata->dirX * cos(-pdata->rotSpeed) - pdata->dirY * sin(-pdata->rotSpeed);
-		pdata->dirY = oldDirX * sin(-pdata->rotSpeed) + pdata->dirY * cos(-pdata->rotSpeed);
-		oldPlaneX = pdata->planeX;
-		pdata->planeX = pdata->planeX * cos(-pdata->rotSpeed) - pdata->planeY * sin(-pdata->rotSpeed);
-		pdata->planeY = oldPlaneX * sin(-pdata->rotSpeed) + pdata->planeY * cos(-pdata->rotSpeed);
+		if (!worldMap[(int)(pdata->posY)][(int)(pdata->posX + pdata->planeX * pdata->moveSpeed)])
+			pdata->posX += pdata->planeX * pdata->moveSpeed;
+		if (!worldMap[(int)(pdata->posY + pdata->planeY * pdata->moveSpeed)][(int)(pdata->posX)])
+			pdata->posY += pdata->planeY * pdata->moveSpeed;
 	}
-	if (keysym == XK_Left)
+	if (key == XK_a)
 	{
-		oldDirX = pdata->dirX;
-		pdata->dirX = pdata->dirX * cos(pdata->rotSpeed) - pdata->dirY * sin(pdata->rotSpeed);
-		pdata->dirY = oldDirX * sin(pdata->rotSpeed) + pdata->dirY * cos(pdata->rotSpeed);
-		oldPlaneX = pdata->planeX;
-		pdata->planeX = pdata->planeX * cos(pdata->rotSpeed) - pdata->planeY * sin(pdata->rotSpeed);
-		pdata->planeY = oldPlaneX * sin(pdata->rotSpeed) + pdata->planeY * cos(pdata->rotSpeed);
+		if (!worldMap[(int)(pdata->posY)][(int)(pdata->posX - pdata->planeX * pdata->moveSpeed)])
+			pdata->posX -= pdata->planeX * pdata->moveSpeed;
+		if (!worldMap[(int)(pdata->posY - pdata->planeY * pdata->moveSpeed)][(int)(pdata->posX)])
+			pdata->posY -= pdata->planeY * pdata->moveSpeed;
 	}
-	
 }
-//ATTENTION quand je fonce sur les bords de la map je traverse le mur
-int	ft_keyhook(int keysym, t_mlx_data *pdata)
+
+static void	ft_turnview(int key, t_mlx_data *pdata)
 {
-	if (keysym == XK_Escape)
-		ft_stop(pdata);
-	if (keysym == XK_w || keysym == XK_s)
-		ft_fbmove(keysym, pdata);
-	if (keysym == XK_a || keysym == XK_d)
-		ft_latmove(keysym, pdata);
-	if (keysym == XK_Right || keysym == XK_Left)
-		ft_turnview(keysym, pdata);
-	ft_display(pdata);
+	double oldDirX = pdata->dirX;
+	double oldPlaneX = pdata->planeX;
+	double angle = (key == XK_Right) ? -pdata->rotSpeed : pdata->rotSpeed;
+
+	pdata->dirX = pdata->dirX * cos(angle) - pdata->dirY * sin(angle);
+	pdata->dirY = oldDirX * sin(angle) + pdata->dirY * cos(angle);
+
+	pdata->planeX = pdata->planeX * cos(angle) - pdata->planeY * sin(angle);
+	pdata->planeY = oldPlaneX * sin(angle) + pdata->planeY * cos(angle);
+}
+
+int loop_hook(t_mlx_data *data)
+{
+	if (data->move_forward)
+		ft_fbmove(XK_w, data);
+	if (data->move_backward)
+		ft_fbmove(XK_s, data);
+	if (data->move_left)
+		ft_latmove(XK_a, data);
+	if (data->move_right)
+		ft_latmove(XK_d, data);
+	if (data->rotate_left)
+		ft_turnview(XK_Left, data);
+	if (data->rotate_right)
+		ft_turnview(XK_Right, data);
+
+	ft_display(data); // Mise à jour de l'affichage à chaque frame
 	return (0);
 }

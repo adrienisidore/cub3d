@@ -17,6 +17,8 @@
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
+#include <X11/X.h>
+
 # include <math.h>
 #include <time.h>//Pour generer carte random
 
@@ -109,6 +111,14 @@ typedef struct s_mlx_data
 	// double oldTime = 0; //time of previous frame
 
 
+	int move_forward;
+	int move_backward;
+	int rotate_left;
+	int rotate_right;
+	int move_left;
+	int move_right;
+
+
 	int	error;// == 1 alors on affiche un message d'erreur et exit(1).
 	//Si l'initialisation se passe bien on met exit à 0.
 
@@ -127,11 +137,13 @@ typedef struct s_mlx_data
 //A SUPPRIMER
 extern int worldMap[MAPHEIGHT][MAPWIDTH];
 
-//ft_stop.c
+//main.c
 int	ft_stop(t_mlx_data *pdata);
 
 //ft_keyhook.c
-int		ft_keyhook(int keysym, t_mlx_data *pdata);
+int key_press(int keycode, t_mlx_data *data);
+int key_release(int keycode, t_mlx_data *data);
+int		loop_hook(t_mlx_data *pdata);
 
 //texture_utils.c
 int	ft_rgb(int color, double shade);

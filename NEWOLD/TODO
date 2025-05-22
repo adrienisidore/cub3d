@@ -165,3 +165,72 @@ void initialize_map(void)
     {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  int	ft_keyhook(int keysym, t_mlx_data *pdata)
+{
+	//printf("Touche pressée : %d\n", keysym);
+	// if (keysym == XK_Up)
+	// 	pdata->py -= 10;
+	// else if (keysym == XK_Down)
+	// 	pdata->py += 10;
+	// else if (keysym == XK_Left)
+	// 	pdata->px -= 10;
+	// else if (keysym == XK_Right)
+	// 	pdata->px += 10;
+	if (keysym == XK_w)
+	{
+		pdata->py += pdata->dy;
+		pdata->px += pdata->dx;	
+	}
+	else if (keysym == XK_s)
+	{
+		pdata->py -= pdata->dy;
+		pdata->px -= pdata->dx;	
+	}
+	else if (keysym == XK_a)
+	{
+		pdata->an -= 0.5;
+		if (pdata->an < 0)
+			pdata->an += 2 * PI;
+		pdata->dx = cos(pdata->an) * 5;
+		pdata->dy = sin(pdata->an) * 5;
+	}
+	else if (keysym == XK_d)
+	{
+		pdata->an += 0.5;
+		if (pdata->an > 2 * PI)
+			pdata->an -= 2 * PI;
+		pdata->dx = cos(pdata->an) * 5;
+		pdata->dy = sin(pdata->an) * 5;
+	}
+	if (keysym == XK_Escape)
+	{
+		mlx_destroy_image(pdata->connect, pdata->img_ptr);
+		ft_stop(pdata, 1, 1, NULL);
+	}
+	ft_show(pdata);
+	return (0);
+}

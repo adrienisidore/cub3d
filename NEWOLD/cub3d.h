@@ -17,6 +17,8 @@
 # include <X11/keysym.h>
 # include <X11/keysymdef.h>
 
+#include <X11/X.h>
+
 # include <math.h>
 #include <time.h>//Pour generer carte random
 
@@ -50,6 +52,15 @@ typedef struct s_mlx_data
 	float		dy;//delta(y)
 	float		an;//angle : en C on utilise les radians (de 0pi - pi/2 - pi - 3pi/2 - 2pi) et pas les degres (allant de 0 a 360)
 	float		fov;//field of view (jusqu'ou il voit)
+
+	int move_forward;
+	int move_backward;
+	int rotate_left;
+	int rotate_right;
+	int move_left;
+	int move_right;
+
+
 	
 }	t_mlx_data;
 
