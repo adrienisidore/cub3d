@@ -18,6 +18,10 @@
 // associé dans un dossier libft contenu à la racine. Le Makefile de votre projet doit
 // compiler la librairie à l’aide de son Makefile, puis compiler le projet.
 
+//PARFOIS JE RENTE DANS LE MUR SI JE FONCE DIRECT DEDANS
+
+
+
 //mettre void plutot que ac av
 int	main(int ac, char **av)
 {

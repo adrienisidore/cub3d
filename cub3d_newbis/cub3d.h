@@ -127,6 +127,8 @@ typedef struct s_mlx_data
 	int	error;// == 1 alors on affiche un message d'erreur et exit(1).
 	//Si l'initialisation se passe bien on met exit à 0.
 
+	int smap;
+
 	//Pour ft_keyhook
 	double moveSpeed;
 	double rotSpeed;

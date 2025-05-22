@@ -48,6 +48,7 @@ static void	ft_initplayer(t_mlx_data *pdata)
 	pdata->move_left = 0;
 	pdata->move_right = 0;
 	pdata->error = 0;//Initialisation terminée, pas de message d'erreur dans ft_stop
+    pdata->smap = 0;
 }
 
 

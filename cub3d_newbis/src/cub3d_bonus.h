@@ -14,8 +14,12 @@
 # define CUB3D_BONUS_H
 
 # include "cub3d.h"
+#define MINIMAP_WIDTH  200
+#define MINIMAP_HEIGHT 200
 
 int	mouse_move_hook(int x, int y, t_mlx_data *pdata);
-
+void draw_minimap(t_mlx_data *data);
+int loop_hook_bonus(t_mlx_data *data);
+void	ft_display_bonus(t_mlx_data *pdata);
 
 #endif
