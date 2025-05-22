@@ -65,6 +65,9 @@ int	ft_stop(t_mlx_data *pdata)
 	{//ft_stop appelé durant l'initialisation, donc y'a eu un pb
 		//ft_putstr_fd("Error\n", STDERR_FILENO);
 		write(STDERR_FILENO, "Error\n", 6);
+		//D'apres le sujet, en + de Error\n il faut ajouter un message explicite
+		//Pour ce faire on peut attribuer à error différentes valeurs (1 si on arrive
+		//pas à connecter minilibx [par defaut], 2 si img_ptr etc...)
 		exit(1);	
 	}
 	exit(0);
@@ -79,8 +82,8 @@ static void	ft_initplayer(t_mlx_data *pdata)
 	pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu sur le plan [1, -1]
 	pdata->planeX = 0;//permet une ligne perpendiculaire
 	pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
-	pdata->moveSpeed = 0.15;
-	pdata->rotSpeed = 0.075;
+	pdata->moveSpeed = 0.1;
+	pdata->rotSpeed = 0.05;
 	pdata->move_forward = 0;
 	pdata->move_backward = 0;
 	pdata->rotate_left = 0;
@@ -97,30 +100,28 @@ static void	ft_init(t_mlx_data *pdata)
 	pdata->error = 1;
 	pdata->connect = mlx_init();
 	if (!pdata->connect)
-		ft_stop(pdata);//exit (1);
+		ft_stop(pdata);
+	pdata->error = 2;
 	pdata->win_ptr = mlx_new_window(pdata->connect, WIDTH, HEIGHT, "Cub3d");
 	if (!pdata->win_ptr)
 		ft_stop(pdata);
+	pdata->error = 3;
 	pdata->img_ptr = mlx_new_image(pdata->connect, WIDTH, HEIGHT);
 	if (!pdata->img_ptr)
 		ft_stop(pdata);
-	//Acceder aux pixels d'une img. Utile I guess
+	pdata->error = 4;
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 		&pdata->len, &pdata->endian);
-		
 	pdata->txt.data = mlx_xpm_file_to_image(pdata->connect,
 		"./textures/wall_1.xpm",&pdata->txt.width, &pdata->txt.height);
 	if (!pdata->txt.data)
-	{
-		//mlx_destroy_image(pdata->connect, pdata->txt.data);
 		ft_stop(pdata);
-	}
 	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data,
 		&pdata->txt.bpp, &pdata->txt.size_line, &pdata->txt.endian);
 	ft_initplayer(pdata);
 }
 
-//Pour le bonus
+//Pour le bonus : VERIFIER QUE C'EST BIEN CE QU'ON ATTEND DE NOUS
 int	mouse_move_hook(int x, int y, t_mlx_data *pdata)
 {
 	static int	last_x = -1;
@@ -162,14 +163,12 @@ int	main(int ac, char **av)
 
 
 
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, key_press, &data);
-	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, key_release, &data);
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, ft_keypress, &data);
+	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, ft_keyrelease, &data);
 	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data); // Event "fermer la fenêtre"
 	mlx_loop_hook(data.connect, loop_hook, &data); // appel continu
 
-	//mlx_hook(data.win_ptr, 17, 0, ft_stop, &data);
 	////mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
-	//mlx_key_hook(data.win_ptr, ft_keyhook, &data);
 	mlx_loop(data.connect);
 	return (0);	
 }

@@ -26,6 +26,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+# define NO_LINK	"Error\nMinilibx unavailable.\n"
+# define NO_WND		"Error\nCan't create new window.\n"
+# define NO_IMG		"Error\nCan't display new image.\n"
+# define NO_TX		"Error\nCan't open new texture.\n"
+
 
 # define WIDTH		600
 # define HEIGHT		600
@@ -137,12 +142,15 @@ typedef struct s_mlx_data
 //A SUPPRIMER
 extern int worldMap[MAPHEIGHT][MAPWIDTH];
 
-//main.c
+//exit.c
 int	ft_stop(t_mlx_data *pdata);
 
-//ft_keyhook.c
-int key_press(int keycode, t_mlx_data *data);
-int key_release(int keycode, t_mlx_data *data);
+//hook_utils.c
+int ft_keypress(int keycode, t_mlx_data *data);
+int ft_keyrelease(int keycode, t_mlx_data *data);
+void	ft_turnview(int key, t_mlx_data *pdata);
+
+//hook.c
 int		loop_hook(t_mlx_data *pdata);
 
 //texture_utils.c

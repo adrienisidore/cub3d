@@ -10,14 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
-C_SRCS = src/main.c src/ft_keyhook.c src/ft_stop.c src/display.c src/texture_utils.c src/texture.c src/map.c
+C_SRCS = src/main.c src/exit.c src/hook.c src/hook_utils.c src/display.c src/texture_utils.c src/texture.c src/map.c
 
 SRCS =  $(C_SRCS)
 
 BONUS_SRCS = $(C_SRCS)
 
-OBJS = objets/main.o objets/ft_stop.o objets/ft_keyhook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
-BONUS_OBJS = objets/main.o objets/ft_stop.o objets/ft_keyhook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
+OBJS = objets/main.o objets/exit.o objets/hook_utils.o objets/hook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
+BONUS_OBJS = objets/main.o objets/exit.o objets/hook_utils.o objets/hook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
 PTH = /home/aisidore/Downloads/minilibx-linux/
 
 NAME = cub3d
