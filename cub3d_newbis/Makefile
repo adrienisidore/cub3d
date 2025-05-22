@@ -10,14 +10,38 @@
 #                                                                              #
 # **************************************************************************** #
 
-C_SRCS = src/main.c src/exit.c src/hook.c src/hook_utils.c src/display.c src/texture_utils.c src/texture.c src/map.c
+##A refaire pour la partie bonus
+C_SRCS = src/init.c \
+		 src/exit.c \
+		 src/hook_utils.c \
+		 src/hook.c \
+		 src/display.c \
+		 src/texture_utils.c \
+		 src/texture.c \
+		 src/map.c
 
-SRCS =  $(C_SRCS)
+SRCS =  src/main.c $(C_SRCS)
 
-BONUS_SRCS = $(C_SRCS)
+BONUS_SRCS = src/main_bonus.c $(C_SRCS)
 
-OBJS = objets/main.o objets/exit.o objets/hook_utils.o objets/hook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
-BONUS_OBJS = objets/main.o objets/exit.o objets/hook_utils.o objets/hook.o objets/display.o objets/texture_utils.o objets/texture.o objets/map.o
+OBJS = objets/main.o \
+	   objets/init.o \
+	   objets/exit.o \
+	   objets/hook_utils.o \
+	   objets/hook.o \
+	   objets/display.o \
+	   objets/texture_utils.o \
+	   objets/texture.o \
+	   objets/map.o
+BONUS_OBJS = objets/main_bonus.o \
+			 objets/init.o \
+			 objets/exit.o \
+			 objets/hook_utils.o \
+			 objets/hook.o \
+			 objets/display.o \
+			 objets/texture_utils.o \
+			 objets/texture.o \
+			 objets/map.o
 PTH = /home/aisidore/Downloads/minilibx-linux/
 
 NAME = cub3d

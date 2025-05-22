@@ -142,6 +142,9 @@ typedef struct s_mlx_data
 //A SUPPRIMER
 extern int worldMap[MAPHEIGHT][MAPWIDTH];
 
+//init.c
+void	ft_init(t_mlx_data *pdata);
+
 //exit.c
 int	ft_stop(t_mlx_data *pdata);
 
