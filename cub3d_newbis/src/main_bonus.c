@@ -57,7 +57,7 @@ int ft_keypress_bonus(int keycode, t_mlx_data *data)
     else if (keycode == XK_m)
     {
         data->smap = !data->smap;//changer pour pdata PARTOUT
-        printf("smap = %d\n", data->smap);
+        //printf("smap = %d\n", data->smap);
     }
 	else if (keycode == XK_Escape)
 		ft_stop(data);
@@ -74,6 +74,7 @@ static void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 	*((unsigned int *)(disp + pdata->img_pixptr)) = color;
 }
 
+
 void draw_square(t_mlx_data *data, int x, int y, int size, int color)
 {
     for (int i = 0; i < size; i++)
@@ -86,49 +87,83 @@ void draw_square(t_mlx_data *data, int x, int y, int size, int color)
     }
 }
 
+
 //AJOUTER LE/LES LASERS
 void draw_minimap(t_mlx_data *data)
 {
     int mapX, mapY;
     int color;
-    
+
     double cell_w = (double)MINIMAP_WIDTH / MAPWIDTH;
     double cell_h = (double)MINIMAP_HEIGHT / MAPHEIGHT;
 
-    // Décalage en haut à droite
-    int offset_x = WIDTH - MINIMAP_WIDTH - 10;  // 10 px padding
+    int offset_x = WIDTH - MINIMAP_WIDTH - 10;
     int offset_y = 10;
 
+    // --- Dessin des cases de la carte ---
     for (mapY = 0; mapY < MAPHEIGHT; mapY++)
     {
         for (mapX = 0; mapX < MAPWIDTH; mapX++)
         {
             if (worldMap[mapY][mapX] == 0)
-                color = 0x000000; // noir (sol)
+                color = 0x000000;
             else if (worldMap[mapY][mapX] == 1)
-                color = 0x888888; // gris (mur type 1)
+                color = 0x888888;
             else if (worldMap[mapY][mapX] == 2)
-                color = 0x0000FF; // bleu
+                color = 0x0000FF;
             else if (worldMap[mapY][mapX] == 3)
-                color = 0xFF0000; // rouge
+                color = 0xFF0000;
             else
-                color = 0xFFFFFF; // inconnu
+                color = 0xFFFFFF;
 
             draw_square(data,
-                        offset_x + (int)(mapX * cell_w),
+                        offset_x + (int)((MAPWIDTH - 1 - mapX) * cell_w),
                         offset_y + (int)(mapY * cell_h),
                         (int)cell_w,
                         color);
         }
     }
 
-    // Dessine le joueur (petit carré vert)
-    draw_square(data,
-                offset_x + (int)(data->posX * cell_w),
-                offset_y + (int)(data->posY * cell_h),
-                3, // taille fixe pour bien voir
-                0x00FF00);
+    // --- Dessin du joueur ---
+    double player_map_x = (MAPWIDTH - 1 - data->posX) * cell_w;
+    double player_map_y = data->posY * cell_h;
+
+    int px = offset_x + (int)player_map_x;
+    int py = offset_y + (int)player_map_y;
+    draw_square(data, px, py, 3, 0x00FF00);
+
+    // --- Ligne de vision jusqu'au mur ---
+    double ray_x = data->posX;
+    double ray_y = data->posY;
+    double step = 0.05;
+
+        while (1)
+    {
+        // On cast les coordonnées "rayon" vers des indices entiers map
+        int map_check_x = (int)(ray_x + 0.001); // légère compensation pour éviter de rater les coins
+        int map_check_y = (int)(ray_y + 0.001);
+
+        // vérification bord de carte
+        if (map_check_x < 0 || map_check_x >= MAPWIDTH ||
+            map_check_y < 0 || map_check_y >= MAPHEIGHT)
+            break;
+
+        // arrêt si mur
+        if (worldMap[map_check_y][map_check_x] > 0)
+            break;
+
+        int draw_x = offset_x + (int)((MAPWIDTH - 1 - ray_x) * cell_w);
+        int draw_y = offset_y + (int)(ray_y * cell_h);
+
+        if (draw_x >= 0 && draw_x < WIDTH && draw_y >= 0 && draw_y < HEIGHT)
+            ft_pixput(data, draw_x, draw_y, 0x0000FF);
+
+        ray_x += data->dirX * step;
+        ray_y += data->dirY * step;
+    }
+
 }
+
 
 
 //mettre void plutot que ac av

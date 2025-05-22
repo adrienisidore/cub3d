@@ -1,185 +1,119 @@
-#include <math.h>
-#include <X11/keysym.h>
-#include "mlx.h"
-#include "libft.h" // si tu utilises libft
-#include "your_header.h" // contenant t_mlx_data, worldMap, etc.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int key_press(int keycode, t_mlx_data *data)
+void draw_dda_on_minimap(t_mlx_data *pdata, int offset_x, int offset_y, double cell_w, double cell_h)
 {
-	if (keycode == XK_w)
-		data->move_forward = 1;
-	else if (keycode == XK_s)
-		data->move_backward = 1;
-	else if (keycode == XK_a)
-		data->move_left = 1;//
-	else if (keycode == XK_d)
-		data->move_right = 1;//
-	else if (keycode == XK_Left)
-		data->rotate_left = 1;
-	else if (keycode == XK_Right)
-		data->rotate_right = 1;
-	else if (keycode == XK_Escape)
-		ft_stop(data);
-	return (0);
-}
+	// Sauvegarde de l’état du DDA original (important si utilisé ailleurs)
+	t_dda saved = pdata->dda;
 
-int key_release(int keycode, t_mlx_data *data)
-{
-	if (keycode == XK_w)
-		data->move_forward = 0;
-	else if (keycode == XK_s)
-		data->move_backward = 0;
-	else if (keycode == XK_a)
-		data->move_left = 0;
-	else if (keycode == XK_d)
-		data->move_right = 0;
-	else if (keycode == XK_Left)
-		data->rotate_left = 0;
-	else if (keycode == XK_Right)
-		data->rotate_right = 0;
+	// Initialisation d’un rayon DDA simple dans la direction du regard
+	pdata->dda.cameraX = 0; // Pas de déviation gauche/droite
+	pdata->dda.rayDirX = pdata->dirX;
+	pdata->dda.rayDirY = pdata->dirY;
 
-	return (0);
-}
+	ft_init_ray_delta(pdata);
+	ft_init_step_side(pdata);
 
-static int	ft_fill(int which, t_mlx_data *pdata, int keysym)
-{
-	if (which == 1)
-		return ((int)pdata->posY);
-	if (which == 2)
-		return ((int)pdata->posX);
-	if (which == 3)
-	{
-		if (keysym == XK_w)
-			return ((int)(pdata->posY + pdata->dirY * pdata->moveSpeed));//avancer
-		else if (keysym == XK_a)
-			return ((int)(pdata->posY - pdata->planeY * pdata->moveSpeed));
-		else if (keysym == XK_d)
-			return ((int)(pdata->posY + pdata->planeY * pdata->moveSpeed));
-		return ((int)(pdata->posY - pdata->dirY * pdata->moveSpeed));//reculer
-	}
-	if (which == 4)
-	{
-		if (keysym == XK_w)
-			return ((int)(pdata->posX + pdata->dirX * pdata->moveSpeed));//avancer
-		else if (keysym == XK_d)
-			return ((int)(pdata->posX + pdata->planeX * pdata->moveSpeed));
-		else if (keysym == XK_a)
-			return ((int)(pdata->posX - pdata->planeX * pdata->moveSpeed));
-		return ((int)(pdata->posX - pdata->dirX * pdata->moveSpeed));//reculer
-	}
-	return (0);
-}
+	pdata->dda.hit = 0;
+	int max_dist = 20; // Distance max de visibilité
 
-static void	ft_latmove(int keysym, t_mlx_data *pdata)
-{
-	if (keysym == XK_d)
+	while (!pdata->dda.hit && max_dist--)
 	{
-		if (!worldMap[ft_fill(1, pdata, XK_d)][ft_fill(4, pdata, XK_d)])
-			pdata->posX += pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_d)][ft_fill(2, pdata, XK_d)])
-			pdata->posY += pdata->planeY * pdata->moveSpeed;
-	}
-	if (keysym == XK_a)
-	{
-		if (!worldMap[ft_fill(1, pdata, XK_a)][ft_fill(4, pdata, XK_a)])
-			pdata->posX -= pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_a)][ft_fill(2, pdata, XK_a)])
-			pdata->posY -= pdata->planeY * pdata->moveSpeed;
-	}
-	
-}
-static void	ft_fbmove(int keysym, t_mlx_data *pdata)
-{
-	if (keysym == XK_w)
-	{
-		if (!worldMap[ft_fill(1, pdata, XK_w)][ft_fill(4, pdata, XK_w)])
-			pdata->posX += pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_w)][ft_fill(2, pdata, XK_w)])
-			pdata->posY += pdata->dirY * pdata->moveSpeed;
-	}
-	if (keysym == XK_s)
-	{
-		//C'est ça qui evite de traverser la map car si par ex à la prochaine
-		//coord x y'a un mur alors il va juste avancer en y ce qui donne l'impression
-		//qu'il se décale le long du mur
-		if (!worldMap[ft_fill(1, pdata, XK_s)][ft_fill(4, pdata, XK_s)])
-			pdata->posX -= pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[ft_fill(3, pdata, XK_s)][ft_fill(2, pdata, XK_s)])
-			pdata->posY -= pdata->dirY * pdata->moveSpeed;
-	}
-}
+		// Tracer chaque case traversée
+		int px = offset_x + (int)(pdata->dda.mapX * cell_w);
+		int py = offset_y + (int)(pdata->dda.mapY * cell_h);
+		ft_pixput(pdata, px, py, 0x0000FF); // Bleu
 
-static void		ft_turnview(int keysym, t_mlx_data *pdata)
-{
-	double oldDirX;
-	double oldPlaneX;
-	
-	if (keysym == XK_Right)
-	{
-		oldDirX = pdata->dirX;
-		pdata->dirX = pdata->dirX * cos(-pdata->rotSpeed) - pdata->dirY * sin(-pdata->rotSpeed);
-		pdata->dirY = oldDirX * sin(-pdata->rotSpeed) + pdata->dirY * cos(-pdata->rotSpeed);
-		oldPlaneX = pdata->planeX;
-		pdata->planeX = pdata->planeX * cos(-pdata->rotSpeed) - pdata->planeY * sin(-pdata->rotSpeed);
-		pdata->planeY = oldPlaneX * sin(-pdata->rotSpeed) + pdata->planeY * cos(-pdata->rotSpeed);
+		if (pdata->dda.sideDistX < pdata->dda.sideDistY)
+		{
+			pdata->dda.sideDistX += pdata->dda.deltaDistX;
+			pdata->dda.mapX += pdata->dda.stepX;
+			pdata->dda.side = 0;
+		}
+		else
+		{
+			pdata->dda.sideDistY += pdata->dda.deltaDistY;
+			pdata->dda.mapY += pdata->dda.stepY;
+			pdata->dda.side = 1;
+		}
+		if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > 0)
+			pdata->dda.hit = 1;
 	}
-	if (keysym == XK_Left)
-	{
-		oldDirX = pdata->dirX;
-		pdata->dirX = pdata->dirX * cos(pdata->rotSpeed) - pdata->dirY * sin(pdata->rotSpeed);
-		pdata->dirY = oldDirX * sin(pdata->rotSpeed) + pdata->dirY * cos(pdata->rotSpeed);
-		oldPlaneX = pdata->planeX;
-		pdata->planeX = pdata->planeX * cos(pdata->rotSpeed) - pdata->planeY * sin(pdata->rotSpeed);
-		pdata->planeY = oldPlaneX * sin(pdata->rotSpeed) + pdata->planeY * cos(pdata->rotSpeed);
-	}
-	
+
+	// Restauration de l'état original du DDA (évite de casser le rendu 3D)
+	pdata->dda = saved;
 }
 
 
-//Xk_w : move forward
-//Xk_s : move backward
-//Xk_Right : rotate_right
-//Xk_Left : rotate_left
-//Xk_a : move left
-//Xk_d : move_right
-int	ft_keyhook(int keysym, t_mlx_data *pdata)
+//AJOUTER LE/LES LASERS
+void draw_minimap(t_mlx_data *data)
 {
-	if (keysym == XK_Escape)
-		ft_stop(pdata);
-	if (keysym == XK_w || keysym == XK_s)
-		ft_fbmove(keysym, pdata);
-	if (keysym == XK_a || keysym == XK_d)
-		ft_latmove(keysym, pdata);
-	if (keysym == XK_Right || keysym == XK_Left)
-		ft_turnview(keysym, pdata);
-	ft_display(pdata);
-	return (0);
+    int mapX, mapY;
+    int color;
+
+    double cell_w = (double)MINIMAP_WIDTH / MAPWIDTH;
+    double cell_h = (double)MINIMAP_HEIGHT / MAPHEIGHT;
+
+    int offset_x = WIDTH - MINIMAP_WIDTH - 10;
+    int offset_y = 10;
+
+    // --- Dessin des cases de la carte ---
+    for (mapY = 0; mapY < MAPHEIGHT; mapY++)
+    {
+        for (mapX = 0; mapX < MAPWIDTH; mapX++)
+        {
+            if (worldMap[mapY][mapX] == 0)
+                color = 0x000000;
+            else if (worldMap[mapY][mapX] == 1)
+                color = 0x888888;
+            else if (worldMap[mapY][mapX] == 2)
+                color = 0x0000FF;
+            else if (worldMap[mapY][mapX] == 3)
+                color = 0xFF0000;
+            else
+                color = 0xFFFFFF;
+
+            draw_square(data,
+                        offset_x + (int)((MAPWIDTH - 1 - mapX) * cell_w),
+                        offset_y + (int)(mapY * cell_h),
+                        (int)cell_w,
+                        color);
+        }
+    }
+
+    // --- Dessin du joueur ---
+    double player_map_x = (MAPWIDTH - 1 - data->posX) * cell_w;
+    double player_map_y = data->posY * cell_h;
+
+    int px = offset_x + (int)player_map_x;
+    int py = offset_y + (int)player_map_y;
+    draw_square(data, px, py, 3, 0x00FF00);
+
+    // --- Ligne de vision jusqu'au mur ---
+    double ray_x = data->posX;
+    double ray_y = data->posY;
+    double step = 0.05;
+
+        while (1)
+    {
+        // On cast les coordonnées "rayon" vers des indices entiers map
+        int map_check_x = (int)(ray_x + 0.001); // légère compensation pour éviter de rater les coins
+        int map_check_y = (int)(ray_y + 0.001);
+
+        // vérification bord de carte
+        if (map_check_x < 0 || map_check_x >= MAPWIDTH ||
+            map_check_y < 0 || map_check_y >= MAPHEIGHT)
+            break;
+
+        // arrêt si mur
+        if (worldMap[map_check_y][map_check_x] > 0)
+            break;
+
+        int draw_x = offset_x + (int)((MAPWIDTH - 1 - ray_x) * cell_w);
+        int draw_y = offset_y + (int)(ray_y * cell_h);
+
+        if (draw_x >= 0 && draw_x < WIDTH && draw_y >= 0 && draw_y < HEIGHT)
+            ft_pixput(data, draw_x, draw_y, 0x0000FF);
+
+        ray_x += data->dirX * step;
+        ray_y += data->dirY * step;
+    }
+
 }
