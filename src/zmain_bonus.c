@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/23 10:48:12 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:28:36 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,8 @@ int	main(int ac, char **av)
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, ft_keypress_bonus, &data);
 	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, ft_keyrelease, &data);
     mlx_hook(data.win_ptr, 6, 1L<<6, mouse_move_hook, &data); // 6 = MotionNotify 1L<<6 = 64 je crois
-	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data); // Event "fermer la fenêtre"
 	mlx_loop_hook(data.connect, loop_hook_bonus, &data); // appel continu
-
+	mlx_hook(data.win_ptr, 17, 0, ft_stop, &data); // Event "fermer la fenêtre"
 	mlx_loop(data.connect);
 	return (0);	
 }
