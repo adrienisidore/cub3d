@@ -135,7 +135,8 @@ typedef struct s_mlx_data
 	
 	t_dda	dda;
 
-	// t_texture_utils		utils;
+	// On aura 4 textures comme ça.
+	// Ici par exemple ce sera la texture Nord
 	t_texture	txt;
 	
 	

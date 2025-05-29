@@ -22,7 +22,7 @@ C_SRCS = src/init.c \
 
 SRCS =  src/main.c $(C_SRCS)
 
-BONUS_SRCS = src/main_bonus.c src/display_bonus.c src/hook_bonus.c $(C_SRCS)
+BONUS_SRCS = src/zmain_bonus.c src/zdisplay_bonus.c src/zhook_bonus.c $(C_SRCS)
 
 OBJS = objets/main.o \
 	   objets/init.o \
@@ -33,14 +33,14 @@ OBJS = objets/main.o \
 	   objets/texture_utils.o \
 	   objets/texture.o \
 	   objets/map.o
-BONUS_OBJS = objets/main_bonus.o \
+BONUS_OBJS = objets/zmain_bonus.o \
 			 objets/init.o \
 			 objets/exit.o \
 			 objets/hook_utils.o \
 			 objets/hook.o \
-			 objets/hook_bonus.o \
+			 objets/zhook_bonus.o \
 			 objets/display.o \
-			 objets/display_bonus.o \
+			 objets/zdisplay_bonus.o \
 			 objets/texture_utils.o \
 			 objets/texture.o \
 			 objets/map.o
