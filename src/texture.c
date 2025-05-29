@@ -70,57 +70,78 @@ void	ft_floorceil(t_mlx_data *pdata)
 
 static void	ft_initex(t_mlx_data *pdata)
 {
-	pdata->txt.utils.lineHeight = (int)(HEIGHT / pdata->dda.perpWallDist);
-	if (pdata->txt.utils.lineHeight <= 0)
-		pdata->txt.utils.lineHeight = 1;
-	pdata->txt.utils.drawStart = -pdata->txt.utils.lineHeight / 2 + HEIGHT / 2;
-	if (pdata->txt.utils.drawStart < 0)
-		pdata->txt.utils.drawStart = 0;
-	pdata->txt.utils.drawEnd = pdata->txt.utils.lineHeight / 2 + HEIGHT / 2;
-	if (pdata->txt.utils.drawEnd >= HEIGHT)
-		pdata->txt.utils.drawEnd = HEIGHT - 1;
+	t_texture	*txt;
+
+	txt = pdata->current_txt;
+
+	txt->utils.lineHeight = (int)(HEIGHT / pdata->dda.perpWallDist);
+	if (txt->utils.lineHeight <= 0)
+		txt->utils.lineHeight = 1;
+
+	txt->utils.drawStart = -txt->utils.lineHeight / 2 + HEIGHT / 2;
+	if (txt->utils.drawStart < 0)
+		txt->utils.drawStart = 0;
+
+	txt->utils.drawEnd = txt->utils.lineHeight / 2 + HEIGHT / 2;
+	if (txt->utils.drawEnd >= HEIGHT)
+		txt->utils.drawEnd = HEIGHT - 1;
+
 	if (!pdata->dda.side)
-		pdata->txt.utils.wallX = pdata->posY + pdata->dda.perpWallDist * pdata->dda.rayDirY;
+		txt->utils.wallX = pdata->posY + pdata->dda.perpWallDist * pdata->dda.rayDirY;
 	else
-		pdata->txt.utils.wallX = pdata->posX + pdata->dda.perpWallDist * pdata->dda.rayDirX;
-	pdata->txt.utils.wallX -= floor(pdata->txt.utils.wallX);
-	pdata->txt.utils.tex_x = (int)(pdata->txt.utils.wallX * (double)pdata->txt.width);
+		txt->utils.wallX = pdata->posX + pdata->dda.perpWallDist * pdata->dda.rayDirX;
+
+	txt->utils.wallX -= floor(txt->utils.wallX);
+	txt->utils.tex_x = (int)(txt->utils.wallX * (double)txt->width);
+
+	// Ajuster l'orientation de la texture
 	if (!pdata->dda.side && pdata->dda.rayDirX > 0)
-		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
+		txt->utils.tex_x = txt->width - txt->utils.tex_x - 1;
 	if (pdata->dda.side && pdata->dda.rayDirY < 0)
-		pdata->txt.utils.tex_x = pdata->txt.width - pdata->txt.utils.tex_x - 1;
-	if (pdata->txt.utils.tex_x < 0)
-		pdata->txt.utils.tex_x = 0;
-	if (pdata->txt.utils.tex_x >= pdata->txt.width)
-		pdata->txt.utils.tex_x = pdata->txt.width - 1;
-	pdata->txt.utils.step = (double)pdata->txt.height / pdata->txt.utils.lineHeight;
-	pdata->txt.utils.texPos = (pdata->txt.utils.drawStart - HEIGHT / 2 + pdata->txt.utils.lineHeight / 2) * pdata->txt.utils.step;
+		txt->utils.tex_x = txt->width - txt->utils.tex_x - 1;
+
+	if (txt->utils.tex_x < 0)
+		txt->utils.tex_x = 0;
+	if (txt->utils.tex_x >= txt->width)
+		txt->utils.tex_x = txt->width - 1;
+
+	txt->utils.step = (double)txt->height / txt->utils.lineHeight;
+	txt->utils.texPos = (txt->utils.drawStart - HEIGHT / 2 + txt->utils.lineHeight / 2) * txt->utils.step;
 }
 
-void ft_texture(t_mlx_data *pdata, int x)
+void	ft_texture(t_mlx_data *pdata, int x)
 {
-	int	y;
-	double	shade;
-	int	color;
-	
+	int			y;
+	double		shade;
+	int			color;
+	t_texture	*txt;
+
+	txt = pdata->current_txt;
 	ft_initex(pdata);
-	y = pdata->txt.utils.drawStart - 1;
-	while (++y <= pdata->txt.utils.drawEnd)
+
+	y = txt->utils.drawStart - 1;
+	while (++y <= txt->utils.drawEnd)
 	{
-		pdata->txt.utils.texPos += pdata->txt.utils.step;
-		pdata->txt.utils.tex_y = (int)pdata->txt.utils.texPos;
-		if (pdata->txt.utils.tex_y < 0)
-			pdata->txt.utils.tex_y = 0;
-		if (pdata->txt.utils.tex_y >= pdata->txt.height)
-			pdata->txt.utils.tex_y = pdata->txt.height - 1;
-		color = ft_pixget(pdata->txt, pdata->txt.utils.tex_x, pdata->txt.utils.tex_y);
+		txt->utils.texPos += txt->utils.step;
+		txt->utils.tex_y = (int)txt->utils.texPos;
+
+		if (txt->utils.tex_y < 0)
+			txt->utils.tex_y = 0;
+		if (txt->utils.tex_y >= txt->height)
+			txt->utils.tex_y = txt->height - 1;
+
+		color = ft_pixget(*txt, txt->utils.tex_x, txt->utils.tex_y);
+
+		// Ombre les murs perpendiculaires
 		if (pdata->dda.side)
-			shade = 0.5;
+			shade = 0.6;
 		else
-			shade = 1;
+			shade = 1.0;
+
 		ft_pixput(pdata, x, y, ft_rgb(color, shade));
 	}
 }
+
 
 // L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
 //Bien separer les fichiers de la partie _bonus

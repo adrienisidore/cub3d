@@ -78,11 +78,31 @@ void	ft_init(t_mlx_data *pdata)
 	pdata->error = 4;
 	pdata->img_pixptr = mlx_get_data_addr(pdata->img_ptr, &pdata->bpp,
 			&pdata->len, &pdata->endian);
-	pdata->txt.data = mlx_xpm_file_to_image(pdata->connect,
-			"./textures/wall_1.xpm", &pdata->txt.width, &pdata->txt.height);
-	if (!pdata->txt.data)
-		ft_stop(pdata);
-	pdata->txt.addr = mlx_get_data_addr(pdata->txt.data, &pdata->txt.bpp,
-			&pdata->txt.size_line, &pdata->txt.endian);
+
+	//pdata->txt.data = mlx_xpm_file_to_image(pdata->connect,
+	//		"./textures/wall_1.xpm", &pdata->txt.width, &pdata->txt.height);
+	//Pour chaque texture N S E O on fait la même chose :
+	pdata->txt_north.data = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_1.xpm", &pdata->txt_north.width, &pdata->txt_north.height);
+	pdata->txt_south.data = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_2.xpm", &pdata->txt_south.width, &pdata->txt_south.height);
+	pdata->txt_east.data  = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_3.xpm", &pdata->txt_east.width, &pdata->txt_east.height);
+	pdata->txt_west.data  = mlx_xpm_file_to_image(pdata->connect, "./textures/wall_4.xpm", &pdata->txt_west.width, &pdata->txt_west.height);
+	if (!pdata->txt_north.data || !pdata->txt_south.data || !pdata->txt_east.data || !pdata->txt_west.data)
+		ft_stop(pdata); 
+	pdata->txt_north.addr = mlx_get_data_addr(pdata->txt_north.data, &pdata->txt_north.bpp, &pdata->txt_north.size_line, &pdata->txt_north.endian);
+	pdata->txt_south.addr = mlx_get_data_addr(pdata->txt_south.data, &pdata->txt_south.bpp, &pdata->txt_south.size_line, &pdata->txt_south.endian);
+	pdata->txt_east.addr = mlx_get_data_addr(pdata->txt_east.data, &pdata->txt_east.bpp, &pdata->txt_east.size_line, &pdata->txt_east.endian);
+	pdata->txt_west.addr = mlx_get_data_addr(pdata->txt_west.data, &pdata->txt_west.bpp, &pdata->txt_west.size_line, &pdata->txt_west.endian);
+	//////////////////////////////////////////////////////////////////
+	//if (!pdata->txt.data)
+	//	ft_stop(pdata);
+	//pdata->txt.addr = mlx_get_data_addr(pdata->txt.data, &pdata->txt.bpp,
+	//		&pdata->txt.size_line, &pdata->txt.endian);
+
+
+
+	
+
+
+
 	ft_initplayer(pdata);
 }

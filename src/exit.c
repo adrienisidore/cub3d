@@ -28,6 +28,14 @@ int	ft_stop(t_mlx_data *pdata)
 {
 	if (pdata->txt.data)
 		mlx_destroy_image(pdata->connect, pdata->txt.data);
+	if (pdata->txt_north.data)
+		mlx_destroy_image(pdata->connect, pdata->txt_north.data);
+	if (pdata->txt_south.data)
+		mlx_destroy_image(pdata->connect, pdata->txt_south.data);
+	if (pdata->txt_east.data)
+		mlx_destroy_image(pdata->connect, pdata->txt_east.data);
+	if (pdata->txt_west.data)
+		mlx_destroy_image(pdata->connect, pdata->txt_west.data);
 	if (pdata->img_ptr)
 		mlx_destroy_image(pdata->connect, pdata->img_ptr);
 	if (pdata->win_ptr)

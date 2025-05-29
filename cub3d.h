@@ -138,6 +138,12 @@ typedef struct s_mlx_data
 	// On aura 4 textures comme ça.
 	// Ici par exemple ce sera la texture Nord
 	t_texture	txt;
+
+	t_texture	txt_north;
+	t_texture	txt_south;
+	t_texture	txt_east;
+	t_texture	txt_west;
+	t_texture	*current_txt; // <== pour choisir dynamiquement la texture utilisée
 	
 	
 }	t_mlx_data;
@@ -161,6 +167,7 @@ int		loop_hook(t_mlx_data *pdata);
 
 //texture_utils.c
 int	ft_rgb(int color, double shade);
+void	ft_choose_texture(t_mlx_data *pdata);
 
 //texture.c
 void	ft_floorceil(t_mlx_data *pdata);

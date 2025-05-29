@@ -96,6 +96,7 @@ void	ft_display(t_mlx_data *pdata)
 		ft_init_step_side(pdata);
 		
 		ft_dda(pdata);
+		ft_choose_texture(pdata);
 
 		//Maintenant qu'on connait la dstance entre le joueur et la prochaine bordure verticale
 		//d'un mur (sideDistX) et entre le joueur et la prochaine bordure horizontale d'un mur (sideDistY)
