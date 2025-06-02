@@ -17,6 +17,8 @@
 #define MINIMAP_WIDTH  200
 #define MINIMAP_HEIGHT 200
 
+//Pour éviter la multiplication de fichiers _bonus.c utiliser des pointeurs de fonction
+//notamment dans zhook et zdisplay
 int	mouse_move_hook(int x, int y, t_mlx_data *pdata);
 void draw_square(t_mlx_data *data, int x, int y, int size, int color);
 void draw_minimap(t_mlx_data *data);
