@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:09:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/19 16:23:07 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:25:49 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int ft_keypress(int keycode, t_mlx_data *data)
 		data->rotate_left = 1;
 	else if (keycode == XK_Right)
 		data->rotate_right = 1;
+	else if (keycode == XK_m)
+    {
+        data->smap = !data->smap;//changer pour pdata PARTOUT
+        //printf("smap = %d\n", data->smap);
+    }
 	else if (keycode == XK_Escape)
 		ft_stop(data);
 	return (0);

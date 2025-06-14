@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 17:30:38 by aisidore          #+#    #+#              #
-#    Updated: 2025/05/19 16:37:11 by aisidore         ###   ########.fr        #
+#    Updated: 2025/06/14 12:41:20 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ C_SRCS = src/init.c \
 
 SRCS =  src/main.c $(C_SRCS)
 
-BONUS_SRCS = src/zmain_bonus.c src/zdisplay_bonus.c src/zhook_bonus.c $(C_SRCS)
+BONUS_SRCS = src/zmain_bonus.c $(C_SRCS)
 
 OBJS = objets/main.o \
 	   objets/init.o \

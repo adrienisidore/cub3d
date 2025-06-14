@@ -6,14 +6,14 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/23 10:48:24 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:37:10 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 
-static double	ft_fb(t_mlx_data *pdata, int which, int key)
+double	ft_fb(t_mlx_data *pdata, int which, int key)
 {
 	if (key == XK_w)
 	{
@@ -30,7 +30,7 @@ static double	ft_fb(t_mlx_data *pdata, int which, int key)
 	return (0.0);
 }
 
-static void	ft_fbmove(int key, t_mlx_data *pdata)
+void	ft_fbmove(int key, t_mlx_data *pdata)
 {
 	if (key == XK_w)
 	{
@@ -48,7 +48,7 @@ static void	ft_fbmove(int key, t_mlx_data *pdata)
 	}
 }
 
-static double	ft_lat(t_mlx_data *pdata, int which, int key)
+double	ft_lat(t_mlx_data *pdata, int which, int key)
 {
 	if (key == XK_d)
 	{
@@ -65,7 +65,7 @@ static double	ft_lat(t_mlx_data *pdata, int which, int key)
 	return (0.0);
 }
 
-static void	ft_latmove(int key, t_mlx_data *pdata)
+void	ft_latmove(int key, t_mlx_data *pdata)
 {
 	if (key == XK_d)
 	{
@@ -97,6 +97,6 @@ int loop_hook(t_mlx_data *data)
 		ft_turnview(XK_Left, data);
 	if (data->rotate_right)
 		ft_turnview(XK_Right, data);
-	ft_display(data); // Mise à jour de l'affichage à chaque frame
+	ft_display(data, NULL); // Mise à jour de l'affichage à chaque frame
 	return (0);
 }

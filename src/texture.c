@@ -6,14 +6,14 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/23 10:48:36 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:40:15 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 //Place un pixel à la couleur voulue dans une image
-static void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
+void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 {
 	int	disp;
 

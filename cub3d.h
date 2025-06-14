@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/20 18:06:22 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:40:24 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,17 +164,23 @@ void	ft_turnview(int key, t_mlx_data *pdata);
 
 //hook.c
 int		loop_hook(t_mlx_data *pdata);
+double	ft_fb(t_mlx_data *pdata, int which, int key);
+void	ft_fbmove(int key, t_mlx_data *pdata);
+double	ft_lat(t_mlx_data *pdata, int which, int key);
+void	ft_latmove(int key, t_mlx_data *pdata);
+
 
 //texture_utils.c
 int	ft_rgb(int color, double shade);
 void	ft_choose_texture(t_mlx_data *pdata);
 
 //texture.c
+void	ft_pixput(t_mlx_data *pdata, int x, int y, int color);
 void	ft_floorceil(t_mlx_data *pdata);
 void ft_texture(t_mlx_data *pdata, int x);
 
 //display.c
-void	ft_display(t_mlx_data *pdata);
+void	ft_display(t_mlx_data *pdata, void (*fn)(t_mlx_data *));
 
 
 #endif

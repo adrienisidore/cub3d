@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/23 10:50:41 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:11:32 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	ft_dda(t_mlx_data *pdata)
 }
 
 //Faut il utiliser SDL pour + de fluidité et pour les sprites animés ?
-void	ft_display(t_mlx_data *pdata)
+void	ft_display(t_mlx_data *pdata, void (*fn)(t_mlx_data *))
 {
 	int		x;
 
@@ -110,5 +110,7 @@ void	ft_display(t_mlx_data *pdata)
 
 		ft_texture(pdata, x);
 	}
+	if (pdata->smap && fn)
+		fn(pdata);
 	mlx_put_image_to_window(pdata->connect, pdata->win_ptr, pdata->img_ptr, 0, 0);
 }

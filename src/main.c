@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/05/23 11:28:46 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 12:12:17 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av)
 	t_mlx_data	data;
 
 	ft_init(&data);
-	ft_display(&data);
+	ft_display(&data, NULL);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, ft_keypress, &data);
 	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, ft_keyrelease, &data);
 	mlx_loop_hook(data.connect, loop_hook, &data); // appel continu
