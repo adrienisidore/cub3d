@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "todo": "cpp"
-    }
+		"todo": "cpp",
+		"math.h": "c"
+	}
 }

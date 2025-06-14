@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 18:03:36 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:07:16 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 int	ft_rgb(int color, double shade)
 {
-	unsigned char r = ((color >> 16) & 0xFF) * shade;
-	unsigned char g = ((color >> 8) & 0xFF) * shade;
-	unsigned char b = (color & 0xFF) * shade;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = ((color >> 16) & 0xFF) * shade;
+	g = ((color >> 8) & 0xFF) * shade;
+	b = (color & 0xFF) * shade;
 	return (color = (r << 16) | (g << 8) | b);
 }
 
@@ -40,20 +44,22 @@ void	ft_choose_texture(t_mlx_data *pdata)
 
 void	ft_floorceil(t_mlx_data *pdata)
 {
-	// Dessine plafond (gris clair) et sol (gris foncé)
-	int yy = 0;
-	while (yy < HEIGHT / 2)
+	int	y_fill;
+	int	x_fill;
+
+	y_fill = 0;
+	while (y_fill < HEIGHT / 2)
 	{
-		int x_fill = 0;
+		x_fill = 0;
 		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0xAAAAAA); // plafond
-		yy++;
+			ft_pixput(pdata, x_fill++, y_fill, 0xAAAAAA);
+		y_fill++;
 	}
-	while (yy < HEIGHT)
+	while (y_fill < HEIGHT)
 	{
-		int x_fill = 0;
+		x_fill = 0;
 		while (x_fill < WIDTH)
-			ft_pixput(pdata, x_fill++, yy, 0x333333); // sol
-		yy++;
+			ft_pixput(pdata, x_fill++, y_fill, 0x333333);
+		y_fill++;
 	}
 }

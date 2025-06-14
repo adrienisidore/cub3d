@@ -1,17 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   stop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 17:42:12 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:09:57 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//if (pdata->error) :ft_stop appelé durant l'initialisation, donc y'a eu un pb
+//D'apres le sujet, en + de Error\n il faut ajouter un message explicite
+//Pour ce faire on peut attribuer à error différentes valeurs (1 si on arrive
+//pas à connecter minilibx [par defaut], 2 si img_ptr etc...)
+
 #include "cub3d.h"
-//AJOUTER LA LIBFT
 
 static void	ft_putstr_fd(char *str, int fd)
 {
@@ -41,7 +45,8 @@ static void	ft_destroy(t_mlx_data *pdata)
 	if (pdata->win_ptr)
 		mlx_destroy_window(pdata->connect, pdata->win_ptr);
 	if (pdata->connect)
-	{	mlx_destroy_display(pdata->connect);
+	{	
+		mlx_destroy_display(pdata->connect);
 		free(pdata->connect);
 	}
 }
@@ -50,10 +55,7 @@ int	ft_stop(t_mlx_data *pdata)
 {
 	ft_destroy(pdata);
 	if (pdata->error)
-	{//ft_stop appelé durant l'initialisation, donc y'a eu un pb
-		//D'apres le sujet, en + de Error\n il faut ajouter un message explicite
-		//Pour ce faire on peut attribuer à error différentes valeurs (1 si on arrive
-		//pas à connecter minilibx [par defaut], 2 si img_ptr etc...)
+	{
         if (pdata->error == 1)
             ft_putstr_fd(NO_LINK, STDERR_FILENO);
         if (pdata->error == 2)

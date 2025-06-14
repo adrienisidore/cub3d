@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 18:09:43 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:07:03 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 
 static int	ft_pixget(t_texture txt, int x, int y)
 {
-	int		disp;
-	int		rgb;
+	int	disp;
+	int	rgb;
 
 	disp = (txt.size_line * y) + ((txt.bpp / 8) * x);
 	rgb = *((unsigned int *)(txt.addr + disp));
@@ -91,12 +91,5 @@ void	ft_texture(t_mlx_data *pdata, int x)
 		ft_pixput(pdata, x, y, ft_rgb(color, shade));
 	}
 }
-
-
-// L’utilisation d’images de la minilibX est fortement recommandée. (Consignes)
-//Bien separer les fichiers de la partie _bonus
-
-//Dans la partie oblig : Vous devez afficher des txts différentes (vous avez le choix) selon si les murs
-//sont face nord, sud, est, ouest.
 
 
