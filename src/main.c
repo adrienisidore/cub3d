@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 19:23:21 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:48:12 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_data	*ft_init_erika(t_gc *gc)
 	data->floor = NULL;
 	data->pos_x = -1;
 	data->pos_y = -1;
+	data->pos_y = 'A'; //initialisation direction joueur
 	data->stash = NULL;
 	data->fd = -1;
 	data->buffer = NULL;

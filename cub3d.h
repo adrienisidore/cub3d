@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 19:12:56 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:46:42 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,28 @@ typedef struct s_data
 {
 	char	*f;
 	char	*c;
+	//chemins vers les textures des murs
 	char	*so;
 	char	*ea;
 	char	*no;
 	char	*we;
+	////////////////////////////////
+	//tableau rgb pour sol et plafond
 	int		*floor;
 	int		*ceiling;
+	/////////////////////
+	//map
 	char	**map;
-	// char	pos;
+	
+	// direction N S E W
+	char	pos;
+
+	// position player
 	int		pos_x;
 	int		pos_y;
+
+
+	///
 	int		i;
 	int		flag;
 	char	*s1;

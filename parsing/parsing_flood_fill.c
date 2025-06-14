@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:13:33 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/06/14 19:19:24 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 19:45:49 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int	ft_check_player(t_data *data, int *f, int c, int l)
 		|| data->map[l][c] == 'W' || data->map[l][c] == 'N')
 	{
 		(*f) = 1;
+		data->pos = data->map[l][c];
 		data->pos_x = c;
 		data->pos_y = l;
-		printf("x = %d\n", data->pos_x);
-		printf("y = %d\n", data->pos_y);
+		// printf("x = %d\n", data->pos_x);
+		// printf("y = %d\n", data->pos_y);
 		// data->pos = data->map[l][c];
 	}
 	return (0);
