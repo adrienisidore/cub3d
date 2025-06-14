@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 12:37:10 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:06:02 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ void	ft_fbmove(int key, t_mlx_data *pdata)
 {
 	if (key == XK_w)
 	{
-		if (!worldMap[(int)(pdata->posY)][(int)ft_fb(pdata, 0, XK_w)])
+		if (worldMap[(int)(pdata->posY)][(int)ft_fb(pdata, 0, XK_w)] == '0')
 			pdata->posX += pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[(int)ft_fb(pdata, 1, XK_w)][(int)(pdata->posX)])
+		if (worldMap[(int)ft_fb(pdata, 1, XK_w)][(int)(pdata->posX)] == '0')
 			pdata->posY += pdata->dirY * pdata->moveSpeed;
 	}
 	if (key == XK_s)
 	{
-		if (!worldMap[(int)(pdata->posY)][(int)ft_fb(pdata, 0, XK_s)])
+		if (worldMap[(int)(pdata->posY)][(int)ft_fb(pdata, 0, XK_s)] == '0')
 			pdata->posX -= pdata->dirX * pdata->moveSpeed;
-		if (!worldMap[(int)ft_fb(pdata, 1, XK_s)][(int)(pdata->posX)])
+		if (worldMap[(int)ft_fb(pdata, 1, XK_s)][(int)(pdata->posX)] == '0')
 			pdata->posY -= pdata->dirY * pdata->moveSpeed;
 	}
 }
@@ -69,21 +69,21 @@ void	ft_latmove(int key, t_mlx_data *pdata)
 {
 	if (key == XK_d)
 	{
-		if (!worldMap[(int)(pdata->posY)][(int)ft_lat(pdata, 0, XK_d)])
+		if (worldMap[(int)(pdata->posY)][(int)ft_lat(pdata, 0, XK_d)] == '0')
 			pdata->posX += pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[(int)ft_lat(pdata, 1, XK_d)][(int)(pdata->posX)])
+		if (worldMap[(int)ft_lat(pdata, 1, XK_d)][(int)(pdata->posX)] == '0')
 			pdata->posY += pdata->planeY * pdata->moveSpeed;
 	}
 	if (key == XK_a)
 	{
-		if (!worldMap[(int)(pdata->posY)][(int)ft_lat(pdata, 0, XK_a)])
+		if (worldMap[(int)(pdata->posY)][(int)ft_lat(pdata, 0, XK_a)] == '0')
 			pdata->posX -= pdata->planeX * pdata->moveSpeed;
-		if (!worldMap[(int)ft_lat(pdata, 1, XK_a)][(int)(pdata->posX)])
+		if (worldMap[(int)ft_lat(pdata, 1, XK_a)][(int)(pdata->posX)] == '0')
 			pdata->posY -= pdata->planeY * pdata->moveSpeed;
 	}
 }
 
-int loop_hook(t_mlx_data *data)
+int ft_loophook(t_mlx_data *data)
 {
 	if (data->move_forward)
 		ft_fbmove(XK_w, data);

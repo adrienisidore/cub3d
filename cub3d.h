@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:22:48 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 12:40:24 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:05:56 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,12 @@ typedef struct s_mlx_data
 }	t_mlx_data;
 
 //A SUPPRIMER
-extern int worldMap[MAPHEIGHT][MAPWIDTH];
+extern char worldMap[MAPHEIGHT][MAPWIDTH];
 
 //init.c
 void	ft_init(t_mlx_data *pdata);
 
-//exit.c
+//stop.c
 int	ft_stop(t_mlx_data *pdata);
 
 //hook_utils.c
@@ -163,7 +163,7 @@ int ft_keyrelease(int keycode, t_mlx_data *data);
 void	ft_turnview(int key, t_mlx_data *pdata);
 
 //hook.c
-int		loop_hook(t_mlx_data *pdata);
+int		ft_loophook(t_mlx_data *pdata);
 double	ft_fb(t_mlx_data *pdata, int which, int key);
 void	ft_fbmove(int key, t_mlx_data *pdata);
 double	ft_lat(t_mlx_data *pdata, int which, int key);
@@ -173,10 +173,10 @@ void	ft_latmove(int key, t_mlx_data *pdata);
 //texture_utils.c
 int	ft_rgb(int color, double shade);
 void	ft_choose_texture(t_mlx_data *pdata);
+void	ft_floorceil(t_mlx_data *pdata);
 
 //texture.c
 void	ft_pixput(t_mlx_data *pdata, int x, int y, int color);
-void	ft_floorceil(t_mlx_data *pdata);
 void ft_texture(t_mlx_data *pdata, int x);
 
 //display.c

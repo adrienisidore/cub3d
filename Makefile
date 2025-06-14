@@ -6,7 +6,7 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 17:30:38 by aisidore          #+#    #+#              #
-#    Updated: 2025/06/14 12:41:20 by aisidore         ###   ########.fr        #
+#    Updated: 2025/06/14 17:43:07 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,25 +22,24 @@ C_SRCS = src/init.c \
 
 SRCS =  src/main.c $(C_SRCS)
 
-BONUS_SRCS = src/zmain_bonus.c $(C_SRCS)
+BONUS_SRCS = src/main_bonus.c $(C_SRCS)
 
 OBJS = objets/main.o \
 	   objets/init.o \
-	   objets/exit.o \
+	   objets/stop.o \
 	   objets/hook_utils.o \
 	   objets/hook.o \
 	   objets/display.o \
 	   objets/texture_utils.o \
 	   objets/texture.o \
 	   objets/map.o
-BONUS_OBJS = objets/zmain_bonus.o \
+BONUS_OBJS = objets/main_bonus.o \
 			 objets/init.o \
-			 objets/exit.o \
+			 objets/stop.o \
 			 objets/hook_utils.o \
 			 objets/hook.o \
 			 objets/zhook_bonus.o \
 			 objets/display.o \
-			 objets/zdisplay_bonus.o \
 			 objets/texture_utils.o \
 			 objets/texture.o \
 			 objets/map.o

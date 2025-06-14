@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:57 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 12:11:32 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:04:52 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	ft_dda(t_mlx_data *pdata)
 			pdata->dda.side = 1;
 		}
 		//Check si j'ai touche un mur
-		if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > 0)
+		if (worldMap[pdata->dda.mapY][pdata->dda.mapX] > '0')
 			pdata->dda.hit = 1;
 	}
 }
@@ -94,10 +94,8 @@ void	ft_display(t_mlx_data *pdata, void (*fn)(t_mlx_data *))
 		pdata->dda.cameraX = 2 * x / (double)WIDTH - 1;//normalisation de chaque pixels en coord. [-1, 1]
 		ft_init_ray_delta(pdata);
 		ft_init_step_side(pdata);
-		
 		ft_dda(pdata);
 		ft_choose_texture(pdata);
-
 		//Maintenant qu'on connait la dstance entre le joueur et la prochaine bordure verticale
 		//d'un mur (sideDistX) et entre le joueur et la prochaine bordure horizontale d'un mur (sideDistY)
 		//je definie la distance perpWallDist comme la plus petite des 2, en prenant en compte le fait que

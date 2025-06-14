@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:09:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 12:25:49 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:30:08 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	ft_turnview(int key, t_mlx_data *pdata)
 	double oldPlaneX;
 	double angle;
 
-	angle = pdata->rotSpeed; 
+	angle = -pdata->rotSpeed; 
 	if (key == XK_Right)
-		angle = -pdata->rotSpeed;
+		angle = pdata->rotSpeed;
 	oldDirX = pdata->dirX;
 	pdata->dirX = pdata->dirX * cos(angle) - pdata->dirY * sin(angle);
 	pdata->dirY = oldDirX * sin(angle) + pdata->dirY * cos(angle);

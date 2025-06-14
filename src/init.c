@@ -6,13 +6,13 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:35:16 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 12:07:47 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:59:29 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1]
+// pdata->dirX = -1;//Regard a gauche (arbitraire) sur le plan [-1, 1] OU L'INVERSE ?? CHELOU
 // pdata->dirY = 0;//regard ni en haut ni en bas mais au milieu
 //  sur le plan [1, -1] pdata->planeX = 0;//permet une ligne perpendiculaire
 // pdata->planeY = 0.66;//et ps 1 pour que ce soit un peu plus realiste
@@ -40,14 +40,40 @@ static void	ft_bzero(void *pointer, size_t times)
 	}
 }
 
+static void ft_initdir(t_mlx_data *data, char direction)
+{
+	//'N'
+	data->dirX = 0;
+	data->dirY = -1;
+	data->planeX = 0.66;
+	data->planeY = 0;
+	if (direction == 'S') // Sud
+	{
+		data->dirY = 1;
+		data->planeX = -0.66;
+	}
+	else if (direction == 'E') // Est
+	{
+		data->dirX = 1;
+		data->dirY = 0;
+		data->planeX = 0;
+		data->planeY = 0.66;
+	}
+	else if (direction == 'W') // Ouest
+	{
+		data->dirX = -1;
+		data->dirY = 0;
+		data->planeX = 0;
+		data->planeY = -0.66;
+	}
+}
+
+
 static void	ft_initplayer(t_mlx_data *pdata)
 {
 	pdata->posX = 12;
 	pdata->posY = 10;
-	pdata->dirX = -1;//1; fleche gauche regarde a droit et invers.
-	pdata->dirY = 0;
-	pdata->planeX = 0;
-	pdata->planeY = 0.66;
+	ft_initdir(pdata,'E');
 	pdata->moveSpeed = 0.0125;
 	pdata->rotSpeed = 0.00625;
 	pdata->move_forward = 0;
