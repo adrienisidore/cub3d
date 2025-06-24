@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 17:46:45 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 19:07:03 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:19:47 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	ft_pixput(t_mlx_data *pdata, int x, int y, int color)
 
 static int	ft_pixget(t_texture txt, int x, int y)
 {
-	int	disp;
-	int	rgb;
+	int		disp;
+	int		rgb;
 
 	disp = (txt.size_line * y) + ((txt.bpp / 8) * x);
 	rgb = *((unsigned int *)(txt.addr + disp));
@@ -36,32 +36,32 @@ static void	ft_initex(t_mlx_data *pdata)
 	t_texture	*txt;
 
 	txt = pdata->current_txt;
-	txt->utils.lineHeight = (int)(HEIGHT / pdata->dda.perpWallDist);
-	if (txt->utils.lineHeight <= 0)
-		txt->utils.lineHeight = 1;
-	txt->utils.drawStart = -txt->utils.lineHeight / 2 + HEIGHT / 2;
-	if (txt->utils.drawStart < 0)
-		txt->utils.drawStart = 0;
-	txt->utils.drawEnd = txt->utils.lineHeight / 2 + HEIGHT / 2;
-	if (txt->utils.drawEnd >= HEIGHT)
-		txt->utils.drawEnd = HEIGHT - 1;
+	txt->utils.lineheight = (int)(HEIGHT / pdata->dda.perpwalldist);
+	if (txt->utils.lineheight <= 0)
+		txt->utils.lineheight = 1;
+	txt->utils.drawstart = -txt->utils.lineheight / 2 + HEIGHT / 2;
+	if (txt->utils.drawstart < 0)
+		txt->utils.drawstart = 0;
+	txt->utils.drawend = txt->utils.lineheight / 2 + HEIGHT / 2;
+	if (txt->utils.drawend >= HEIGHT)
+		txt->utils.drawend = HEIGHT - 1;
 	if (!pdata->dda.side)
-		txt->utils.wallX = pdata->posY + pdata->dda.perpWallDist * pdata->dda.rayDirY;
+		txt->utils.wallx = pdata->posy + pdata->dda.perpwalldist * pdata->dda.raydiry;
 	else
-		txt->utils.wallX = pdata->posX + pdata->dda.perpWallDist * pdata->dda.rayDirX;
-	txt->utils.wallX -= floor(txt->utils.wallX);
-	txt->utils.tex_x = (int)(txt->utils.wallX * (double)txt->width);
+		txt->utils.wallx = pdata->posx + pdata->dda.perpwalldist * pdata->dda.raydirx;
+	txt->utils.wallx -= floor(txt->utils.wallx);
+	txt->utils.tex_x = (int)(txt->utils.wallx * (double)txt->width);
 	// Ajuster l'orientation de la texture
-	if (!pdata->dda.side && pdata->dda.rayDirX > 0)
+	if (!pdata->dda.side && pdata->dda.raydirx > 0)
 		txt->utils.tex_x = txt->width - txt->utils.tex_x - 1;
-	if (pdata->dda.side && pdata->dda.rayDirY < 0)
+	if (pdata->dda.side && pdata->dda.raydiry < 0)
 		txt->utils.tex_x = txt->width - txt->utils.tex_x - 1;
 	if (txt->utils.tex_x < 0)
 		txt->utils.tex_x = 0;
 	if (txt->utils.tex_x >= txt->width)
 		txt->utils.tex_x = txt->width - 1;
-	txt->utils.step = (double)txt->height / txt->utils.lineHeight;
-	txt->utils.texPos = (txt->utils.drawStart - HEIGHT / 2 + txt->utils.lineHeight / 2) * txt->utils.step;
+	txt->utils.step = (double)txt->height / txt->utils.lineheight;
+	txt->utils.texPos = (txt->utils.drawstart - HEIGHT / 2 + txt->utils.lineheight / 2) * txt->utils.step;
 }
 
 void	ft_texture(t_mlx_data *pdata, int x)
@@ -73,8 +73,8 @@ void	ft_texture(t_mlx_data *pdata, int x)
 
 	txt = pdata->current_txt;
 	ft_initex(pdata);
-	y = txt->utils.drawStart - 1;
-	while (++y <= txt->utils.drawEnd)
+	y = txt->utils.drawstart - 1;
+	while (++y <= txt->utils.drawend)
 	{
 		txt->utils.texPos += txt->utils.step;
 		txt->utils.tex_y = (int)txt->utils.texPos;
@@ -83,7 +83,6 @@ void	ft_texture(t_mlx_data *pdata, int x)
 		if (txt->utils.tex_y >= txt->height)
 			txt->utils.tex_y = txt->height - 1;
 		color = ft_pixget(*txt, txt->utils.tex_x, txt->utils.tex_y);
-		// Ombre les murs perpendiculaires
 		if (pdata->dda.side)
 			shade = 0.6;
 		else
@@ -91,5 +90,3 @@ void	ft_texture(t_mlx_data *pdata, int x)
 		ft_pixput(pdata, x, y, ft_rgb(color, shade));
 	}
 }
-
-

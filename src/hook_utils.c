@@ -6,7 +6,7 @@
 /*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:09:27 by aisidore          #+#    #+#             */
-/*   Updated: 2025/06/14 19:02:21 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:31:55 by aisidore         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,9 @@ int ft_keypress(int keycode, t_mlx_data *data)
 	else if (keycode == XK_Right)
 		data->rotate_right = 1;
 	else if (keycode == XK_m)
-    {
-        data->smap = !data->smap;//changer pour pdata PARTOUT
-        //printf("smap = %d\n", data->smap);
-    }
+        data->smap = !data->smap;
 	else if (keycode == XK_Escape)
-		ft_stop(data);
+		data->exit_requested = 1;
 	return (0);
 }
 
@@ -59,13 +56,13 @@ void	ft_turnview(int key, t_mlx_data *pdata)
 	double oldPlaneX;
 	double angle;
 
-	angle = -pdata->rotSpeed; 
+	angle = -pdata->rotspeed; 
 	if (key == XK_Right)
-		angle = pdata->rotSpeed;
-	oldDirX = pdata->dirX;
-	pdata->dirX = pdata->dirX * cos(angle) - pdata->dirY * sin(angle);
-	pdata->dirY = oldDirX * sin(angle) + pdata->dirY * cos(angle);
-	oldPlaneX = pdata->planeX;
-	pdata->planeX = pdata->planeX * cos(angle) - pdata->planeY * sin(angle);
-	pdata->planeY = oldPlaneX * sin(angle) + pdata->planeY * cos(angle);
+		angle = pdata->rotspeed;
+	oldDirX = pdata->dirx;
+	pdata->dirx = pdata->dirx * cos(angle) - pdata->diry * sin(angle);
+	pdata->diry = oldDirX * sin(angle) + pdata->diry * cos(angle);
+	oldPlaneX = pdata->planex;
+	pdata->planex = pdata->planex * cos(angle) - pdata->planey * sin(angle);
+	pdata->planey = oldPlaneX * sin(angle) + pdata->planey * cos(angle);
 }

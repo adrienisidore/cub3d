@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_flood_fill.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:13:33 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/06/14 19:45:49 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:54:30 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-//penser au cas avec une seule ligne ou une seule colonne a tester
 
 int	ft_check_player(t_data *data, int *f, int c, int l)
 {
 	if ((data->map[l][c] == 'S' || data->map[l][c] == 'E'
 		|| data->map[l][c] == 'W' || data->map[l][c] == 'N') && (*f) == 1)
 	{
-		printf("Error\nMultiple players\n");
+		write(2, "Error\nMultiple players\n", 24);
 		return (1);
 	}
 	if (data->map[l][c] == 'S' || data->map[l][c] == 'E'
@@ -29,9 +27,6 @@ int	ft_check_player(t_data *data, int *f, int c, int l)
 		data->pos = data->map[l][c];
 		data->pos_x = c;
 		data->pos_y = l;
-		// printf("x = %d\n", data->pos_x);
-		// printf("y = %d\n", data->pos_y);
-		// data->pos = data->map[l][c];
 	}
 	return (0);
 }
@@ -57,7 +52,7 @@ int	ft_get_pos(t_data *data)
 	}
 	if (f == 0)
 	{
-		printf("Error\nNo player\n");
+		write(2, "Error\nNo player\n", 17);
 		return (1);
 	}
 	return (0);
@@ -95,7 +90,7 @@ int	ft_is_map_valid(t_data *data)
 			{
 				if (ft_flood(data, l, c) == 1)
 				{
-					printf("Error\nInvalid map\n");
+					write(2, "Error\nInvalid map\n", 19);
 					return (1);
 				}
 			}
@@ -111,7 +106,7 @@ int	ft_flood_fill(t_data *data, t_gc *gc)
 	(void) gc;
 	if (!data->map[0])
 	{
-		printf("Error\nNo map\n");
+		write(2, "Error\nNo map\n", 14);
 		return (1);
 	}
 	if (ft_is_map_valid(data) == 1)

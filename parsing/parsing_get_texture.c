@@ -73,7 +73,7 @@ int	ft_process_data_ter(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->c != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->c = ft_get_file(line, data, gc);
@@ -82,7 +82,7 @@ int	ft_process_data_ter(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->f != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->f = ft_get_file(line, data, gc);
@@ -96,7 +96,7 @@ int	ft_process_data_bis(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->we != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->we = ft_get_file(line, data, gc);
@@ -105,7 +105,7 @@ int	ft_process_data_bis(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->ea != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->ea = ft_get_file(line, data, gc);
@@ -119,7 +119,7 @@ int	ft_process_data(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->no != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->no = ft_get_file(line, data, gc);
@@ -128,7 +128,7 @@ int	ft_process_data(int r, char *line, t_data *data, t_gc *gc)
 	{
 		if (data->so != NULL)
 		{
-			printf("Error\nDuplicated texture or color\n");
+			write(2, "Error\nDuplicated texture or color\n", 35);
 			return (1);
 		}
 		data->so = ft_get_file(line, data, gc);

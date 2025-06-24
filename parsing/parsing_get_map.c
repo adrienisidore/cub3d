@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_get_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:13:33 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/06/14 19:19:32 by aisidore         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:50:20 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_manage_line(int *f, t_data *data)
 		(*f) = 1;
 	if (n == 1 && (*f) == 1)
 	{
-		printf("Error\nEmpty line in map\n");
+		write(2, "Error\nEmpty line in map\n", 25);
 		return (1);
 	}
 	else if (n == 1)
@@ -110,12 +110,5 @@ void	ft_get_map(t_data *data, t_gc *gc)
 		ft_process_line(data, k);
 		k++;
 		data->line = get_next_line(data->fd, data, gc);
-	}
-	data->map[k] = NULL;
-	k = 0;
-	while (data->map[k])
-	{
-		printf("%s\n", data->map[k]);
-		k++;
 	}
 }

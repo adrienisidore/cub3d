@@ -6,11 +6,10 @@
 #    By: aisidore <aisidore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/22 17:30:38 by aisidore          #+#    #+#              #
-#    Updated: 2025/06/14 19:42:19 by aisidore         ###   ########.fr        #
+#    Updated: 2025/06/24 17:38:32 by aisidore         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-##A refaire pour la partie bonus
 C_SRCS = gc/gc_cleanup.c \
 		 gc/gc_malloc.c \
 		 gc/gc_realloc.c \
@@ -31,12 +30,11 @@ C_SRCS = gc/gc_cleanup.c \
 		 src/hook.c \
 		 src/display.c \
 		 src/texture_utils.c \
-		 src/texture.c \
-		 src/map.c
+		 src/texture.c
 
 SRCS =  src/main.c $(C_SRCS)
 
-BONUS_SRCS = src/main_bonus.c $(C_SRCS)
+BONUS_SRCS = src/main_bonus.c src/minimap_bonus.c $(C_SRCS)
 
 C_OBJS = objets/gc_cleanup.o \
 		 objets/gc_malloc.o \
@@ -58,19 +56,18 @@ C_OBJS = objets/gc_cleanup.o \
 	   	 objets/hook.o \
 	   	 objets/display.o \
 	   	 objets/texture_utils.o \
-	   	 objets/texture.o \
-	   	 objets/map.o
+	   	 objets/texture.o
 
 OBJS = objets/main.o
 
-BONUS_OBJS = objets/main_bonus.o
+BONUS_OBJS = objets/main_bonus.o objets/minimap_bonus.o
 
-PTH = /home/aisidore/Downloads/minilibx-linux/
+PTH = ../minilibx-linux/
 
 NAME = cub3D
 BONUS_NAME = cub3D_bonus
 
-FLAGS = -Wall -Wextra -Werror -I.
+FLAGS = -Wall -Wextra -Werror -g3 -I.
 MFLAGS = -lm -lmlx -lX11 -lXext -O3
 
 all: $(NAME)
@@ -99,5 +96,5 @@ fclean: clean
 
 re: fclean all
 rebonus: fclean bonus
-	
+
 .PHONY: all bonus clean fclean re rebonus
